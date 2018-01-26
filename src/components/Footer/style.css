@@ -1,0 +1,27 @@
+ @media screen and (max-width:1024px){
+  .indexFooter {
+    position: inline;
+
+  }
+}
+
+.indexFooter {
+  display: block;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  color: #FFF;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-image: linear-gradient(to bottom,#3c3c3c 0,#222 100%);
+  font-size: 12px;
+}
+
+ul {
+  list-style-type: none;
+}
+.imgLogo {
+  margin: auto;
+  display:block;
+}

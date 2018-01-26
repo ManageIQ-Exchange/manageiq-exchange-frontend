@@ -1,0 +1,14 @@
+.navbar{
+  position: relative;
+  z-index: 1;
+}
+
+.dropdown-menu {
+  border-radius: 0;
+  font-size: 12px;
+}
+.navbar-default .btn-link ,
+.navbar-default .btn-link:hover{
+  color:white !important;
+  text-decoration: none;
+}

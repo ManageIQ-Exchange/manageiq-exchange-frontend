@@ -1,0 +1,16 @@
+.header-list {
+  background-color: #EBEBEB !important;
+  color:#848992;
+}
+.second-header {
+  float: right;
+}
+.first-header {
+  color: #1678c4;
+}
+
+.header {
+  color: #848992;
+  height: 7%;
+  font-size: 19px;
+}

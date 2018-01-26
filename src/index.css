@@ -1,0 +1,39 @@
+:root {
+  --main-label-color: #7990a6;
+  --main-text-color: #2c3e52;
+  --main-background-color: #eef3f6;
+  --primary-button-color: #0076f4;
+  --access-button-color: #00b13b;
+  --warning-button-color: #00b13b;
+  --edit-button-color: #f09418;
+  --special-blue-color: #2e8ef4;
+  --special-purple-color: #653bd6;
+  --special-red-color: rgba(254, 43, 0, 0.9);
+  --box-header-notify: #eaeff8;
+  --box-header-issue: #ff557b;
+  --to-pickup-tag-color: #ff1352;
+  --on-delivery-tag-color: #006db6;
+  --delivered-tag-color: #00bae0;
+  --title-background-color: #eaeff8;
+  --color-title-navbar:#ffffff;
+}
+
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px;
+}
+
+body, html, #main {
+  height: 100%;
+}
+
+.name-tab {
+  position: relative;
+  color:#58bdbf;
+  left: 74%;
+  top: -40px;
+  font-size: 25px;
+}
