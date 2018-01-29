@@ -25,3 +25,7 @@ ul {
   margin: auto;
   display:block;
 }
+
+.content-icon * {
+  margin-right: 5px;
+}
