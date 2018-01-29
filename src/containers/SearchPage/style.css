@@ -1,0 +1,14 @@
+.content-search-header * {
+  display:inline-block;
+}
+
+.form-group {
+  display:inline-block;
+}
+
+#filter-search {
+  width: 20%;
+  float: left;
+  margin-left: 2%;
+  margin-right: 0.75%;
+}
