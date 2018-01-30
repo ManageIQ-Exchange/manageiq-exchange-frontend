@@ -1,13 +1,6 @@
-import React from 'react';
+import React from "react";
 export default class AboutPage extends React.Component {
-
   render() {
-    return (
-      <div>
-
-    About
-
-      </div>
-    );
+    return <div>About</div>;
   }
 }

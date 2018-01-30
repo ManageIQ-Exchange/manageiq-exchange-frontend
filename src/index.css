@@ -25,6 +25,10 @@ body {
   font-family: 'Open Sans', sans-serif;
   font-size: 14px;
 }
+body, html {
+  max-width: 100%;
+ overflow-x: hidden;
+}
 
 body, html, #main {
   height: 100%;

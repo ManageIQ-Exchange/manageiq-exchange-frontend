@@ -12,3 +12,8 @@
   margin-left: 2%;
   margin-right: 0.75%;
 }
+.content-card {
+  margin-top: 2%;
+  overflow-y: scroll;
+  height:700px;
+}

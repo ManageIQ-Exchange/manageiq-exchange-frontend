@@ -17,112 +17,47 @@ import Api from "../../service/Api";
 import CardItem from "../../components/CardItem/";
 import { imgIndex } from "../../ImageImport";
 import "./style.css";
-
-export const mockFilterExampleFields = [
-  {
-    id: "name",
-    title: "Name",
-    placeholder: "Filter by Name",
-    filterType: "text"
-  },
-  {
-    id: "address",
-    title: "Address",
-    placeholder: "Filter by Address",
-    filterType: "text"
-  },
-  {
-    id: "birthMonth",
-    title: "Birth Month",
-    placeholder: "Filter by Birth Month",
-    filterType: "select",
-    filterValues: [
-      { title: "January", id: "jan" },
-      { title: "February", id: "feb" },
-      { title: "March", id: "mar" },
-      { title: "April", id: "apr" },
-      { title: "May", id: "may" },
-      { title: "June", id: "jun" },
-      { title: "July", id: "jul" },
-      { title: "August", id: "aug" },
-      { title: "September", id: "sep" },
-      { title: "October", id: "oct" },
-      { title: "November", id: "nov" },
-      { title: "December", id: "dec" }
-    ]
-  },
-  {
-    id: "car",
-    title: "Car",
-    placeholder: "Filter by Car Make",
-    filterType: "complex-select",
-    filterValues: [{ title: "Subaru", id: "subie" }, "Toyota"],
-    filterCategoriesPlaceholder: "Filter by Car Model",
-    filterCategories: [
-      {
-        id: "subie",
-        title: "Subaru",
-        filterValues: [
-          {
-            title: "Outback",
-            id: "out"
-          },
-          "Crosstrek",
-          "Impreza"
-        ]
-      },
-      {
-        id: "toyota",
-        title: "Toyota",
-        filterValues: [
-          {
-            title: "Prius",
-            id: "pri"
-          },
-          "Corolla",
-          "Echo"
-        ]
-      }
-    ]
-  }
-];
-
-export const mockSortFields = [
-  {
-    id: "name",
-    title: "Name",
-    isNumeric: false
-  },
-  {
-    id: "address",
-    title: "Address",
-    isNumeric: false
-  },
-  {
-    id: "birthMonth",
-    title: "Birth Month",
-    isNumeric: true
-  },
-  {
-    id: "car",
-    title: "Car",
-    isNumeric: false
-  }
-];
+import { dataSearch } from './mock/';
+import { filters } from './mock/filter';
+import sortFields from './Sort/';
 
 export default class SearchPage extends React.Component {
   constructor(props) {
     super(props);
+    this.selectFilterType = this.selectFilterType.bind(this);
+    this.updateCurrentSortType = this.updateCurrentSortType.bind(this);
 
     this.state = {
       currentValue: "",
-      currentFilterType: mockFilterExampleFields[0],
-      currentSortType: mockSortFields[0],
-      isSortNumeric: mockSortFields[0].isNumeric,
+      currentFilterType: filters[0],
+      currentSortType: sortFields[0],
+      isSortNumeric: sortFields[0].isNumeric,
       isSortAscending: true,
       currentViewType: "list",
       activeFilters: []
     };
+  }
+
+  selectFilterType(filterType) {
+    const { currentFilterType } = this.state;
+    if (currentFilterType !== filterType) {
+      this.setState({ currentValue: '', currentFilterType: filterType });
+
+      if (filterType.filterType === 'complex-select') {
+        this.setState({ filterCategory: undefined, categoryValue: '' });
+      }
+    }
+  }
+  updateCurrentSortType(sortType) {
+    const { currentSortType } = this.state;
+
+    if (currentSortType !== sortType) {
+      this.setState({
+        currentSortType: sortType,
+        isSortNumeric: sortType.isNumeric,
+        isSortAscending: true
+      });
+    }
   }
   renderInput() {
     const { currentFilterType, currentValue, filterCategory } = this.state;
@@ -169,14 +104,15 @@ export default class SearchPage extends React.Component {
       currentViewType,
       isSortNumeric,
       isSortAscending,
-      activeFilters
+      activeFilters,
+      currentValue
     } = this.state;
 
     return (
       <div style={{marginTop:'1%'}} >
         <Filter id="filter-search">
           <Filter.TypeSelector
-            filterTypes={mockFilterExampleFields}
+            filterTypes={filters}
             currentFilterType={currentFilterType}
             onFilterTypeSelected={this.selectFilterType}
           />
@@ -184,7 +120,7 @@ export default class SearchPage extends React.Component {
         </Filter>
         <Sort>
           <Sort.TypeSelector
-            sortTypes={mockSortFields}
+            sortTypes={sortFields}
             currentSortType={currentSortType}
             onSortTypeSelected={this.updateCurrentSortType}
           />
@@ -194,17 +130,22 @@ export default class SearchPage extends React.Component {
             onClick={() => this.toggleCurrentSortDirection()}
           />
         </Sort>
-        <div className="form-group" style={{marginLeft:'2%'}} >
-          <Button onClick={null}>Action 1</Button>
-          <Button onClick={null}>Action 2</Button>
-          <DropdownKebab id="toolbarActionKebab">
-            <MenuItem onClick={null}>Action</MenuItem>
-            <MenuItem onClick={null}>Another Action</MenuItem>
-            <MenuItem onClick={null}>Something Else Here</MenuItem>
-            <MenuItem role="separator" className="divider" />
-            <MenuItem onClick={null}>Separate</MenuItem>
-          </DropdownKebab>
-        </div>
+        {
+          /*
+          <div className="form-group" style={{marginLeft:'2%'}} >
+            <Button onClick={null}>Action 1</Button>
+            <Button onClick={null}>Action 2</Button>
+            <DropdownKebab id="toolbarActionKebab">
+              <MenuItem onClick={null}>Action</MenuItem>
+              <MenuItem onClick={null}>Another Action</MenuItem>
+              <MenuItem onClick={null}>Something Else Here</MenuItem>
+              <MenuItem role="separator" className="divider" />
+              <MenuItem onClick={null}>Separate</MenuItem>
+            </DropdownKebab>
+          </div>
+          */
+        }
+
         <Toolbar.RightContent>
           <Toolbar.Find
             placeholder="Find By Keyword..."
@@ -249,13 +190,18 @@ export default class SearchPage extends React.Component {
         {!activeFilters ||
           (activeFilters.length === 0 && (
             <Toolbar.Results>
-              <h5>40 Results</h5>
+              <h5>{dataSearch.length} Results</h5>
             </Toolbar.Results>
           ))}
-        <div style={{ marginTop: '2%' }}>
-          <CardItem style={{ backgroundColor: 'red', width: 10 }} />
+        <div className="content-card">
+          {dataSearch.map((data, index) => {
+            return (
+              <Col md={3} key={`col_card_${index}`}>
+                <CardItem key={`card_${index}`} cardInformation={data} />
+              </Col>
+            );
+          })}
         </div>
-        )}
       </div>
     );
   }

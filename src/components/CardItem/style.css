@@ -1,0 +1,20 @@
+
+.card-footer {
+  text-align: right;
+}
+
+.card-footer div {
+  height: 3%;
+  font-size: 0.85em;
+  display: inline-block;
+  border: 1px solid #ccc;
+  margin-left: 1%;
+  padding: 3px;
+  width: 20%;
+  color: #ccc;
+  margin-bottom: 1%;
+}
+
+.icon-footer {
+  margin-right: 5%;
+}
