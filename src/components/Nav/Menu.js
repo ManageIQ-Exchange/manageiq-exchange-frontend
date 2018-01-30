@@ -13,12 +13,6 @@ import {
   DropdownButton
 } from "patternfly-react";
 import { Link } from "react-router";
-import GitHubLogin from "./GitHubLogin/GitHubLogin";
-import config from "../../config";
-import FaGitlab from "react-icons/lib/fa/gitlab";
-import FaKey from "react-icons/lib/fa/key";
-import FaRefresh from "react-icons/lib/fa/refresh";
-import FaSpinner from "react-icons/lib/fa/spinner";
 import Api from "../../service/Api";
 
 import "./style.css";
@@ -91,7 +85,7 @@ export default class Menu extends React.Component {
   }
 
   render() {
-    const title = "Login";
+  
     return (
       <div>
         <HorizontalNav>
@@ -115,9 +109,6 @@ export default class Menu extends React.Component {
               </ListGroupItem>
               <ListGroupItem bsClass="">
                 <a href="/authors/">BROWSE AUTHORS</a>
-              </ListGroupItem>
-              <ListGroupItem bsClass="">
-                <a href="/signin/">SIGN IN</a>
               </ListGroupItem>
             </ListGroup>
             <ListGroup bsClass="nav navbar-nav navbar-utility">
