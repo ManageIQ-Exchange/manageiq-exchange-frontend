@@ -1,30 +1,40 @@
-import React from 'react';
-import { Grid, Row, Col, Button, Uncontrolledp, Nav, NavItem, Tabs, Tab } from 'patternfly-react';
+import React from "react";
+import {
+  Grid,
+  Row,
+  Col,
+  Button,
+  Uncontrolledp,
+  Nav,
+  NavItem,
+  Tabs,
+  Tab
+} from "patternfly-react";
 
-import Api from '../../service/Api';
+import Api from "../../service/Api";
+import TabDetails from "./TabDetails/";
 
 export default class AuthorProfile extends React.Component {
-    constructor(props) {
-        super(props);
-    }
+  constructor(props) {
+    super(props);
+  }
 
-    componentDidMount() {
+  componentDidMount() {}
 
-    }
-
-    render() {
-
-      return (
-        <div id="container">
-          <Tabs defaultActiveKey={2} >
+  render() {
+    return (
+      <div id="container" style={{marginTop:'2%'}} >
+        <Grid width="100%">
+          <Tabs defaultActiveKey={1}>
             <Tab eventKey={1} title="Details">
-              Tab 1 content
+              <TabDetails />
             </Tab>
             <Tab eventKey={2} title="README">
-              Tab 2 content
+              README
             </Tab>
-          </Tabs>;
-        </div>
-      )
-    }
+          </Tabs>
+        </Grid>
+      </div>
+    );
+  }
 }
