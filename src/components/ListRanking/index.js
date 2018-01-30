@@ -7,7 +7,7 @@ import {
   ListGroup,
   ListGroupItem,
   Button
-} from "patternfly-react";
+} from 'patternfly-react';
 import { Link, browserHistory } from "react-router";
 import GoPrimitiveDot from "react-icons/lib/go/primitive-dot";
 import TiSocialGithubCircular from "react-icons/lib/ti/social-github-circular";
