@@ -11,6 +11,8 @@ import Login from "./Login/";
 
 export default class Layout extends React.Component {
   constructor(props) {
+
+    console.log("env", process.env)
     super(props);
     this.isShowModal = this.isShowModal.bind(this);
     this.state = {
