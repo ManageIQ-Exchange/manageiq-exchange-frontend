@@ -6,18 +6,18 @@ import config from "../config";
 import { Link } from "react-router";
 import { LogError } from "../service/Log";
 import { AboutModal } from "patternfly-react";
-
+import { connect } from "react-redux";
 import Login from "./Login/";
+import { signIn } from "../thunk/user";
 
-export default class Layout extends React.Component {
+class Layout extends React.Component {
   constructor(props) {
-
-    console.log("env", process.env)
     super(props);
     this.isShowModal = this.isShowModal.bind(this);
     this.state = {
       showModalLogin: false
     };
+    console.log("props", props);
   }
 
   UserProfile() {
@@ -30,6 +30,7 @@ export default class Layout extends React.Component {
 
   render() {
     let { showModalLogin } = this.state;
+
     return (
       <div className="app-container">
         <header>
@@ -41,10 +42,22 @@ export default class Layout extends React.Component {
           productTitle="Log In to Your Account"
           trademarkText={null}
         >
-          <Login />
+          <Login onSignIn={this.props.signIn} />
         </AboutModal>
         <div>{this.props.children}</div>
       </div>
     );
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    user: state.user
+  };
+};
+const mapDispatchToProps = dispatch => {
+  return {
+    signIn: (code, provider) => dispatch(signIn(code, provider))
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Layout);

@@ -5,7 +5,7 @@ import { LogError } from "./Log";
 //Server Backend
 const BackendServer = process.env.GALAXY_API_BACKEND
   ? process.env.GALAXY_API_BACKEND
-  : '';
+  : 'http://backend-galaxy.192.168.42.246.nip.io';
 //Version of API
 const Version = "v1";
 //Root API Base

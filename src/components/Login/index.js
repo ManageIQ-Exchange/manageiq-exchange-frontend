@@ -3,8 +3,7 @@ import { Row, Col } from 'patternfly-react';
 import './style.css';
 import SocialButtonLogin from '../SocialButtonLogin/';
 
-const Login = () => {
-  const titleButtonLogin = 'Log in';
+const Login = ({ onSignIn }) => {
   return (
     <div style={{ marginBottom: '3%' }}>
       <Row
@@ -14,7 +13,7 @@ const Login = () => {
           <Row>
             <Col md={2} />
             <Col md={8}>
-              <SocialButtonLogin type="github" sizeIcon={2} message="Github" />
+              <SocialButtonLogin type="github" sizeIcon={2} message="Github" onClick={onSignIn} />
             </Col>
             <Col md={2} />
           </Row>
