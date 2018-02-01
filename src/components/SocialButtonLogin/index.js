@@ -17,14 +17,13 @@ class SocialButtonLogin extends React.Component {
     this.OnFailure = this.OnFailure.bind(this);
   }
   onBtnClick() {
-    console.log("log auth", process.env.GITHUB_OAUTH_ID );
-    
+
     const search = toQuery({
       client_id: process.env.GITHUB_OAUTH_ID
         ? process.env.GITHUB_OAUTH_ID
         : '3e7f2871ca45fbcbb171',
-      user: "prueba1"
-    });
+      user: "email"
+    });console.log("search",search)
 
     const popup = PopupWindow.open(
       "github-oauth-authorize",
@@ -40,16 +39,10 @@ class SocialButtonLogin extends React.Component {
   }
   OnSuccess(data) {
     console.log("code",data.code);
-    if (!data.code) {
+    let code = data.code;
+    if (!code) {
     } else {
-      Api.SignIn(data.code, provider)
-        .then(response => {
-          sessionUserDataSave(response.data.data);
-          //this.props.userLoggedAction();
-        })
-        .catch(error => {
-          //  this.props.islogging(false);
-        });
+      this.props.onClick(code, provider);
     }
   }
 
