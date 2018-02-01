@@ -17,6 +17,8 @@ class SocialButtonLogin extends React.Component {
     this.OnFailure = this.OnFailure.bind(this);
   }
   onBtnClick() {
+    console.log("log auth", process.env.GITHUB_OAUTH_ID );
+    
     const search = toQuery({
       client_id: process.env.GITHUB_OAUTH_ID
         ? process.env.GITHUB_OAUTH_ID
