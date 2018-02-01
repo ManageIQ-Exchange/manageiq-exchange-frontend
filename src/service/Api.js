@@ -3,7 +3,9 @@ import config from "../config";
 import { LogError } from "./Log";
 
 //Server Backend
-const BackendServer = "http://backend-galaxy.192.168.42.246.nip.io/";
+const BackendServer = process.env.GALAXY_API_BACKEND
+  ? process.env.GALAXY_API_BACKEND
+  : '';
 //Version of API
 const Version = "v1";
 //Root API Base
@@ -28,8 +30,8 @@ const ApiRefreshSpin = `${ApiBaseURL}/spins/refresh`; /* Refresh Spins */
 class Api {
   headerSignIn(code, provider) {
     return {
-      code,
-      provider
+      code: code,
+      provider: provider
     };
   }
   headerAuthenticated() {
@@ -45,9 +47,9 @@ class Api {
     return api;
   }
 
-  static SignIn(code) {
+  static SignIn(code, provider) {
     const api = new this();
-    api.request("post", ApiSignin, api.headerSignIn(code));
+    api.request("post", ApiSignin, api.headerSignIn(code, provider));
     return api;
   }
   static SignOut() {
@@ -112,6 +114,9 @@ class Api {
   }
 
   request(method, url, headers = {}, params = {}, data = {}) {
+
+    console.log("headers", headers);
+
     this.promise = new Promise((resolve, reject) => {
       // GET request for remote image
       axios({

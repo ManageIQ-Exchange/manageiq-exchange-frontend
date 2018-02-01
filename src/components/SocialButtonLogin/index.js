@@ -6,6 +6,8 @@ import PopupWindow from "./PopupWindow";
 import { toQuery, sessionUserDataSave } from "./utils";
 import Api from "../../service/Api";
 
+const provider = 'github.com';
+
 class SocialButtonLogin extends React.Component {
   constructor(props) {
     super(props);
@@ -33,9 +35,10 @@ class SocialButtonLogin extends React.Component {
     console.info("GitHub Login Request");
   }
   OnSuccess(data) {
+    console.log("code",data.code);
     if (!data.code) {
     } else {
-      Api.SignIn(data.code, 'github')
+      Api.SignIn(data.code, provider)
         .then(response => {
           sessionUserDataSave(response.data.data);
           //this.props.userLoggedAction();
