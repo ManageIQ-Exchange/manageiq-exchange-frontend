@@ -10,7 +10,7 @@ export const user = (user = new User(), action: any) => {
   let newState = {};
   switch (action.type) {
     case SIGN_IN_SUCCESS:
-      newState = { ...user };
+      newState = {...action.user};
       newState.logged = true;
       return newState;
     case SIGN_IN_ERROR:

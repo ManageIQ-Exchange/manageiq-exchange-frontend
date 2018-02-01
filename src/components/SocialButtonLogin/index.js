@@ -22,8 +22,8 @@ class SocialButtonLogin extends React.Component {
       client_id: process.env.GITHUB_OAUTH_ID
         ? process.env.GITHUB_OAUTH_ID
         : '3e7f2871ca45fbcbb171',
-      user: "prueba1"
-    });
+      user: "email"
+    });console.log("search",search)
 
     const popup = PopupWindow.open(
       "github-oauth-authorize",

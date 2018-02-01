@@ -11,6 +11,7 @@ export class User {
   github_bio: string;
   github_created_at: string;
   github_updated_at: string;
+  authentication_token: string;
   logged: boolean;
 
   constructor() {
@@ -26,6 +27,7 @@ export class User {
     this.github_bio = "";
     this.github_created_at = "";
     this.github_updated_at = "";
+    this.authentication_token = "";
     this.logged = false;
   }
 }
