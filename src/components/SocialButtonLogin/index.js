@@ -18,7 +18,9 @@ class SocialButtonLogin extends React.Component {
   }
   onBtnClick() {
     const search = toQuery({
-      client_id: "3e7f2871ca45fbcbb171",
+      client_id: process.env.GITHUB_OAUTH_ID
+        ? process.env.GITHUB_OAUTH_ID
+        : '3e7f2871ca45fbcbb171',
       user: "prueba1"
     });
 
