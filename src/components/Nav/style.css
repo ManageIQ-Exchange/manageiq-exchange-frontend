@@ -12,3 +12,8 @@
   color:white !important;
   text-decoration: none;
 }
+.btn-login{
+  background-color: #000000;
+  border: 0;
+  color: #FFFFFF;
+}

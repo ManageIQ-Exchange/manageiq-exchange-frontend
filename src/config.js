@@ -1,9 +1,13 @@
 const config = {
-    version: '1.0',
-    GALAXY_API_BACKEND: 'http://backend-manageiq-galaxy.int.open.paas.redhat.com',
-    GALAXY_API_VERSION: 'v1',
-    GITHUB_OAUTH_ID: '6260e5a4c3e173a40795',
-    GITHUB_REDIRECTUI: 'http://web-manageiq-galaxy.int.open.paas.redhat.com/users/auth/github/callback'
+  version: '1.0',
+  GALAXY_API_BACKEND: process.env.GALAXY_API_BACKEND
+    ? process.env.GALAXY_API_BACKEND
+    : 'http://backend-galaxy.192.168.42.246.nip.io',
+  GALAXY_API_VERSION: 'v1',
+  GITHUB_OAUTH_ID: process.env.GITHUB_OAUTH_ID
+    ? process.env.GITHUB_OAUTH_ID
+    : '3e7f2871ca45fbcbb171',
+  GITHUB_REDIRECTUI: ''
 };
 
-module.exports = config;
+export default config;
