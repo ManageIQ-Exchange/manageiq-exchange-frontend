@@ -1,6 +1,7 @@
 import {
   SIGN_IN_ERROR,
-  SIGN_IN_SUCCESS
+  SIGN_IN_SUCCESS,
+  SIGN_OUT
 } from '../actions/typeActions';
 import { User } from '../models/user';
 
@@ -17,7 +18,8 @@ export const user = (user = new User(), action: any) => {
       newState = new User();
       newState.logged = false;
       return newState;
-
+    case SIGN_OUT:
+      return new User();
     default:
       return user;
   }

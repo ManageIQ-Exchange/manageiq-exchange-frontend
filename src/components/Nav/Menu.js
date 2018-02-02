@@ -85,7 +85,8 @@ export default class Menu extends React.Component {
   }
 
   render() {
-  
+    let { user } = this.props;
+    const titleLogin = 'Login';
     return (
       <div>
         <HorizontalNav>
@@ -112,14 +113,34 @@ export default class Menu extends React.Component {
               </ListGroupItem>
             </ListGroup>
             <ListGroup bsClass="nav navbar-nav navbar-utility">
-              <ListGroupItem
-                bsClass="btn-login"
-                onClick={() => {
-                  this.props.isShowModal(true);
-                }}
-              >
-                Login
-              </ListGroupItem>
+              {user.logged ? (
+                <DropdownButton
+                  bsStyle="link"
+                  title={user.github_login ? user.github_login : ''}
+                  key={1}
+                  id="dropdown-basic-1"
+                >
+                  <MenuItem eventKey="1">My Imports</MenuItem>
+                  <MenuItem eventKey="2">Manage E-mail</MenuItem>
+                  <MenuItem eventKey="3">My Stars</MenuItem>
+                  <MenuItem eventKey="4">Manage Linked Accounts</MenuItem>
+                  <MenuItem divider />
+                  <MenuItem eventKey="5" onClick={this.props.signOut}>
+                    Sign out
+                  </MenuItem>
+                </DropdownButton>
+              ) : (
+                <ListGroupItem
+                  bsClass="btn-login"
+                  onClick={() => {
+                    this.props.isShowModal(true);
+                  }}
+                >
+                  {titleLogin}
+                </ListGroupItem>
+              )}
+
+              <ListGroupItem bsClass="" />
             </ListGroup>
           </HorizontalCollapse>
         </HorizontalNav>
