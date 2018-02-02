@@ -12,7 +12,7 @@ export default class Footer extends React.Component {
       <footer>
         <Row className="indexFooter" style={{ margin: 0 }}>
           <Col md={4}>
-            <img className="imgLogo" src={Logo} height={120} width={350} />
+            <img className="imgLogo" src={Logo} height={120} width={250} />
           </Col>
           <Col md={4} className="left-border">
             <section>

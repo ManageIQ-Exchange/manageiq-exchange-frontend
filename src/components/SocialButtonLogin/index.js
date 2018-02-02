@@ -5,6 +5,7 @@ import "./style.css";
 import PopupWindow from "./PopupWindow";
 import { toQuery, sessionUserDataSave } from "./utils";
 import Api from "../../service/Api";
+import config from '../../config';
 
 const provider = 'github.com';
 
@@ -19,12 +20,10 @@ class SocialButtonLogin extends React.Component {
   onBtnClick() {
 
     const search = toQuery({
-      client_id: process.env.GITHUB_OAUTH_ID
-        ? process.env.GITHUB_OAUTH_ID
-        : '3e7f2871ca45fbcbb171',
+      client_id: config.GITHUB_OAUTH_ID,
       user: "email"
     });
-
+    console.log(search);
     const popup = PopupWindow.open(
       "github-oauth-authorize",
       `https://github.com/login/oauth/authorize?${search}`,

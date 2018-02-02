@@ -1,11 +1,9 @@
 import axios from "axios";
-import config from "../config";
 import { LogError } from "./Log";
+import config from '../config';
 
 //Server Backend
-const BackendServer = process.env.GALAXY_API_BACKEND
-  ? process.env.GALAXY_API_BACKEND
-  : 'http://backend-galaxy.192.168.42.246.nip.io';
+const BackendServer = config.GALAXY_API_BACKEND;
 //Version of API
 const Version = "v1";
 //Root API Base
