@@ -9,6 +9,7 @@ import AuthorProfile from './containers/AuthorProfile/index';
 import SpinView from './containers/SpinView/index';
 import SearchPage from './containers/SearchPage/index';
 import SignInPage from './containers/SignInPage/';
+import MyContentPage from './containers/MyContentPage/';
 import NotFoundPage from './containers/NotFoundPage/index';
 
 const routes = (
@@ -21,6 +22,7 @@ const routes = (
     <Route path="/author/:userName" component={AuthorProfile}/>
     <Route path="/:userName/:spinName" component={SpinView}/>
     <Route path="/search/" component={SearchPage}/>
+    <Route path="/mycontent/" component={MyContentPage}/>
     <Route path="*" component={NotFoundPage}/>
   </Route>
 );

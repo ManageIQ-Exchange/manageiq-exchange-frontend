@@ -111,6 +111,11 @@ export default class Menu extends React.Component {
               <ListGroupItem bsClass="">
                 <a href="/authors/">BROWSE AUTHORS</a>
               </ListGroupItem>
+              {user.logged ? (
+                <ListGroupItem bsClass="">
+                  <a href="/mycontent/">MY CONTENT</a>
+                </ListGroupItem>
+              ) : null}
             </ListGroup>
             <ListGroup bsClass="nav navbar-nav navbar-utility">
               {user.logged ? (
