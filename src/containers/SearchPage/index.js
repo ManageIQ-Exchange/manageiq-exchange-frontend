@@ -10,22 +10,24 @@ import {
   DropdownKebab,
   FormControl,
   Icon,
-  Toolbar
+  Toolbar,
+  Paginator
 } from "patternfly-react";
 
 import Api from "../../service/Api";
 import CardItem from "../../components/CardItem/";
 import { imgIndex } from "../../ImageImport";
 import "./style.css";
-import { dataSearch } from './mock/';
-import { filters } from './mock/filter';
-import sortFields from './Sort/';
+import { dataSearch, popularTag } from "./mock/";
+import { filters } from "./mock/filter";
+import sortFields from "./Sort/";
 
 export default class SearchPage extends React.Component {
   constructor(props) {
     super(props);
     this.selectFilterType = this.selectFilterType.bind(this);
     this.updateCurrentSortType = this.updateCurrentSortType.bind(this);
+    this.onSelectPerPage = this.onSelectPerPage.bind(this);
 
     this.state = {
       currentValue: "",
@@ -34,17 +36,18 @@ export default class SearchPage extends React.Component {
       isSortNumeric: sortFields[0].isNumeric,
       isSortAscending: true,
       currentViewType: "list",
-      activeFilters: []
+      activeFilters: [],
+      elementByPage: 15
     };
   }
 
   selectFilterType(filterType) {
     const { currentFilterType } = this.state;
     if (currentFilterType !== filterType) {
-      this.setState({ currentValue: '', currentFilterType: filterType });
+      this.setState({ currentValue: "", currentFilterType: filterType });
 
-      if (filterType.filterType === 'complex-select') {
-        this.setState({ filterCategory: undefined, categoryValue: '' });
+      if (filterType.filterType === "complex-select") {
+        this.setState({ filterCategory: undefined, categoryValue: "" });
       }
     }
   }
@@ -96,6 +99,13 @@ export default class SearchPage extends React.Component {
       );
     }
   }
+  onChangePage(page) {
+    console.log(page);
+  }
+  onSelectPerPage(numItems) {
+    console.log("numItems", numItems);
+    this.setState({ elementByPage: numItems });
+  }
 
   render() {
     let {
@@ -105,11 +115,16 @@ export default class SearchPage extends React.Component {
       isSortNumeric,
       isSortAscending,
       activeFilters,
-      currentValue
+      currentValue,
+      elementByPage
     } = this.state;
-
+    let pagination = {
+      page: 1,
+      perPage: elementByPage,
+      perPageOptions: [5, 10, 15]
+    };
     return (
-      <div style={{marginTop:'1%'}} >
+      <div style={{ marginTop: "1%" }}>
         <Filter id="filter-search">
           <Filter.TypeSelector
             filterTypes={filters}
@@ -130,8 +145,7 @@ export default class SearchPage extends React.Component {
             onClick={() => this.toggleCurrentSortDirection()}
           />
         </Sort>
-        {
-          /*
+        {/*
           <div className="form-group" style={{marginLeft:'2%'}} >
             <Button onClick={null}>Action 1</Button>
             <Button onClick={null}>Action 2</Button>
@@ -143,8 +157,7 @@ export default class SearchPage extends React.Component {
               <MenuItem onClick={null}>Separate</MenuItem>
             </DropdownKebab>
           </div>
-          */
-        }
+          */}
 
         <Toolbar.RightContent>
           <Toolbar.Find
@@ -186,22 +199,83 @@ export default class SearchPage extends React.Component {
           </Toolbar.ViewSelector>
         </Toolbar.RightContent>
 
-
         {!activeFilters ||
           (activeFilters.length === 0 && (
             <Toolbar.Results>
               <h5>{dataSearch.length} Results</h5>
             </Toolbar.Results>
           ))}
-        <div className="content-card">
-          {dataSearch.map((data, index) => {
-            return (
-              <Col md={3} key={`col_card_${index}`}>
-                <CardItem key={`card_${index}`} cardInformation={data} />
-              </Col>
-            );
-          })}
-        </div>
+        <Row>
+          <Col xs={12} md={9}>
+            <div className="content-card">
+              {dataSearch.map((data, index) => {
+                return (
+                  <Col md={3} key={`col_card_${index}`}>
+                    <CardItem key={`card_${index}`} cardInformation={data} />
+                  </Col>
+                );
+              })}
+              <div style={{ padding: "0 20px" }}>
+                <br />
+                <br />
+                <div style={null}>
+                  <Paginator
+                    viewType="list"
+                    pagination={pagination}
+                    onPageSet={this.onChangePage}
+                    onPerPageSelect={this.onSelectPerPage}
+                    itemCount={dataSearch.length}
+                    messages={{
+                      firstPage: "First Page",
+                      previousPage: "Previous Page",
+                      currentPage: "Current Page"
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+          </Col>
+          <Col xs={12} md={2} style={{ backgroundColor:'#E1E1E1',overflowX: 'hidden', padding:0, textAlign:'center'}} >
+            <div style={{borderBottom:' 2px solid white', width:'100%'}} >
+              <h2 style={{color:'#848992'}} >Popular tags</h2>
+            </div>
+            <div>
+              <div style={{ overflowY: "scroll", height: "300px" }}>
+                <Row style={{padding: 0, width:'100%', marginTop:'10px'}} >
+                  {popularTag.map((data, index) => {
+                    return (
+                      <Row style={{ marginTop: '10px' }}>
+                        <Col xs={6} md={3} mdOffset={2}>
+                          <div
+                            style={{
+                              backgroundColor: '#b7b7b7',
+                              borderRadius: '10px',
+                              margin: '0 auto',
+                              width: '125px',
+                              color:'#FFFFFF'
+                            }}
+                          >
+                            {data.name}
+                          </div>
+                        </Col>
+                        <Col xs={6} md={3} mdOffset={2}>
+                          <div style={{
+                              backgroundColor: '#848992',
+                              color:'#FFFFFF',
+                              margin: '0 auto',
+                              borderRadius: '10px'
+                            }} >
+                            {data.num}
+                          </div>
+                        </Col>
+                      </Row>
+                    );
+                  })}
+                </Row>
+              </div>
+            </div>
+          </Col>
+        </Row>
       </div>
     );
   }

@@ -1,7 +1,15 @@
-import { sessionUserDataSave } from '../components/SocialButtonLogin/utils';
-import { signInSuccess, signInError, signOutUser } from '../actions/index';
-import { recoverUser, deleteUser } from '../storage/'
-import Api from '../service/Api';
+import { sessionUserDataSave } from "../components/SocialButtonLogin/utils";
+import {
+  signInSuccess,
+  signInError,
+  signOutUser,
+  getSpinsUserSuccess,
+  getSpinsUserError,
+  reloadSpinSuccess,
+  reloadSpinError
+} from "../actions/index";
+import { recoverUser, deleteUser } from "../storage/";
+import Api from "../service/Api";
 
 export function signIn(code, provider) {
   return dispatch => {
@@ -21,14 +29,44 @@ export function signOut() {
   return dispatch => {
     deleteUser();
     dispatch(signOutUser());
-  }
+  };
 }
 
 export function checkSessionUser() {
   return dispatch => {
     let user = recoverUser();
-    if (user.github_login && user.github_login !== '')
+    if (user.github_login && user.github_login !== "")
       dispatch(signInSuccess(user));
     else dispatch(signInError());
+  };
+}
+
+export function getSpinUser() {
+  return dispatch => {
+    let user = recoverUser();
+    if (user) {
+      Api.GetUserSpins(user.github_id)
+        .then(response => {
+          let spins = { ...response.data };
+          dispatch(getSpinsUserSuccess(spins));
+        })
+        .catch(error => {
+          dispatch(getSpinsUserError());
+        });
+    }
+  };
+}
+export function refreshSpins() {
+  return dispatch => {
+    let user = recoverUser();
+    if (user) {
+      Api.RefreshSpins()
+        .then(response => {
+          dispatch(reloadSpinSuccess());
+        })
+        .catch(error => {
+          dispatch(reloadSpinError());
+        });
+    }
   };
 }

@@ -7,24 +7,95 @@ import {
   FormGroup,
   InputGroup,
   FormControl,
-  ListView,
   ListViewInfoItem,
   ListViewIcon,
   ListViewItem,
   ListViewRow,
+  Button,
+  DropdownKebab,
+  MenuItem,
+  ListView
 } from "patternfly-react";
+import { connect } from "react-redux";
+import cx from "classnames";
+
+//import ListView from "./ListView";
+import { getSpinUser, refreshSpins } from '../../thunk/user';
 import "./style.css";
 
-export default class MyContentPage extends React.Component {
+class MyContentPage extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.renderItem = this.renderItem.bind(this);
+    this.renderAdditionalInfoExpandItems = this.renderAdditionalInfoExpandItems.bind(
+      this
+    );
+  }
+  componentDidMount() {
+    this.props.getSpinsUser();
+  }
+  renderAdditionalInfoExpandItems(item) {
+    return (
+      item.properties &&
+      Object.keys(item.properties).map(prop => {
+        const classNames = cx("pficon", {
+          "pficon-flavor": prop === "hosts",
+          "pficon-cluster": prop === "clusters",
+          "pficon-container-node": prop === "nodes",
+          "pficon-image": prop === "images"
+        });
+        return (
+          <ListView.InfoItem key={prop}>
+            <ListView.Expand
+              expanded={item.expanded && prop === item.expandType}
+              toggleExpanded={() => {
+                this.toggleExpand(item, prop);
+              }}
+            >
+              <span className={classNames} />
+              <strong>{item.properties[prop]}</strong> {prop}
+            </ListView.Expand>
+          </ListView.InfoItem>
+        );
+      })
+    );
+  }
+
+  renderItem(item, index) {
+    let expandText = item.compoundExpandText[item.expandType];
+    return (
+      <ListView.Item
+        key={index}
+        actions={this.renderActions(item.actions)}
+        checkboxInput={<input type="checkbox" />}
+        leftContent={<ListView.Icon name="plane" />}
+        additionalInfo={this.renderAdditionalInfoExpandItems(item)}
+        heading={item.title}
+        description={item.description}
+        stacked={false}
+        compoundExpand
+        compoundExpanded={item.expanded}
+        onCloseCompoundExpand={() => this.closeExpand(item)}
+      >
+        <Grid.Row>
+          <Grid.Col sm={11}>{expandText}</Grid.Col>
+        </Grid.Row>
+      </ListView.Item>
+    );
+  }
+
   render() {
     const placeholderSearch = "Search";
+    let { spins } = this.props;
+
     return (
       <div>
         <Grid width="100%">
           <Row>
             <h1> Import Your Content from Github</h1>
           </Row>
-          <Row>
+          <Row style={{ padding: 0 }}>
             <p>
               Click the toggle next to the repository to reveal a check mark.
               This will add the repository to Galaxy, making it visible on the
@@ -42,37 +113,89 @@ export default class MyContentPage extends React.Component {
               <h2 />
             </Col>
             <Col xs={12} md={6}>
-              <FormGroup>
-                <InputGroup>
-                  <FormControl type="text" placeholder={placeholderSearch} />
-                  <InputGroup.Addon>
-                    <Icon name="search" />
-                  </InputGroup.Addon>
-                </InputGroup>
-              </FormGroup>
+              <Col xs={12} md={10}>
+                <FormGroup>
+                  <InputGroup>
+                    <FormControl type="text" placeholder={placeholderSearch} />
+                    <InputGroup.Addon>
+                      <Icon name="search" />
+                    </InputGroup.Addon>
+                  </InputGroup>
+                </FormGroup>
+              </Col>
+              <Col xs={12} md={2}>
+                <Button
+                 onClick={this.props.refreshSpins}
+                >
+                  <Icon name="refresh" />
+                </Button>
+              </Col>
             </Col>
           </Row>
           <Row>
-            <ListView>
-              <ListViewItem
-                actions={<div />}
-                checkboxInput={<input />}
-                leftContent={<ListViewIcon />}
-                additionalInfo={[<ListViewInfoItem />, <ListViewInfoItem />]}
-                heading="Item 1"
-                description="This is Item 1 description"
-                compoundExpandText={{hosts: "Text describing Item 1's hosts", clusters: "Text describing Item 1's clusters", nodes: "Text describing Item 1's nodes"}}
-              >
-                <Row>
-                  <Col sm={11}>
-                    Lorem Ipsum is simply dummy text of the printing and typesetting industry
-                  </Col>
-                </Row>
-              </ListViewItem>
-            </ListView>
+            {/*
+              <ListView>
+                <ListView.Item
+                  id="item1"
+                  className="listViewItem--listItemVariants"
+                  key="item1"
+                  description="Expandable item with description, additional items and actions"
+                  heading="Event One"
+                  checkboxInput={<input type="checkbox" />}
+                  leftContent={<ListView.Icon name="plane" />}
+                  additionalInfo={[
+                    <ListView.InfoItem key="1">
+                      <Icon type="pf" name="flavor" /> Item 1
+                    </ListView.InfoItem>,
+                    <ListView.InfoItem key="2">
+                      <Icon name="bug" /> Item 2
+                    </ListView.InfoItem>
+                  ]}
+                  actions={
+                    <div>
+                      <Button>Action 1</Button>
+                      <DropdownKebab id="action2kebab" pullRight>
+                        <MenuItem>Action 2</MenuItem>
+                      </DropdownKebab>
+                    </div>
+                  }
+                >
+                  Expanded Content
+                </ListView.Item>
+              </ListView>*/}
+            {spins.data
+              ? spins.data.map((spin, index) => {
+                  return (
+                    <Row key={`key_spins_own_list${index}`}>
+                      <Col xs={12} md={4}>
+                        {spin.full_name}
+                      </Col>
+                      <Col xs={12} md={4}>
+                        {spin.id}
+                      </Col>
+                      <Col xs={12} md={4}>
+                        {spin.validation_log}
+                      </Col>
+                    </Row>
+                  );
+                })
+              : null}
           </Row>
         </Grid>
       </div>
     );
   }
 }
+const mapStateToProps = state => {
+  return {
+    spins: state.spins,
+    user: state.user
+  };
+};
+const mapDispatchToProps = dispatch => {
+  return {
+    getSpinsUser: () => dispatch(getSpinUser()),
+    refreshSpins: () => dispatch(refreshSpins())
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(MyContentPage);

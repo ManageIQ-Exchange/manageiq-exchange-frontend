@@ -19,7 +19,7 @@
     "axios": "^0.17.1",
     "bootstrap": "^4.0.0-beta.2",
     "patternfly": "^3.37.4",
-    "patternfly-react": "^1.2.0",
+    "patternfly-react": "^1.6.0",
     "prop-types": "^15.6.0",
     "react": "^15.6.2",
     "react-bootstrap": "^0.31.5",

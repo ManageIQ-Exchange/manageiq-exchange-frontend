@@ -128,3 +128,74 @@ export const dataSearch = [
     last_commit: 'NA'
   },
 ]
+export const popularTag = [
+  {
+    name:'system',
+    num: 4694
+  },
+  {
+    name:'system',
+    num: 4694
+  },
+  {
+    name:'system',
+    num: 4694
+  },
+  {
+    name:'system',
+    num: 4694
+  },
+  {
+    name:'system',
+    num: 4694
+  },
+  {
+    name:'system',
+    num: 4694
+  },
+  {
+    name:'system',
+    num: 4694
+  },
+  {
+    name:'system',
+    num: 4694
+  },
+  {
+    name:'system',
+    num: 4694
+  },
+  {
+    name:'system',
+    num: 4694
+  },
+  {
+    name:'system',
+    num: 4694
+  },
+  {
+    name:'system',
+    num: 4694
+  },
+  {
+    name:'system',
+    num: 4694
+  },
+  {
+    name:'system',
+    num: 4694
+  },
+  {
+    name:'system',
+    num: 4694
+  },
+  {
+    name:'system',
+    num: 4694
+  },
+  {
+    name:'system',
+    num: 4694
+  },
+
+]

@@ -5,9 +5,9 @@ import "./style.css";
 import PopupWindow from "./PopupWindow";
 import { toQuery, sessionUserDataSave } from "./utils";
 import Api from "../../service/Api";
-import config from '../../config';
+import config from "../../config";
 
-const provider = 'github.com';
+const provider = "github.com";
 
 class SocialButtonLogin extends React.Component {
   constructor(props) {
@@ -18,12 +18,10 @@ class SocialButtonLogin extends React.Component {
     this.OnFailure = this.OnFailure.bind(this);
   }
   onBtnClick() {
-
     const search = toQuery({
       client_id: config.GITHUB_OAUTH_ID,
       user: "email"
     });
-    console.log(search);
     const popup = PopupWindow.open(
       "github-oauth-authorize",
       `https://github.com/login/oauth/authorize?${search}`,
@@ -37,11 +35,11 @@ class SocialButtonLogin extends React.Component {
     console.info("GitHub Login Request");
   }
   OnSuccess(data) {
-    console.log("code",data.code);
+    console.log("code", data.code);
     let code = data.code;
     if (!code) {
     } else {
-      this.props.onClick(code, provider);
+      this.props.onClick(code, this.props.provider);
     }
   }
 
@@ -50,19 +48,17 @@ class SocialButtonLogin extends React.Component {
     console.error(error);
   }
   render() {
-    let { type, sizeIcon, message } = this.props;
+    let { type, sizeIcon, message, provider } = this.props;
     const attrs = { onClick: this.onBtnClick };
 
     return (
       <div className="content-social-login" {...attrs}>
-        <div style={{ width: "100px", margin: "0 auto" }}>
-          <span style={{ float: "right" }}>
-            <Icon
-              style={{ marginRight: "15px" }}
-              name={`${type} fa-${sizeIcon}x`}
-            />
-            <span className="message-icon">{message}</span>
-          </span>
+        <div style={{ margin: "0 auto" }}>
+          <Icon
+            style={{ marginRight: "15px" }}
+            name={`${type} fa-${sizeIcon}x`}
+          />
+          <span className="message-icon">{provider}</span>
         </div>
       </div>
     );
