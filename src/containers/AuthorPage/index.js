@@ -8,7 +8,8 @@ import {
   FormControl,
   FormGroup,
   InputGroup,
-  Icon
+  Icon,
+  Paginator
 } from "patternfly-react";
 import { InputGroupAddon } from "react-bootstrap";
 import { connect } from "react-redux";
@@ -24,9 +25,11 @@ class AuthorsPage extends React.Component {
   constructor(props) {
     super(props);
     this.searchOnList = this.searchOnList.bind(this);
+    this.onSelectPerPage = this.onSelectPerPage.bind(this);
     this.state = {
       listUsers: this.props.users.users,
-      listUsersComplete: this.props.users.users
+      listUsersComplete: this.props.users.users,
+      elementByPage: 5
     };
   }
 
@@ -40,19 +43,28 @@ class AuthorsPage extends React.Component {
   searchOnList(keywords) {
     let listUsers = [...this.state.listUsersComplete];
     listUsers = listUsers.filter(user => {
-      console.log("keyword", keywords)
-      let mtch = JSON.stringify(user.login).match(new RegExp(keywords, "gi"));
+      let mtch = JSON.stringify(user.login).match(new RegExp(keywords));
       return mtch ? true : false;
-      console.log("mtch",mtch);
     });
 
     this.setState({listUsers})
+  }
+  onChangePage(page) {
+  }
+  onSelectPerPage(numItems) {
+    this.setState({ elementByPage: numItems });
   }
   render() {
     const placeholderSearch = "Search authors";
     const titleHeader = "Galaxy Contributors";
     let { users } = this.props;
-    let { listUsers } = this.state;
+    let { listUsers, elementByPage } = this.state;
+    let {meta} = users;
+    let pagination = {
+      page: meta.current_page,
+      perPage: elementByPage,
+      perPageOptions: [5, 10, 15]
+    };
     return (
       <div id="container">
         <div>
@@ -101,6 +113,20 @@ class AuthorsPage extends React.Component {
                 <BtnViewGithub />
               </ListRanking>
             </Col>
+          </Row>
+          <Row>
+            <Paginator
+              viewType="list"
+              pagination={pagination}
+              onPageSet={this.onChangePage}
+              onPerPageSelect={this.onSelectPerPage}
+              itemCount={listUsers.length}
+              messages={{
+                firstPage: "First Page",
+                previousPage: "Previous Page",
+                currentPage: "Current Page"
+              }}
+            />
           </Row>
         </Grid>
       </div>

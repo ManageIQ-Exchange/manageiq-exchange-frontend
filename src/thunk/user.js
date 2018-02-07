@@ -76,7 +76,7 @@ export function refreshSpins() {
 }
 export function publishSpin(id) {
   return dispatch => {
-    Api.publishSpin(id)
+    return Api.publishSpin(id)
       .then(response => {
         dispatch(publishSpinSuccess());
       })

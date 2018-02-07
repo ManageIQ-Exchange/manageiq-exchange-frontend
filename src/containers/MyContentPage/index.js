@@ -35,7 +35,8 @@ class MyContentPage extends React.Component {
       this
     );
     this.state = {
-      details: []
+      details: [],
+      loadingPublish: false
     };
   }
   componentDidMount() {
@@ -95,8 +96,15 @@ class MyContentPage extends React.Component {
     details[index] = !details[index];
     this.setState({ details });
   }
+  publishSpin(id) {
+    this.setState({loadingPublish: true});
+    this.props.publishSpin(id).then((response) => {
+      this.setState({loadingPublish: false});
+    })
+  }
   render() {
     const placeholderSearch = "Search";
+    const messageLoad = 'Loading';
     let { spins } = this.props;
 
     return (
@@ -164,9 +172,10 @@ class MyContentPage extends React.Component {
                           </Button>
                         </Col>
                         <Col xs={6} md={2}>
-                          <Button onClick={() => this.props.publishSpin(spin.id)}>
-                            Activar
+                          <Button onClick={() => this.publishSpin(spin.id)}>
+                            Publish
                           </Button>
+                          <span>{this.state.loadingPublish ? messageLoad: ''} </span>
                         </Col>
                       </Row>
                       <Row style={{ backgroundColor: '#f2eaea' }}>
