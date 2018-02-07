@@ -4,6 +4,7 @@
 }
 .second-header {
   float: right;
+  text-decoration: none;
 }
 .first-header {
   color: #1678c4;

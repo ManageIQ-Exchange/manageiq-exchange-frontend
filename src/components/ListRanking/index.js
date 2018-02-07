@@ -20,7 +20,7 @@ class ListRanking extends React.Component {
 
   render() {
     let { data, title, twoHeaders, renderBottomBtn } = this.props;
-    let keys = data ? Object.keys(data[0]) : [];
+    let keys = this.props.keys ? this.props.keys  : data && data.length > 0 ? Object.keys(data[0]) : [];
     let heightContent = this.props.height
       ? { height: this.props.height, overflowY: 'scroll' }
       : {};
@@ -45,9 +45,9 @@ class ListRanking extends React.Component {
                           {data[keys[0]]}
                         </a>
                         {this.props.children ? (
-                          <span className="second-header">
+                          <a className="second-header" href={data[keys[1]]} >
                             {this.props.children}
-                          </span>
+                          </a>
                         ) : (
                           <Badge>{data[keys[1]]}</Badge>
                         )}
