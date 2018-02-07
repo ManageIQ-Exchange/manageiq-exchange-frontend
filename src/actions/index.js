@@ -12,6 +12,18 @@ export function signInError(user) {
     user: user
   };
 }
+export function getUsersSuccess(users) {
+  return {
+    type: actions.GET_USERS_SUCCESS,
+    users: users
+  };
+}
+export function getUsersError(error) {
+  return {
+    type: actions.GET_USERS_ERROR,
+    error:error
+  };
+}
 export function signOutUser() {
   return {
     type: actions.SIGN_OUT
@@ -49,5 +61,32 @@ export function reloadSpinSuccess() {
 export function reloadSpinError() {
   return {
     type: actions.RELOAD_SPIN_ERROR
+  };
+}
+export function publishSpinSuccess() {
+  return {
+    type: actions.PUBLISH_SPIN_SUCCESS
+  };
+}
+export function publishSpinError() {
+  return {
+    type: actions.PUBLISH_SPIN_ERROR
+  };
+}
+export function getTagSuccess(tags) {
+  return {
+    type: actions.GET_TAGS_SUCCESS,
+    tags: tags
+  };
+}
+export function getTagError() {
+  return {
+    type: actions.GET_TAGS_ERROR
+  };
+}
+export function addFilterTag(filterTag) {
+  return {
+    type: actions.ADD_POPULAR_TAG_SUCCESS,
+    filterTag: filterTag
   };
 }

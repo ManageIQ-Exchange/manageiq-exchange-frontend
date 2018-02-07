@@ -4,7 +4,9 @@ import "./style.css";
 import SocialButtonLogin from "../SocialButtonLogin/";
 
 const Login = ({ onSignIn, provider }) => {
-  let keys = Object.keys(provider);
+  let keys = [];
+  if (provider) keys = Object.keys(provider);
+
   return (
     <div style={{ marginBottom: "3%" }}>
       <Row style={{ marginBottom: "3%" }}>

@@ -52,7 +52,7 @@ export default class ExplorePage extends React.Component {
               <ListRanking
                 data={data_list}
                 onClickName={() => {
-                  this.redirectTo("/author/4");
+                  this.redirectTo("/spin/4");
                 }}
                 title={"Most Starred"}
                 twoHeaders={["Name", "Starts"]}
@@ -63,7 +63,7 @@ export default class ExplorePage extends React.Component {
               <ListRanking
                 data={data_list}
                 onClickName={() => {
-                  this.redirectTo("/author/4");
+                  this.redirectTo("/spin/4");
                 }}
                 title={"Most Starred"}
                 twoHeaders={["Name", "Starts"]}
@@ -74,7 +74,7 @@ export default class ExplorePage extends React.Component {
               <ListRanking
                 data={data_list}
                 onClickName={() => {
-                  this.redirectTo("/author/4");
+                  this.redirectTo("/spin/4");
                 }}
                 title={"Most Starred"}
                 twoHeaders={["Name", "Starts"]}
@@ -92,7 +92,7 @@ export default class ExplorePage extends React.Component {
               <ListRanking
                 data={data_list}
                 onClickName={() => {
-                  this.redirectTo("/author/4");
+                  this.redirectTo("/spin/4");
                 }}
                 title={"Top Tags"}
                 twoHeaders={["Tag", "# Repos"]}
@@ -102,7 +102,7 @@ export default class ExplorePage extends React.Component {
               <ListRanking
                 data={data_list}
                 onClickName={() => {
-                  this.redirectTo("/author/4");
+                  this.redirectTo("/spin/4");
                 }}
                 title={"Top Contributors"}
                 twoHeaders={["User", "# Repos"]}
@@ -112,7 +112,7 @@ export default class ExplorePage extends React.Component {
               <ListRanking
                 data={data_list}
                 onClickName={() => {
-                  this.redirectTo("/author/4");
+                  this.redirectTo("/spin/4");
                 }}
                 title={"Newest"}
                 twoHeaders={["Name", "Added On"]}

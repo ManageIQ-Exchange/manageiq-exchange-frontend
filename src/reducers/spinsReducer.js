@@ -9,6 +9,8 @@ export const spins = (spins = {}, action: any) => {
     case actions.GET_SPINS_ERROR:
     case actions.RELOAD_SPIN_SUCCESS:
     case actions.RELOAD_SPIN_ERROR:
+    case actions.PUBLISH_SPIN_SUCCESS:
+    case actions.PUBLISH_SPIN_ERROR:
       return spins;
     default:
       return spins;

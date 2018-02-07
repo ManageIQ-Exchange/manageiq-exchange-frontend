@@ -6,7 +6,11 @@ import {
   getSpinsUserSuccess,
   getSpinsUserError,
   reloadSpinSuccess,
-  reloadSpinError
+  reloadSpinError,
+  publishSpinSuccess,
+  publishSpinError,
+  getUsersSuccess,
+  getUsersError
 } from "../actions/index";
 import { recoverUser, deleteUser } from "../storage/";
 import Api from "../service/Api";
@@ -68,5 +72,28 @@ export function refreshSpins() {
           dispatch(reloadSpinError());
         });
     }
+  };
+}
+export function publishSpin(id) {
+  return dispatch => {
+    Api.publishSpin(id)
+      .then(response => {
+        dispatch(publishSpinSuccess());
+      })
+      .catch(error => {
+        dispatch(publishSpinError());
+      });
+  };
+}
+
+export function getUsers() {
+  return dispatch => {
+    Api.GetUsers()
+      .then(response => {
+        dispatch(getUsersSuccess(response.data));
+      })
+      .catch(error => {
+        dispatch(getUsersError(error));
+      });
   };
 }

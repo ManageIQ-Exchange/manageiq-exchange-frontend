@@ -11,23 +11,48 @@ import {
   Icon
 } from "patternfly-react";
 import { InputGroupAddon } from "react-bootstrap";
-import TiSocialGithubCircular from "react-icons/lib/ti/social-github-circular";
+import { connect } from "react-redux";
 
 import { imgIndex } from "../../ImageImport";
 import ListRanking from "../../components/ListRanking";
 import BtnViewGithub from "../../components/BtnViewGithub";
 import "./style.css";
 import { data } from "./mock/";
+import { getUsers } from "../../thunk/user";
 
-
-export default class AuthorsPage extends React.Component {
+class AuthorsPage extends React.Component {
   constructor(props) {
     super(props);
+    this.searchOnList = this.searchOnList.bind(this);
+    this.state = {
+      listUsers: this.props.users.users,
+      listUsersComplete: this.props.users.users
+    };
   }
 
+  componentDidMount() {
+    this.props.getUsers();
+  }
+  componentWillReceiveProps(nextProps: Props) {
+    let { users } = nextProps.users;
+    if (this.props.users.users !== users) this.setState({ listUsers: users, listUsersComplete: users });
+  }
+  searchOnList(keywords) {
+    let listUsers = [...this.state.listUsersComplete];
+    listUsers = listUsers.filter(user => {
+      console.log("keyword", keywords)
+      let mtch = JSON.stringify(user.login).match(new RegExp(keywords, "gi"));
+      return mtch ? true : false;
+      console.log("mtch",mtch);
+    });
+
+    this.setState({listUsers})
+  }
   render() {
     const placeholderSearch = "Search authors";
     const titleHeader = "Galaxy Contributors";
+    let { users } = this.props;
+    let { listUsers } = this.state;
     return (
       <div id="container">
         <div>
@@ -51,7 +76,11 @@ export default class AuthorsPage extends React.Component {
             <Col md={6}>
               <FormGroup>
                 <InputGroup>
-                  <FormControl type="text" placeholder={placeholderSearch} />
+                  <FormControl
+                    type="text"
+                    placeholder={placeholderSearch}
+                    onChange={e => this.searchOnList(e.target.value)}
+                  />
                   <InputGroup.Addon>
                     <Icon name="search" />
                   </InputGroup.Addon>
@@ -64,9 +93,10 @@ export default class AuthorsPage extends React.Component {
             <Col md={12}>
               <ListRanking
                 height={"500px"}
-                data={data}
+                data={listUsers ? listUsers : []}
                 title={null}
                 twoHeaders={["Author", ""]}
+                keys={["login", "url_profile"]}
               >
                 <BtnViewGithub />
               </ListRanking>
@@ -77,3 +107,14 @@ export default class AuthorsPage extends React.Component {
     );
   }
 }
+const mapStateToProps = state => {
+  return {
+    users: state.users
+  };
+};
+const mapDispatchToProps = dispatch => {
+  return {
+    getUsers: () => dispatch(getUsers())
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(AuthorsPage);

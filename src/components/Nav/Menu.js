@@ -12,7 +12,7 @@ import {
   MenuItem,
   DropdownButton
 } from "patternfly-react";
-import { Link } from "react-router";
+import { browserHistory } from "react-router";
 import Api from "../../service/Api";
 
 import "./style.css";
@@ -24,6 +24,7 @@ export default class Menu extends React.Component {
     this.UserLogging = this.UserLogging.bind(this);
     this.UserLogOut = this.UserLogOut.bind(this);
     this.postSpins = this.postSpins.bind(this);
+    this.onSignOut = this.onSignOut.bind(this);
     var user = "";
     var ava = "";
     var logged = false;
@@ -83,6 +84,14 @@ export default class Menu extends React.Component {
         console.log(error);
       });
   }
+  redirectTo(route) {
+    route = { pathname: route };
+    browserHistory.push(route);
+  }
+  onSignOut() {
+    this.props.signOut();
+    this.redirectTo('/');
+  }
 
   render() {
     let { user } = this.props;
@@ -130,7 +139,7 @@ export default class Menu extends React.Component {
                   <MenuItem eventKey="3">My Stars</MenuItem>
                   <MenuItem eventKey="4">Manage Linked Accounts</MenuItem>
                   <MenuItem divider />
-                  <MenuItem eventKey="5" onClick={this.props.signOut}>
+                  <MenuItem eventKey="5" onClick={this.onSignOut}>
                     Sign out
                   </MenuItem>
                 </DropdownButton>

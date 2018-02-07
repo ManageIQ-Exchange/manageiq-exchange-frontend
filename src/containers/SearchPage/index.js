@@ -16,18 +16,23 @@ import {
 
 import Api from "../../service/Api";
 import CardItem from "../../components/CardItem/";
+import TagsFilter from "../../components/TagsFilter/";
 import { imgIndex } from "../../ImageImport";
 import "./style.css";
 import { dataSearch, popularTag } from "./mock/";
 import { filters } from "./mock/filter";
 import sortFields from "./Sort/";
+import { connect } from "react-redux";
+import { getPopularTag } from "../../thunk/tags";
 
-export default class SearchPage extends React.Component {
+class SearchPage extends React.Component {
   constructor(props) {
     super(props);
     this.selectFilterType = this.selectFilterType.bind(this);
     this.updateCurrentSortType = this.updateCurrentSortType.bind(this);
     this.onSelectPerPage = this.onSelectPerPage.bind(this);
+    this.addFilterPopularTag = this.addFilterPopularTag.bind(this);
+    this.removeTagFilter = this.removeTagFilter.bind(this);
 
     this.state = {
       currentValue: "",
@@ -37,10 +42,13 @@ export default class SearchPage extends React.Component {
       isSortAscending: true,
       currentViewType: "list",
       activeFilters: [],
-      elementByPage: 15
+      elementByPage: 15,
+      filterPopularTag: []
     };
   }
-
+  componentDidMount() {
+    this.props.getPopularTag();
+  }
   selectFilterType(filterType) {
     const { currentFilterType } = this.state;
     if (currentFilterType !== filterType) {
@@ -103,10 +111,20 @@ export default class SearchPage extends React.Component {
     console.log(page);
   }
   onSelectPerPage(numItems) {
-    console.log("numItems", numItems);
     this.setState({ elementByPage: numItems });
   }
+  addFilterPopularTag(name) {
+    let filterPopularTag = [...this.state.filterPopularTag];
+    filterPopularTag.push(name);
 
+    this.setState({ filterPopularTag });
+  }
+  removeTagFilter(name) {
+    let filterPopularTag = [...this.state.filterPopularTag];
+    let index = filterPopularTag.indexOf(name);
+    filterPopularTag.splice(index, 1);
+    this.setState({ filterPopularTag });
+  }
   render() {
     let {
       currentFilterType,
@@ -116,8 +134,10 @@ export default class SearchPage extends React.Component {
       isSortAscending,
       activeFilters,
       currentValue,
-      elementByPage
+      elementByPage,
+      filterPopularTag
     } = this.state;
+    let { tags } = this.props;
     let pagination = {
       page: 1,
       perPage: elementByPage,
@@ -202,6 +222,11 @@ export default class SearchPage extends React.Component {
         {!activeFilters ||
           (activeFilters.length === 0 && (
             <Toolbar.Results>
+              <Row style={{paddingLeft: 20}}>
+                {filterPopularTag.map(tag => {
+                  return <TagsFilter name={tag} onClick={this.removeTagFilter}/>;
+                })}
+              </Row>
               <h5>{dataSearch.length} Results</h5>
             </Toolbar.Results>
           ))}
@@ -235,42 +260,66 @@ export default class SearchPage extends React.Component {
               </div>
             </div>
           </Col>
-          <Col xs={12} md={2} style={{ backgroundColor:'#E1E1E1',overflowX: 'hidden', padding:0, textAlign:'center'}} >
-            <div style={{borderBottom:' 2px solid white', width:'100%'}} >
-              <h2 style={{color:'#848992'}} >Popular tags</h2>
+          <Col
+            xs={12}
+            md={2}
+            style={{
+              backgroundColor: "#E1E1E1",
+              overflowX: "hidden",
+              padding: 0,
+              textAlign: "center"
+            }}
+          >
+            <div style={{ borderBottom: " 2px solid white", width: "100%" }}>
+              <h2 style={{ color: "#848992" }}>Popular tags</h2>
             </div>
             <div>
               <div style={{ overflowY: "scroll", height: "300px" }}>
-                <Row style={{padding: 0, width:'100%', marginTop:'10px'}} >
-                  {popularTag.map((data, index) => {
-                    return (
-                      <Row style={{ marginTop: '10px' }}>
-                        <Col xs={6} md={3} mdOffset={2}>
-                          <div
-                            style={{
-                              backgroundColor: '#b7b7b7',
-                              borderRadius: '10px',
-                              margin: '0 auto',
-                              width: '125px',
-                              color:'#FFFFFF'
-                            }}
+                <Row style={{ padding: 0, width: "100%", marginTop: "10px" }}>
+                  {tags && tags.tags
+                    ? tags.tags.map((data, index) => {
+                        let infoTag = data.data;
+                        return (
+                          <Row
+                            key={`popular_tag_row_${index}`}
+                            style={{ marginTop: "10px" }}
                           >
-                            {data.name}
-                          </div>
-                        </Col>
-                        <Col xs={6} md={3} mdOffset={2}>
-                          <div style={{
-                              backgroundColor: '#848992',
-                              color:'#FFFFFF',
-                              margin: '0 auto',
-                              borderRadius: '10px'
-                            }} >
-                            {data.num}
-                          </div>
-                        </Col>
-                      </Row>
-                    );
-                  })}
+                            <Col
+                              xs={6}
+                              md={3}
+                              mdOffset={2}
+                              onClick={() =>
+                                this.addFilterPopularTag(infoTag.name)
+                              }
+                            >
+                              <div
+                                style={{
+                                  backgroundColor: "#b7b7b7",
+                                  borderRadius: "10px",
+                                  margin: "0 auto",
+                                  width: "125px",
+                                  color: "#FFFFFF"
+                                }}
+                              >
+                                {infoTag.name}
+                              </div>
+                            </Col>
+                            <Col xs={6} md={3} mdOffset={2}>
+                              <div
+                                style={{
+                                  backgroundColor: "#848992",
+                                  color: "#FFFFFF",
+                                  margin: "0 auto",
+                                  borderRadius: "10px"
+                                }}
+                              >
+                                {333}
+                              </div>
+                            </Col>
+                          </Row>
+                        );
+                      })
+                    : null}
                 </Row>
               </div>
             </div>
@@ -280,3 +329,14 @@ export default class SearchPage extends React.Component {
     );
   }
 }
+const mapStateToProps = state => {
+  return {
+    tags: state.tags
+  };
+};
+const mapDispatchToProps = dispatch => {
+  return {
+    getPopularTag: () => dispatch(getPopularTag())
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(SearchPage);

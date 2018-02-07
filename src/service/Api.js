@@ -25,6 +25,10 @@ const GetUserStats = `https://api.github.com/users/`; /* Get a specific user sta
 //Spins
 const ApiGetSpins = `${ApiBaseURL}/spins`; /* Get Spins */
 const ApiRefreshSpin = `${ApiBaseURL}/spins/refresh`; /* Refresh Spins */
+const ApiPublishSpin = `${ApiBaseURL}/spin_candidates/`; /* Refresh Spins */
+
+//TAG
+const ApiTags = `${ApiBaseURL}/tags/`;
 
 class Api {
   headerSignIn(code, provider) {
@@ -83,6 +87,11 @@ class Api {
     api.request("post", ApiGetUserSpins + 'refresh', api.headerAuthenticated());
     return api;
   }
+  static publishSpin(spin_candidate_id) {
+    const api = new this();
+    api.request("post", ApiPublishSpin +spin_candidate_id+ '/publish', api.headerAuthenticated());
+    return api;
+  }
   static GetUserSpinsBy(username, spin_name) {
     const api = new this();
     api.request("get", ApiGetUser + username + "/spins?query=" + spin_name);
@@ -110,6 +119,12 @@ class Api {
   static GetSpinsBy(param, value) {
     const api = new this();
     api.request("get", ApiGetSpins + "?query=" + value);
+    return api;
+  }
+
+  static GetTags() {
+    const api = new this();
+    api.request("get", ApiTags, api.headerAuthenticated());
     return api;
   }
 

@@ -14,13 +14,15 @@ import {
   Button,
   DropdownKebab,
   MenuItem,
-  ListView
+  ListView,
+  Toolbar
 } from "patternfly-react";
+import { Collapse, Well } from "react-bootstrap";
 import { connect } from "react-redux";
 import cx from "classnames";
 
 //import ListView from "./ListView";
-import { getSpinUser, refreshSpins } from '../../thunk/user';
+import { getSpinUser, refreshSpins, publishSpin } from "../../thunk/user";
 import "./style.css";
 
 class MyContentPage extends React.Component {
@@ -28,9 +30,13 @@ class MyContentPage extends React.Component {
     super(props);
 
     this.renderItem = this.renderItem.bind(this);
+    this.onHandleDetails = this.onHandleDetails.bind(this);
     this.renderAdditionalInfoExpandItems = this.renderAdditionalInfoExpandItems.bind(
       this
     );
+    this.state = {
+      details: []
+    };
   }
   componentDidMount() {
     this.props.getSpinsUser();
@@ -84,7 +90,11 @@ class MyContentPage extends React.Component {
       </ListView.Item>
     );
   }
-
+  onHandleDetails(index) {
+    let details = [...this.state.details];
+    details[index] = !details[index];
+    this.setState({ details });
+  }
   render() {
     const placeholderSearch = "Search";
     let { spins } = this.props;
@@ -124,58 +134,49 @@ class MyContentPage extends React.Component {
                 </FormGroup>
               </Col>
               <Col xs={12} md={2}>
-                <Button
-                 onClick={this.props.refreshSpins}
-                >
+                <Button onClick={this.props.refreshSpins}>
                   <Icon name="refresh" />
                 </Button>
               </Col>
             </Col>
           </Row>
           <Row>
-            {/*
-              <ListView>
-                <ListView.Item
-                  id="item1"
-                  className="listViewItem--listItemVariants"
-                  key="item1"
-                  description="Expandable item with description, additional items and actions"
-                  heading="Event One"
-                  checkboxInput={<input type="checkbox" />}
-                  leftContent={<ListView.Icon name="plane" />}
-                  additionalInfo={[
-                    <ListView.InfoItem key="1">
-                      <Icon type="pf" name="flavor" /> Item 1
-                    </ListView.InfoItem>,
-                    <ListView.InfoItem key="2">
-                      <Icon name="bug" /> Item 2
-                    </ListView.InfoItem>
-                  ]}
-                  actions={
-                    <div>
-                      <Button>Action 1</Button>
-                      <DropdownKebab id="action2kebab" pullRight>
-                        <MenuItem>Action 2</MenuItem>
-                      </DropdownKebab>
-                    </div>
-                  }
-                >
-                  Expanded Content
-                </ListView.Item>
-              </ListView>*/}
-            {spins.data
+
+           {spins.data
               ? spins.data.map((spin, index) => {
                   return (
-                    <Row key={`key_spins_own_list${index}`}>
-                      <Col xs={12} md={4}>
-                        {spin.full_name}
-                      </Col>
-                      <Col xs={12} md={4}>
-                        {spin.id}
-                      </Col>
-                      <Col xs={12} md={4}>
-                        {spin.validation_log}
-                      </Col>
+                    <Row
+                      key={`key_spins_own_list${index}`}
+                      style={{ marginTop: "13px" }}
+                    >
+                      <Row
+                        style={{ backgroundColor: "#F1F1F1", color: "black", padding:10 }}
+                      >
+                        <Col xs={12} md={4}>
+                          Name: {spin.full_name}
+                        </Col>
+                        <Col xs={12} md={4}>
+                          Id: {spin.id}
+                        </Col>
+                        <Col xs={6} md={2}>
+                          <Button onClick={() => this.onHandleDetails(index)}>
+                            More Info
+                          </Button>
+                        </Col>
+                        <Col xs={6} md={2}>
+                          <Button onClick={() => this.props.publishSpin(spin.id)}>
+                            Activar
+                          </Button>
+                        </Col>
+                      </Row>
+                      <Row style={{ backgroundColor: '#f2eaea' }}>
+                        <Collapse in={this.state.details[index]}>
+                          <Col xs={12} md={8}>
+                            <h3>Log:</h3>
+                            {spin.validation_log}
+                          </Col>
+                        </Collapse>
+                      </Row>
                     </Row>
                   );
                 })
@@ -195,7 +196,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     getSpinsUser: () => dispatch(getSpinUser()),
-    refreshSpins: () => dispatch(refreshSpins())
+    refreshSpins: () => dispatch(refreshSpins()),
+    publishSpin: (id) => dispatch(publishSpin(id))
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(MyContentPage);
