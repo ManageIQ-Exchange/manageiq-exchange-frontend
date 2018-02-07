@@ -10,13 +10,14 @@ const Version = "v1";
 const ApiBaseURL = `${BackendServer}/${Version}`;
 
 // Api Version
-const ApiVersion = `${BackendServer}/api/version`;
+const ApiVersion = `${BackendServer}/`;
 
 //Users
 const ApiSignin = `${ApiBaseURL}/users/sign_in`; /* User Log in */
 const ApiSignout = `${ApiBaseURL}/users/sign_out`; /* User Log out */
 const ApiGetUsers = `${ApiBaseURL}/users`; /* List of Users*/
 const ApiGetUser = `${ApiBaseURL}/users/`; /* Get a specific user  adding id or username in path*/
+const ApiGetUserSpins = `${ApiBaseURL}/spin_candidates/`; /* Get a specific user  adding id or username in path*/
 
 //GIT
 const GetUserStats = `https://api.github.com/users/`; /* Get a specific user stats in GIT  adding id or username in path*/
@@ -24,6 +25,10 @@ const GetUserStats = `https://api.github.com/users/`; /* Get a specific user sta
 //Spins
 const ApiGetSpins = `${ApiBaseURL}/spins`; /* Get Spins */
 const ApiRefreshSpin = `${ApiBaseURL}/spins/refresh`; /* Refresh Spins */
+const ApiPublishSpin = `${ApiBaseURL}/spin_candidates/`; /* Refresh Spins */
+
+//TAG
+const ApiTags = `${ApiBaseURL}/tags/`;
 
 class Api {
   headerSignIn(code, provider) {
@@ -71,9 +76,20 @@ class Api {
     api.request("get", ApiGetUsers + "?query=" + username);
     return api;
   }
-  static GetUserSpins(username) {
+  static GetUserSpins(id) {
     const api = new this();
-    api.request("get", ApiGetUser + username + "/spins");
+    let header = Object.assign(api.headerAuthenticated(), { id: id });
+    api.request("get", ApiGetUserSpins , header);
+    return api;
+  }
+  static RefreshSpins() {
+    const api = new this();
+    api.request("post", ApiGetUserSpins + 'refresh', api.headerAuthenticated());
+    return api;
+  }
+  static publishSpin(spin_candidate_id) {
+    const api = new this();
+    api.request("post", ApiPublishSpin +spin_candidate_id+ '/publish', api.headerAuthenticated());
     return api;
   }
   static GetUserSpinsBy(username, spin_name) {
@@ -105,15 +121,14 @@ class Api {
     api.request("get", ApiGetSpins + "?query=" + value);
     return api;
   }
-  static RefreshSpin() {
+
+  static GetTags() {
     const api = new this();
-    api.request("post", ApiRefreshSpin, api.headerAuthenticated());
+    api.request("get", ApiTags, api.headerAuthenticated());
     return api;
   }
 
   request(method, url, headers = {}, params = {}, data = {}) {
-
-    console.log("headers", headers);
 
     this.promise = new Promise((resolve, reject) => {
       // GET request for remote image

@@ -8,26 +8,63 @@ import {
   FormControl,
   FormGroup,
   InputGroup,
-  Icon
+  Icon,
+  Paginator
 } from "patternfly-react";
 import { InputGroupAddon } from "react-bootstrap";
-import TiSocialGithubCircular from "react-icons/lib/ti/social-github-circular";
+import { connect } from "react-redux";
 
 import { imgIndex } from "../../ImageImport";
 import ListRanking from "../../components/ListRanking";
 import BtnViewGithub from "../../components/BtnViewGithub";
 import "./style.css";
 import { data } from "./mock/";
+import { getUsers } from "../../thunk/user";
 
-
-export default class AuthorsPage extends React.Component {
+class AuthorsPage extends React.Component {
   constructor(props) {
     super(props);
+    this.searchOnList = this.searchOnList.bind(this);
+    this.onSelectPerPage = this.onSelectPerPage.bind(this);
+    this.state = {
+      listUsers: this.props.users.users,
+      listUsersComplete: this.props.users.users,
+      elementByPage: 5
+    };
   }
 
+  componentDidMount() {
+    this.props.getUsers();
+  }
+  componentWillReceiveProps(nextProps: Props) {
+    let { users } = nextProps.users;
+    if (this.props.users.users !== users) this.setState({ listUsers: users, listUsersComplete: users });
+  }
+  searchOnList(keywords) {
+    let listUsers = [...this.state.listUsersComplete];
+    listUsers = listUsers.filter(user => {
+      let mtch = JSON.stringify(user.login).match(new RegExp(keywords));
+      return mtch ? true : false;
+    });
+
+    this.setState({listUsers})
+  }
+  onChangePage(page) {
+  }
+  onSelectPerPage(numItems) {
+    this.setState({ elementByPage: numItems });
+  }
   render() {
     const placeholderSearch = "Search authors";
     const titleHeader = "Galaxy Contributors";
+    let { users } = this.props;
+    let { listUsers, elementByPage } = this.state;
+    let {meta} = users;
+    let pagination = {
+      page: meta.current_page,
+      perPage: elementByPage,
+      perPageOptions: [5, 10, 15]
+    };
     return (
       <div id="container">
         <div>
@@ -51,7 +88,11 @@ export default class AuthorsPage extends React.Component {
             <Col md={6}>
               <FormGroup>
                 <InputGroup>
-                  <FormControl type="text" placeholder={placeholderSearch} />
+                  <FormControl
+                    type="text"
+                    placeholder={placeholderSearch}
+                    onChange={e => this.searchOnList(e.target.value)}
+                  />
                   <InputGroup.Addon>
                     <Icon name="search" />
                   </InputGroup.Addon>
@@ -64,16 +105,42 @@ export default class AuthorsPage extends React.Component {
             <Col md={12}>
               <ListRanking
                 height={"500px"}
-                data={data}
+                data={listUsers ? listUsers : []}
                 title={null}
                 twoHeaders={["Author", ""]}
+                keys={["login", "url_profile"]}
               >
                 <BtnViewGithub />
               </ListRanking>
             </Col>
+          </Row>
+          <Row>
+            <Paginator
+              viewType="list"
+              pagination={pagination}
+              onPageSet={this.onChangePage}
+              onPerPageSelect={this.onSelectPerPage}
+              itemCount={listUsers.length}
+              messages={{
+                firstPage: "First Page",
+                previousPage: "Previous Page",
+                currentPage: "Current Page"
+              }}
+            />
           </Row>
         </Grid>
       </div>
     );
   }
 }
+const mapStateToProps = state => {
+  return {
+    users: state.users
+  };
+};
+const mapDispatchToProps = dispatch => {
+  return {
+    getUsers: () => dispatch(getUsers())
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(AuthorsPage);

@@ -3,9 +3,11 @@ import { Icon } from "patternfly-react";
 import "./style.css";
 
 const CardItem = ({ cardInformation }) => (
-  <div className="container-fluid container-cards-pf">
+  <div
+    className="container-fluid container-cards-pf"
+  >
     <div className="row row-cards-pf">
-      <div className="card-pf">
+      <div className="card-pf card-pf-accented">
         <div className="card-pf-heading">
           <h2 className="card-pf-title">Mysql</h2>
         </div>

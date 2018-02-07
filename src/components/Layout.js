@@ -9,6 +9,7 @@ import { AboutModal } from "patternfly-react";
 import { connect } from "react-redux";
 import Login from "./Login/";
 import { signIn, checkSessionUser, signOut } from "../thunk/user";
+import { apiVersion } from "../thunk/dataApi";
 
 class Layout extends React.Component {
   constructor(props) {
@@ -21,6 +22,7 @@ class Layout extends React.Component {
   }
   componentDidMount() {
     this.props.checkSessionUser();
+    this.props.getApiVersion();
   }
   UserProfile() {
     this.setState({ showProfile: true });
@@ -37,12 +39,12 @@ class Layout extends React.Component {
 
   render() {
     let { showModalLogin } = this.state;
-    let { user } = this.props;
+    let { user, apiVersion } = this.props;
 
     return (
       <div className="app-container">
         <header>
-          <Menu isShowModal={this.isShowModal} user={user} signOut={this.props.signOut} />
+          <Menu isShowModal={this.isShowModal} user={user} signOut={this.props.signOut}  />
         </header>
         <AboutModal
           show={showModalLogin}
@@ -52,6 +54,7 @@ class Layout extends React.Component {
         >
           <Login
             onSignIn={this.onClickLogin}
+            provider={apiVersion.providers}
           />
         </AboutModal>
         <div>{this.props.children}</div>
@@ -62,14 +65,16 @@ class Layout extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    user: state.user
+    user: state.user,
+    apiVersion: state.apiVersion
   };
 };
 const mapDispatchToProps = dispatch => {
   return {
     signIn: (code, provider) => dispatch(signIn(code, provider)),
     signOut: () => dispatch(signOut()),
-    checkSessionUser: () => dispatch(checkSessionUser())
+    checkSessionUser: () => dispatch(checkSessionUser()),
+    getApiVersion: () => dispatch(apiVersion())
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Layout);
