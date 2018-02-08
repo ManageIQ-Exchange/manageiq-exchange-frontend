@@ -30,6 +30,9 @@ const ApiPublishSpin = `${ApiBaseURL}/spin_candidates/`; /* Refresh Spins */
 //TAG
 const ApiTags = `${ApiBaseURL}/tags/`;
 
+//TOPLIST
+const ApiTops = `${ApiBaseURL}/top/`;
+
 class Api {
   headerSignIn(code, provider) {
     return {
@@ -125,6 +128,11 @@ class Api {
   static GetTags() {
     const api = new this();
     api.request("get", ApiTags, api.headerAuthenticated());
+    return api;
+  }
+  static GetTops() {
+    const api = new this();
+    api.request("get", ApiTops, api.headerAuthenticated());
     return api;
   }
 

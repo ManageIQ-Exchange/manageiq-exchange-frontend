@@ -90,3 +90,15 @@ export function addFilterTag(filterTag) {
     filterTag: filterTag
   };
 }
+export function getTopSuccess(tops) {
+  return {
+    type: actions.GET_TOP_SUCCESS,
+    tops: tops
+  };
+}
+export function getTopError(error) {
+  return {
+    type: actions.GET_TOP_ERROR,
+    error: error
+  };
+}
