@@ -30,6 +30,9 @@ const ApiPublishSpin = `${ApiBaseURL}/spin_candidates/`; /* Refresh Spins */
 //TAG
 const ApiTags = `${ApiBaseURL}/tags/`;
 
+//TOPLIST
+const ApiTops = `${ApiBaseURL}/top/`;
+
 class Api {
   headerSignIn(code, provider) {
     return {
@@ -92,6 +95,13 @@ class Api {
     api.request("post", ApiPublishSpin +spin_candidate_id+ '/publish', api.headerAuthenticated());
     return api;
   }
+
+  static validateSpin(spin_candidate_id) {
+    const api = new this();
+    api.request("post", ApiPublishSpin +spin_candidate_id+ '/validate', api.headerAuthenticated());
+    return api;
+  }
+
   static GetUserSpinsBy(username, spin_name) {
     const api = new this();
     api.request("get", ApiGetUser + username + "/spins?query=" + spin_name);
@@ -125,6 +135,11 @@ class Api {
   static GetTags() {
     const api = new this();
     api.request("get", ApiTags, api.headerAuthenticated());
+    return api;
+  }
+  static GetTops() {
+    const api = new this();
+    api.request("get", ApiTops, api.headerAuthenticated());
     return api;
   }
 

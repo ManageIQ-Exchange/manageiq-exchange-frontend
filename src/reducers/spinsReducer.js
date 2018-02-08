@@ -11,6 +11,8 @@ export const spins = (spins = {}, action: any) => {
     case actions.RELOAD_SPIN_ERROR:
     case actions.PUBLISH_SPIN_SUCCESS:
     case actions.PUBLISH_SPIN_ERROR:
+    case actions.VALIDATE_SPIN_ERROR:
+    case actions.VALIDATE_SPIN_SUCCESS:
       return spins;
     default:
       return spins;

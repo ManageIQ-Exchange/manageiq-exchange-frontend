@@ -5,8 +5,10 @@ import { Link, browserHistory } from "react-router";
 import ListRanking from "../../components/ListRanking";
 import Api from "../../service/Api";
 import TiSocialGithubCircular from "react-icons/lib/ti/social-github-circular";
+import { connect } from "react-redux";
 
 import { imgIndex } from "../../ImageImport";
+import { getTops } from "../../thunk/top";
 import "./style.css";
 
 const data_list = [
@@ -22,12 +24,14 @@ const data_list = [
   { name: "carlosbuenosvinos.ansistrano-deploy", start: 1408 }
 ];
 
-export default class ExplorePage extends React.Component {
+class ExplorePage extends React.Component {
   constructor(props) {
     super(props);
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    this.props.getTops();
+  }
 
   redirectTo(route) {
     route = { pathname: route };
@@ -35,6 +39,41 @@ export default class ExplorePage extends React.Component {
   }
 
   render() {
+    console.log("tops", this.props.tops);
+    let { tops } = this.props;
+    let keys = tops ? Object.keys(tops) : [];
+    const configurationList = [
+      {
+        nameAttribute: "Newest",
+        nameHeaders: ["Name", "Added On"],
+        namesAttributes: ["name", "Added on"]
+      },
+      {
+        nameAttribute: "mostDownloaded",
+        nameHeaders: ["Name", "Downloads"],
+        namesAttributes: ["name", "Downloads"]
+      },
+      {
+        nameAttribute: "mostStarred",
+        nameHeaders: ["Name", "Stars"],
+        namesAttributes: ["name", "Stars"]
+      },
+      {
+        nameAttribute: "mostWatched",
+        nameHeaders: ["Name", "Watchers"],
+        namesAttributes: ["name", "Watchers"]
+      },
+      {
+        nameAttribute: "topContributors",
+        nameHeaders: ["Name", "Spin"],
+        namesAttributes: ["name", "# Spins"]
+      },
+      {
+        nameAttribute: "topTags",
+        nameHeaders: ["Name", "Added On"],
+        namesAttributes: ["name", "# Spins"]
+      }
+    ];
     return (
       <div id="container">
         <div>
@@ -48,78 +87,34 @@ export default class ExplorePage extends React.Component {
         </div>
         <Grid width="100%" style={{ marginTop: "50px" }}>
           <Row>
-            <Col md={4}>
-              <ListRanking
-                data={data_list}
-                onClickName={() => {
-                  this.redirectTo("/spin/4");
-                }}
-                title={"Most Starred"}
-                twoHeaders={["Name", "Starts"]}
-                renderBottomBtn={true}
-              />
-            </Col>
-            <Col md={4}>
-              <ListRanking
-                data={data_list}
-                onClickName={() => {
-                  this.redirectTo("/spin/4");
-                }}
-                title={"Most Starred"}
-                twoHeaders={["Name", "Starts"]}
-                renderBottomBtn={true}
-              />
-            </Col>
-            <Col md={4}>
-              <ListRanking
-                data={data_list}
-                onClickName={() => {
-                  this.redirectTo("/spin/4");
-                }}
-                title={"Most Starred"}
-                twoHeaders={["Name", "Starts"]}
-                renderBottomBtn={true}
-              />
-            </Col>
+            {configurationList.map((elemConf, index) => {
+              if (tops) {
+                let data = tops[elemConf.nameAttribute].data;
+                console.log("DATA", tops[elemConf.nameAttribute])
+                let name = tops[elemConf.nameAttribute].name;
+                console.log("name", name)
+                if (data.length === 0) return null;
+                return (
+                  <Col md={4}>
+                    <ListRanking
+                      data={data}
+                      onClickName={() => {
+                        this.redirectTo("/spin/4");
+                      }}
+                      title={name}
+                      twoHeaders={elemConf.nameHeaders}
+                      renderBottomBtn={true}
+                      keys={elemConf.namesAttributes}
+                    />
+                  </Col>
+                );
+              } else return null;
+            })}
           </Row>
           <Row style={{ padding: 15 }}>
             <Button id="btnSearch" bsStyle="primary">
               Search
             </Button>
-          </Row>
-          <Row>
-            <Col md={4}>
-              <ListRanking
-                data={data_list}
-                onClickName={() => {
-                  this.redirectTo("/spin/4");
-                }}
-                title={"Top Tags"}
-                twoHeaders={["Tag", "# Repos"]}
-              />
-            </Col>
-            <Col md={4}>
-              <ListRanking
-                data={data_list}
-                onClickName={() => {
-                  this.redirectTo("/spin/4");
-                }}
-                title={"Top Contributors"}
-                twoHeaders={["User", "# Repos"]}
-              />
-            </Col>
-            <Col md={4}>
-              <ListRanking
-                data={data_list}
-                onClickName={() => {
-                  this.redirectTo("/spin/4");
-                }}
-                title={"Newest"}
-                twoHeaders={["Name", "Added On"]}
-              />
-            </Col>
-          </Row>
-          <Row style={{ padding: 15 }}>
             <Button className="btn-primary" bsStyle="primary">
               Browse Authors
             </Button>
@@ -129,3 +124,14 @@ export default class ExplorePage extends React.Component {
     );
   }
 }
+const mapStateToProps = state => {
+  return {
+    tops: state.tops
+  };
+};
+const mapDispatchToProps = dispatch => {
+  return {
+    getTops: () => dispatch(getTops())
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(ExplorePage);

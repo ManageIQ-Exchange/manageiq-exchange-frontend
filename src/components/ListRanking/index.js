@@ -20,7 +20,9 @@ class ListRanking extends React.Component {
 
   render() {
     let { data, title, twoHeaders, renderBottomBtn } = this.props;
-    let keys = this.props.keys ? this.props.keys  : data && data.length > 0 ? Object.keys(data[0]) : [];
+    let keys = this.props.keys
+      ? this.props.keys
+      : data && data.length > 0 ? Object.keys(data[0]) : [];
     let heightContent = this.props.height
       ? { height: this.props.height, overflowY: 'scroll' }
       : {};
@@ -29,8 +31,10 @@ class ListRanking extends React.Component {
         <div className="header">{title}</div>
         <ListGroup>
           <ListGroupItem className="header-list">
-            {twoHeaders[0]}
-            <span className="second-header">{twoHeaders[1]}</span>
+            {twoHeaders && twoHeaders.length === 2 ? twoHeaders[0] : ''}
+            <span className="second-header">
+              {twoHeaders && twoHeaders.length === 2 ? twoHeaders[1] : ''}
+            </span>
           </ListGroupItem>
           <div style={heightContent}>
             {data

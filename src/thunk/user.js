@@ -62,21 +62,29 @@ export function getSpinUser() {
 }
 export function refreshSpins() {
   return dispatch => {
-    let user = recoverUser();
-    if (user) {
-      Api.RefreshSpins()
-        .then(response => {
-          dispatch(reloadSpinSuccess());
-        })
-        .catch(error => {
-          dispatch(reloadSpinError());
-        });
-    }
+    return Api.RefreshSpins()
+      .then(response => {
+        dispatch(reloadSpinSuccess());
+      })
+      .catch(error => {
+        dispatch(reloadSpinError());
+      });
   };
 }
 export function publishSpin(id) {
   return dispatch => {
     return Api.publishSpin(id)
+      .then(response => {
+        dispatch(publishSpinSuccess());
+      })
+      .catch(error => {
+        dispatch(publishSpinError());
+      });
+  };
+}
+export function validateSpin(id) {
+  return dispatch => {
+    return Api.validateSpin(id)
       .then(response => {
         dispatch(publishSpinSuccess());
       })
