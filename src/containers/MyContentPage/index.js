@@ -22,8 +22,9 @@ import { connect } from "react-redux";
 import cx from "classnames";
 
 //import ListView from "./ListView";
-import { getSpinUser, refreshSpins, publishSpin } from "../../thunk/user";
+import { getSpinUser, refreshSpins, publishSpin, validateSpin } from "../../thunk/user";
 import "./style.css";
+import { filterByAttribute } from '../../lib/'
 
 class MyContentPage extends React.Component {
   constructor(props) {
@@ -31,17 +32,34 @@ class MyContentPage extends React.Component {
 
     this.renderItem = this.renderItem.bind(this);
     this.onHandleDetails = this.onHandleDetails.bind(this);
+    this.refreshSpins = this.refreshSpins.bind(this);
+    this.publishSpin = this.publishSpin.bind(this);
+    this.validateSpin = this.validateSpin.bind(this);
     this.renderAdditionalInfoExpandItems = this.renderAdditionalInfoExpandItems.bind(
       this
     );
     this.state = {
       details: [],
-      loadingPublish: false
+      loadingPublish: false,
+      listSpins:[],
+      listSpinsComplete:[],
     };
   }
   componentDidMount() {
     this.props.getSpinsUser();
   }
+  componentWillReceiveProps(nextProps: Props) {
+    let { data } = nextProps.spins;
+    if (this.props.spins.data !== data) this.setState({ listSpins: data, listSpinsComplete: data });
+  }
+
+  searchOnList(keywords) {
+    let listSpins = [...this.state.listSpinsComplete];
+
+    listSpins = filterByAttribute(keywords, listSpins, 'full_name')
+    this.setState({listSpins})
+  }
+
   renderAdditionalInfoExpandItems(item) {
     return (
       item.properties &&
@@ -100,13 +118,30 @@ class MyContentPage extends React.Component {
     this.setState({loadingPublish: true});
     this.props.publishSpin(id).then((response) => {
       this.setState({loadingPublish: false});
+      this.props.getSpinsUser();
+    })
+  }
+  validateSpin(id) {
+    this.setState({ loadingPublish: true });
+    this.props.validateSpin(id).then(response => {
+      this.setState({loadingPublish: false});
+      this.props.getSpinsUser();
+    })
+  }
+  refreshSpins() {
+    this.setState({ loadingPublish: true });
+    this.props.refreshSpins().then(response => {
+      this.setState({loadingPublish: false});
+      this.props.getSpinsUser();
     })
   }
   render() {
     const placeholderSearch = "Search";
     const messageLoad = 'Loading';
+    const titleBtnPublish = "Publish";
+    const titleBtnValidate = "Validate";
     let { spins } = this.props;
-
+    let { loadingPublish, listSpins } = this.state;
     return (
       <div>
         <Grid width="100%">
@@ -122,7 +157,7 @@ class MyContentPage extends React.Component {
               enable Travis notifications and control the repository name.
             </p>
             <p>
-              If you don&#44t see all of your repositories, review and add your
+              If you don see all of your repositories, review and add your
               authorized organizations.
             </p>
           </Row>
@@ -131,10 +166,14 @@ class MyContentPage extends React.Component {
               <h2 />
             </Col>
             <Col xs={12} md={6}>
-              <Col xs={12} md={10}>
+              <Col xs={12} md={9}>
                 <FormGroup>
                   <InputGroup>
-                    <FormControl type="text" placeholder={placeholderSearch} />
+                    <FormControl
+                      type="text"
+                      placeholder={placeholderSearch}
+                      onChange={e => this.searchOnList(e.target.value)}
+                    />
                     <InputGroup.Addon>
                       <Icon name="search" />
                     </InputGroup.Addon>
@@ -142,16 +181,22 @@ class MyContentPage extends React.Component {
                 </FormGroup>
               </Col>
               <Col xs={12} md={2}>
-                <Button onClick={this.props.refreshSpins}>
+                <Button onClick={this.refreshSpins}>
                   <Icon name="refresh" />
                 </Button>
+
+              </Col>
+              <Col xs={1} md={1}>
+                {loadingPublish ? (
+                  <Icon id="icon-loading" name="refresh" />
+                ) : null}
               </Col>
             </Col>
           </Row>
           <Row>
 
-           {spins.data
-              ? spins.data.map((spin, index) => {
+           {listSpins
+              ? listSpins.map((spin, index) => {
                   return (
                     <Row
                       key={`key_spins_own_list${index}`}
@@ -160,10 +205,10 @@ class MyContentPage extends React.Component {
                       <Row
                         style={{ backgroundColor: "#F1F1F1", color: "black", padding:10 }}
                       >
-                        <Col xs={12} md={4}>
+                        <Col xs={6} md={4}>
                           Name: {spin.full_name}
                         </Col>
-                        <Col xs={12} md={4}>
+                        <Col xs={6} md={2}>
                           Id: {spin.id}
                         </Col>
                         <Col xs={6} md={2}>
@@ -172,10 +217,20 @@ class MyContentPage extends React.Component {
                           </Button>
                         </Col>
                         <Col xs={6} md={2}>
-                          <Button onClick={() => this.publishSpin(spin.id)}>
-                            Publish
+                          <Button
+                            onClick={() => this.publishSpin(spin.id)}
+                            disabled={spin.published ? spin.published : true}
+                          >
+                            {titleBtnPublish}
                           </Button>
-                          <span>{this.state.loadingPublish ? messageLoad: ''} </span>
+                        </Col>
+                        <Col xs={6} md={2}>
+                          <Button onClick={() => this.validateSpin(spin.id)}>
+                            {titleBtnValidate}
+                          </Button>
+                          <span>
+                            {loadingPublish !== '' ? loadingPublish : ''}
+                          </span>
                         </Col>
                       </Row>
                       <Row style={{ backgroundColor: '#f2eaea' }}>
@@ -206,7 +261,8 @@ const mapDispatchToProps = dispatch => {
   return {
     getSpinsUser: () => dispatch(getSpinUser()),
     refreshSpins: () => dispatch(refreshSpins()),
-    publishSpin: (id) => dispatch(publishSpin(id))
+    publishSpin: (id) => dispatch(publishSpin(id)),
+    validateSpin: (id) => dispatch(validateSpin(id))
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(MyContentPage);

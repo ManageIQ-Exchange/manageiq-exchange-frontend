@@ -73,6 +73,17 @@ export function publishSpinError() {
     type: actions.PUBLISH_SPIN_ERROR
   };
 }
+export function validateSpinSuccess() {
+  return {
+    type: actions.VALIDATE_SPIN_SUCCESS
+  };
+}
+export function validateSpinError(error) {
+  return {
+    type: actions.VALIDATE_SPIN_ERROR,
+    error: error
+  };
+}
 export function getTagSuccess(tags) {
   return {
     type: actions.GET_TAGS_SUCCESS,

@@ -20,7 +20,9 @@ class ListRanking extends React.Component {
 
   render() {
     let { data, title, twoHeaders, renderBottomBtn } = this.props;
-    let keys = this.props.keys ? this.props.keys  : data && data.length > 0 ? Object.keys(data[0]) : [];
+    let keys = this.props.keys
+      ? this.props.keys
+      : data && data.length > 0 ? Object.keys(data[0]) : [];
     let heightContent = this.props.height
       ? { height: this.props.height, overflowY: 'scroll' }
       : {};

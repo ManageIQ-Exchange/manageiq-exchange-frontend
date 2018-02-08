@@ -89,16 +89,19 @@ class ExplorePage extends React.Component {
           <Row>
             {configurationList.map((elemConf, index) => {
               if (tops) {
-                let attributeList = tops[elemConf.nameAttribute];
-                if (attributeList.length === 0) return null;
+                let data = tops[elemConf.nameAttribute].data;
+                console.log("DATA", tops[elemConf.nameAttribute])
+                let name = tops[elemConf.nameAttribute].name;
+                console.log("name", name)
+                if (data.length === 0) return null;
                 return (
                   <Col md={4}>
                     <ListRanking
-                      data={attributeList}
+                      data={data}
                       onClickName={() => {
                         this.redirectTo("/spin/4");
                       }}
-                      title={elemConf.nameAttribute}
+                      title={name}
                       twoHeaders={elemConf.nameHeaders}
                       renderBottomBtn={true}
                       keys={elemConf.namesAttributes}

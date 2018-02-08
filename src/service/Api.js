@@ -95,6 +95,13 @@ class Api {
     api.request("post", ApiPublishSpin +spin_candidate_id+ '/publish', api.headerAuthenticated());
     return api;
   }
+
+  static validateSpin(spin_candidate_id) {
+    const api = new this();
+    api.request("post", ApiPublishSpin +spin_candidate_id+ '/validate', api.headerAuthenticated());
+    return api;
+  }
+
   static GetUserSpinsBy(username, spin_name) {
     const api = new this();
     api.request("get", ApiGetUser + username + "/spins?query=" + spin_name);
