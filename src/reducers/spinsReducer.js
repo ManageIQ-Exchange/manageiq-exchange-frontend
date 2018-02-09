@@ -1,12 +1,12 @@
 import * as actions from '../actions/typeActions';
 
-export const spins = (spins = {}, action: any) => {
+export const spinsCandidates = (spins = {}, action: any) => {
   let newState = {};
   switch (action.type) {
-    case actions.GET_SPINS_SUCCESS:
+    case actions.GET_SPINS_CANDIDATES_SUCCESS:
       newState = {...action.spins};
       return newState;
-    case actions.GET_SPINS_ERROR:
+    case actions.GET_SPINS_CANDIDATES_ERROR:
     case actions.RELOAD_SPIN_SUCCESS:
     case actions.RELOAD_SPIN_ERROR:
     case actions.PUBLISH_SPIN_SUCCESS:
@@ -18,4 +18,4 @@ export const spins = (spins = {}, action: any) => {
       return spins;
   }
 };
-export default spins;
+export default spinsCandidates;

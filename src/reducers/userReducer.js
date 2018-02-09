@@ -11,7 +11,7 @@ export const user = (user = new User(), action: any) => {
   let newState = {};
   switch (action.type) {
     case SIGN_IN_SUCCESS:
-      newState = {...action.user};
+      newState = Object.assign({}, action.user);
       newState.logged = true;
       return newState;
     case SIGN_IN_ERROR:

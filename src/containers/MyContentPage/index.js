@@ -15,6 +15,7 @@ import {
   DropdownKebab,
   MenuItem,
   ListView,
+  Switch,
   Toolbar
 } from "patternfly-react";
 import { Collapse, Well } from "react-bootstrap";
@@ -22,9 +23,9 @@ import { connect } from "react-redux";
 import cx from "classnames";
 
 //import ListView from "./ListView";
-import { getSpinUser, refreshSpins, publishSpin, validateSpin } from "../../thunk/user";
+import { getUserSpinsCandidates, refreshSpins, publishSpin, validateSpin } from "../../thunk/user";
 import "./style.css";
-import { filterByAttribute } from '../../lib/'
+import { filterByAttribute } from '../../lib/';
 
 class MyContentPage extends React.Component {
   constructor(props) {
@@ -46,7 +47,7 @@ class MyContentPage extends React.Component {
     };
   }
   componentDidMount() {
-    this.props.getSpinsUser();
+    this.props.getUserSpinsCandidates();
   }
   componentWillReceiveProps(nextProps: Props) {
     let { data } = nextProps.spins;
@@ -134,6 +135,9 @@ class MyContentPage extends React.Component {
       this.setState({loadingPublish: false});
       this.props.getSpinsUser();
     })
+  }
+  onChangeSwicth(value) {
+    console.log(value)
   }
   render() {
     const placeholderSearch = "Search";
@@ -231,6 +235,12 @@ class MyContentPage extends React.Component {
                           <span>
                             {loadingPublish !== '' ? loadingPublish : ''}
                           </span>
+                          <Switch
+                            bsSize="normal"
+                            title="normal"
+                            id="bsSize-example"
+                            onChange={this.onChangeSwicth}
+                            />
                         </Col>
                       </Row>
                       <Row style={{ backgroundColor: '#f2eaea' }}>
@@ -253,13 +263,13 @@ class MyContentPage extends React.Component {
 }
 const mapStateToProps = state => {
   return {
-    spins: state.spins,
+    spins: state.spinsCandidates,
     user: state.user
   };
 };
 const mapDispatchToProps = dispatch => {
   return {
-    getSpinsUser: () => dispatch(getSpinUser()),
+    getUserSpinsCandidates: () => dispatch(getUserSpinsCandidates()),
     refreshSpins: () => dispatch(refreshSpins()),
     publishSpin: (id) => dispatch(publishSpin(id)),
     validateSpin: (id) => dispatch(validateSpin(id))

@@ -39,7 +39,6 @@ class ExplorePage extends React.Component {
   }
 
   render() {
-    console.log("tops", this.props.tops);
     let { tops } = this.props;
     let keys = tops ? Object.keys(tops) : [];
     const configurationList = [
@@ -90,9 +89,7 @@ class ExplorePage extends React.Component {
             {configurationList.map((elemConf, index) => {
               if (tops) {
                 let data = tops[elemConf.nameAttribute].data;
-                console.log("DATA", tops[elemConf.nameAttribute])
                 let name = tops[elemConf.nameAttribute].name;
-                console.log("name", name)
                 if (data.length === 0) return null;
                 return (
                   <Col md={4}>

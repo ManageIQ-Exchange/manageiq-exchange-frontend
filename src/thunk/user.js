@@ -5,12 +5,16 @@ import {
   signOutUser,
   getSpinsUserSuccess,
   getSpinsUserError,
+  getSpinsCandidatesUserSuccess,
+  getSpinsCandidatesUserError,
   reloadSpinSuccess,
   reloadSpinError,
   publishSpinSuccess,
   publishSpinError,
   getUsersSuccess,
-  getUsersError
+  getUsersError,
+  getUserSuccess,
+  getUserError
 } from "../actions/index";
 import { recoverUser, deleteUser } from "../storage/";
 import Api from "../service/Api";
@@ -45,19 +49,31 @@ export function checkSessionUser() {
   };
 }
 
-export function getSpinUser() {
+export function getUserSpinsCandidates() {
   return dispatch => {
     let user = recoverUser();
     if (user) {
-      Api.GetUserSpins(user.github_id)
+      return Api.GetUserSpinsCandidates(user.github_id)
         .then(response => {
           let spins = { ...response.data };
-          dispatch(getSpinsUserSuccess(spins));
+          dispatch(getSpinsCandidatesUserSuccess(spins));
         })
         .catch(error => {
-          dispatch(getSpinsUserError());
+          dispatch(getSpinsCandidatesUserError());
         });
     }
+  };
+}
+export function getSpinsUser(githubName) {
+  return dispatch => {
+    return Api.GetUserSpins(githubName)
+      .then(response => {
+        let spins = { ...response.data };
+        dispatch(getSpinsUserSuccess(spins));
+      })
+      .catch(error => {
+        dispatch(getSpinsUserError());
+      });
   };
 }
 export function refreshSpins() {
@@ -93,15 +109,45 @@ export function validateSpin(id) {
       });
   };
 }
+export function getInformationUserProfile(id) {
+  return dispatch => {
+    return Api.GetUser(id)
+      .then(response => {
+        dispatch(getUserSuccess(response.data));
+        return Api.GetUserSpins(response.data.data.login)
+          .then(response => {
+            let spins = { ...response.data };
+            dispatch(getSpinsUserSuccess(spins));
+          })
+          .catch(error => {
+            dispatch(getSpinsUserError());
+          });
 
+      })
+      .catch(error => {
+        dispatch(getUserError(error));
+      });
+  }
+}
 export function getUsers() {
   return dispatch => {
-    Api.GetUsers()
+    return Api.GetUsers()
       .then(response => {
         dispatch(getUsersSuccess(response.data));
       })
       .catch(error => {
         dispatch(getUsersError(error));
+      });
+  };
+}
+export function getUser(id) {
+  return dispatch => {
+    return Api.GetUser(id)
+      .then(response => {
+        dispatch(getUserSuccess(response.data));
+      })
+      .catch(error => {
+        dispatch(getUserError(error));
       });
   };
 }

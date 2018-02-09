@@ -1,7 +1,7 @@
 import axios from "axios";
 import { LogError } from "./Log";
 import config from '../config';
-
+import { toQuery } from '../lib/';
 //Server Backend
 const BackendServer = config.GALAXY_API_BACKEND;
 //Version of API
@@ -79,10 +79,19 @@ class Api {
     api.request("get", ApiGetUsers + "?query=" + username);
     return api;
   }
-  static GetUserSpins(id) {
+  static GetUserSpinsCandidates(id) {
     const api = new this();
     let header = Object.assign(api.headerAuthenticated(), { id: id });
     api.request("get", ApiGetUserSpins , header);
+    return api;
+  }
+  static GetUserSpins(name) {
+    const api = new this();
+    const params = toQuery({
+      author: name,
+      expand: "resources"
+    });
+    api.request("get", ApiGetSpins + '?'+ params , api.headerAuthenticated());
     return api;
   }
   static RefreshSpins() {
@@ -124,6 +133,11 @@ class Api {
   static GetSpins() {
     const api = new this();
     api.request("get", ApiGetSpins);
+    return api;
+  }
+  static GetSpin(id) {
+    const api = new this();
+    api.request("get",`${ApiGetSpins}/${id}?expand=resources` );
     return api;
   }
   static GetSpinsBy(param, value) {

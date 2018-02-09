@@ -31,8 +31,8 @@ export const tops = (state = initStage, action: any) => {
   let newState = {};
   switch (action.type) {
     case actions.GET_TOP_SUCCESS:
-      let data = { ...action.tops.data };
-      newState = { ...state }
+      let data = Object.assign({}, action.tops.data);
+      newState = Object.assign({}, state);
       if (data) {
         newState.mostStarred.data = [...data["Most Starred"]];
         newState.mostStarred.name = "Most Starred";
@@ -49,7 +49,7 @@ export const tops = (state = initStage, action: any) => {
       }
       return newState;
     case actions.GET_TOP_ERROR:
-      newState = { ...state };
+      newState = Object.assign({}, state);
       newState.error = { ...action.error };
       return newState;
     default:

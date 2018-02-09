@@ -12,13 +12,13 @@ export const tags = (tags = initStage, action: any) => {
       newState.tags = [...action.tags];
       return newState;
     case actions.GET_TAGS_ERROR:
-      newState = { ...tags };
-      newState.error = { ...action.error };
+      newState =  Object.assign({}, tags);
+      newState.error = Object.assign({}, action.error) ;
       return newState;
     case actions.ADD_POPULAR_TAG_SUCCESS:
       let filterTags = [...tags.filterTags];
       filterTags.push(action.filterTag);
-      newState = {...tags};
+      Object.assign({}, tags);
       newState.filterTags = filterTags;
       return newState;
     default:
