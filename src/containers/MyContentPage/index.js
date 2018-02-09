@@ -15,6 +15,8 @@ import {
   DropdownKebab,
   MenuItem,
   ListView,
+  Switch,
+  Spinner,
   Toolbar
 } from "patternfly-react";
 import { Collapse, Well } from "react-bootstrap";
@@ -22,9 +24,9 @@ import { connect } from "react-redux";
 import cx from "classnames";
 
 //import ListView from "./ListView";
-import { getSpinUser, refreshSpins, publishSpin, validateSpin } from "../../thunk/user";
+import { getUserSpinsCandidates, refreshSpins, publishSpin, validateSpin } from "../../thunk/user";
 import "./style.css";
-import { filterByAttribute } from '../../lib/'
+import { filterByAttribute } from '../../lib/';
 
 class MyContentPage extends React.Component {
   constructor(props) {
@@ -35,6 +37,7 @@ class MyContentPage extends React.Component {
     this.refreshSpins = this.refreshSpins.bind(this);
     this.publishSpin = this.publishSpin.bind(this);
     this.validateSpin = this.validateSpin.bind(this);
+    this.onChangeSwicth = this.onChangeSwicth.bind(this);
     this.renderAdditionalInfoExpandItems = this.renderAdditionalInfoExpandItems.bind(
       this
     );
@@ -46,7 +49,7 @@ class MyContentPage extends React.Component {
     };
   }
   componentDidMount() {
-    this.props.getSpinsUser();
+    this.props.getUserSpinsCandidates();
   }
   componentWillReceiveProps(nextProps: Props) {
     let { data } = nextProps.spins;
@@ -118,22 +121,27 @@ class MyContentPage extends React.Component {
     this.setState({loadingPublish: true});
     this.props.publishSpin(id).then((response) => {
       this.setState({loadingPublish: false});
-      this.props.getSpinsUser();
+      this.props.getUserSpinsCandidates();
     })
   }
   validateSpin(id) {
     this.setState({ loadingPublish: true });
     this.props.validateSpin(id).then(response => {
       this.setState({loadingPublish: false});
-      this.props.getSpinsUser();
+      this.props.getUserSpinsCandidates();
     })
   }
   refreshSpins() {
     this.setState({ loadingPublish: true });
     this.props.refreshSpins().then(response => {
       this.setState({loadingPublish: false});
-      this.props.getSpinsUser();
+      this.props.getUserSpinsCandidates();
     })
+  }
+  onChangeSwicth(el, state, id) {
+    if (state) this.publishSpin(id);
+    else
+      this.props.getUserSpinsCandidates();
   }
   render() {
     const placeholderSearch = "Search";
@@ -187,9 +195,7 @@ class MyContentPage extends React.Component {
 
               </Col>
               <Col xs={1} md={1}>
-                {loadingPublish ? (
-                  <Icon id="icon-loading" name="refresh" />
-                ) : null}
+              <Spinner loading={loadingPublish}/>
               </Col>
             </Col>
           </Row>
@@ -231,6 +237,15 @@ class MyContentPage extends React.Component {
                           <span>
                             {loadingPublish !== '' ? loadingPublish : ''}
                           </span>
+                          <Switch
+                            bsSize="normal"
+                            title="normal"
+                            id="bsSize-example"
+                            onChange={(el, state) =>
+                              this.onChangeSwicth(el, state, spin.id)
+                            }
+                            value={spin.published}
+                          />
                         </Col>
                       </Row>
                       <Row style={{ backgroundColor: '#f2eaea' }}>
@@ -253,13 +268,13 @@ class MyContentPage extends React.Component {
 }
 const mapStateToProps = state => {
   return {
-    spins: state.spins,
+    spins: state.spinsCandidates,
     user: state.user
   };
 };
 const mapDispatchToProps = dispatch => {
   return {
-    getSpinsUser: () => dispatch(getSpinUser()),
+    getUserSpinsCandidates: () => dispatch(getUserSpinsCandidates()),
     refreshSpins: () => dispatch(refreshSpins()),
     publishSpin: (id) => dispatch(publishSpin(id)),
     validateSpin: (id) => dispatch(validateSpin(id))

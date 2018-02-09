@@ -12,6 +12,12 @@ export function signInError(user) {
     user: user
   };
 }
+export function signInLoading(isLoading) {
+  return {
+    type: actions.SIGN_IN_LOADING,
+    isLoading: isLoading
+  };
+}
 export function getUsersSuccess(users) {
   return {
     type: actions.GET_USERS_SUCCESS,
@@ -21,6 +27,18 @@ export function getUsersSuccess(users) {
 export function getUsersError(error) {
   return {
     type: actions.GET_USERS_ERROR,
+    error:error
+  };
+}
+export function getUserSuccess(user) {
+  return {
+    type: actions.GET_USER_SUCCESS,
+    user: user
+  };
+}
+export function getUserError(error) {
+  return {
+    type: actions.GET_USER_ERROR,
     error:error
   };
 }
@@ -51,6 +69,29 @@ export function getSpinsUserSuccess(spins) {
 export function getSpinsUserError() {
   return {
     type: actions.GET_SPINS_ERROR
+  };
+}
+export function getSpinSuccess(spin) {
+  return {
+    type: actions.GET_SPIN_SUCCESS,
+    spin: spin
+  };
+}
+export function getSpinError(error) {
+  return {
+    type: actions.GET_SPIN_ERROR,
+    error:error
+  };
+}
+export function getSpinsCandidatesUserSuccess(spins) {
+  return {
+    type: actions.GET_SPINS_CANDIDATES_SUCCESS,
+    spins: spins
+  };
+}
+export function getSpinsCandidatesUserError() {
+  return {
+    type: actions.GET_SPINS_CANDIDATES_ERROR
   };
 }
 export function reloadSpinSuccess() {

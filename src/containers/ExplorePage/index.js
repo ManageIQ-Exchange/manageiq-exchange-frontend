@@ -6,7 +6,7 @@ import ListRanking from "../../components/ListRanking";
 import Api from "../../service/Api";
 import TiSocialGithubCircular from "react-icons/lib/ti/social-github-circular";
 import { connect } from "react-redux";
-
+import moment from 'moment';
 import { imgIndex } from "../../ImageImport";
 import { getTops } from "../../thunk/top";
 import "./style.css";
@@ -39,14 +39,14 @@ class ExplorePage extends React.Component {
   }
 
   render() {
-    console.log("tops", this.props.tops);
     let { tops } = this.props;
     let keys = tops ? Object.keys(tops) : [];
     const configurationList = [
       {
         nameAttribute: "Newest",
         nameHeaders: ["Name", "Added On"],
-        namesAttributes: ["name", "Added on"]
+        namesAttributes: ["name", "Added on"],
+        changeData:true
       },
       {
         nameAttribute: "mostDownloaded",
@@ -89,10 +89,15 @@ class ExplorePage extends React.Component {
           <Row>
             {configurationList.map((elemConf, index) => {
               if (tops) {
-                let data = tops[elemConf.nameAttribute].data;
-                console.log("DATA", tops[elemConf.nameAttribute])
+
+                let data = tops[elemConf.nameAttribute].data.slice();
                 let name = tops[elemConf.nameAttribute].name;
-                console.log("name", name)
+                if( elemConf.changeData) {
+                  data.forEach((item) =>{
+                    let formatDate = moment(item[elemConf.namesAttributes[1]]).format("YYYY-MM-DD")
+                    item[elemConf.namesAttributes[1]] =  formatDate;
+                  });
+                }
                 if (data.length === 0) return null;
                 return (
                   <Col md={4}>

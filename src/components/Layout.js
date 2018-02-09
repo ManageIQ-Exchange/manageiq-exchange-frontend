@@ -40,7 +40,6 @@ class Layout extends React.Component {
   render() {
     let { showModalLogin } = this.state;
     let { user, apiVersion } = this.props;
-
     return (
       <div className="app-container">
         <header>

@@ -5,7 +5,6 @@ export function getPopularTag() {
   return dispatch => {
     Api.GetTags()
       .then(response => {
-        console.log('response', response.data);
         dispatch(getTagSuccess(response.data))
       })
       .catch(error => {
@@ -16,7 +15,6 @@ export function getPopularTag() {
 
 export function filterByNewTag(tags, newTag) {
   return dispatch => {
-    console.log(tags);
     dispatch(addFilterTag(newTag));
   };
 }

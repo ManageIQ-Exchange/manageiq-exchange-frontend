@@ -13,6 +13,7 @@ import {
 } from "patternfly-react";
 import { InputGroupAddon } from "react-bootstrap";
 import { connect } from "react-redux";
+import { browserHistory } from "react-router";
 
 import { imgIndex } from "../../ImageImport";
 import ListRanking from "../../components/ListRanking";
@@ -49,12 +50,17 @@ class AuthorsPage extends React.Component {
 
     this.setState({listUsers})
   }
+  redirectToAuthor(idAuthor) {
+    let route = { pathname:'/authors/'+ idAuthor };
+    browserHistory.push(route);
+  }
   onChangePage(page) {
   }
   onSelectPerPage(numItems) {
     this.setState({ elementByPage: numItems });
   }
   render() {
+
     const placeholderSearch = "Search authors";
     const titleHeader = "Galaxy Contributors";
     let { users } = this.props;
@@ -109,6 +115,8 @@ class AuthorsPage extends React.Component {
                 title={null}
                 twoHeaders={["Author", ""]}
                 keys={["login", "url_profile"]}
+                idObject="github_id"
+                onClickName={this.redirectToAuthor}
               >
                 <BtnViewGithub />
               </ListRanking>

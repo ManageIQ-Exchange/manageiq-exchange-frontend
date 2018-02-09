@@ -10,16 +10,20 @@ import {
   Tabs,
   Tab
 } from "patternfly-react";
+import { connect } from "react-redux";
 
 import Api from "../../service/Api";
 import TabDetails from "./TabDetails/";
-
-export default class AuthorProfile extends React.Component {
+import { getSpin } from '../../thunk/spin';
+class SpinProfile extends React.Component {
   constructor(props) {
     super(props);
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    let { idSpin } = this.props.params;
+    if (idSpin) this.props.getSpin(idSpin)
+  }
 
   render() {
     return (
@@ -38,3 +42,14 @@ export default class AuthorProfile extends React.Component {
     );
   }
 }
+const mapStateToProps = state => {
+  return {
+    detailsSpin: state.detailsSpin
+  };
+};
+const mapDispatchToProps = dispatch => {
+  return {
+    getSpin: (id) => dispatch(getSpin(id))
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(SpinProfile);

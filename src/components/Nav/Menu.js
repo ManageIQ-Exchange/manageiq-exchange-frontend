@@ -10,7 +10,8 @@ import {
   ListGroup,
   ListGroupItem,
   MenuItem,
-  DropdownButton
+  DropdownButton,
+  Spinner
 } from "patternfly-react";
 import { browserHistory } from "react-router";
 import Api from "../../service/Api";
@@ -127,10 +128,11 @@ export default class Menu extends React.Component {
               ) : null}
             </ListGroup>
             <ListGroup bsClass="nav navbar-nav navbar-utility">
+              <Spinner style={{backgroundColor:'#cccccc'}} loading={user.loading} />
               {user.logged ? (
                 <DropdownButton
                   bsStyle="link"
-                  title={user.github_login ? user.github_login : ''}
+                  title={user.user.github_login ? user.user.github_login : ''}
                   key={1}
                   id="dropdown-basic-1"
                 >
@@ -143,7 +145,10 @@ export default class Menu extends React.Component {
                     Sign out
                   </MenuItem>
                 </DropdownButton>
-              ) : (
+              ) : user.loading ?
+              null
+              :
+              (
                 <ListGroupItem
                   bsClass="btn-login"
                   onClick={() => {

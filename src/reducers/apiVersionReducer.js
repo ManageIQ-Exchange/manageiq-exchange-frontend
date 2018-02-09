@@ -8,11 +8,11 @@ export const apiVersion = (apiVersion = {}, action: any) => {
   let newState = {};
   switch (action.type) {
     case DATA_API_SUCCESS:
-      newState = {...action.dataApi};
+      newState = Object.assign({}, action.dataApi);
       return newState;
     case DATA_API_ERROR:
-      return {};
+      return apiVersion;
     default:
-      return {};
+      return apiVersion;
   }
 };

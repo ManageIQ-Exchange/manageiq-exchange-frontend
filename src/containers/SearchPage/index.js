@@ -108,7 +108,6 @@ class SearchPage extends React.Component {
     }
   }
   onChangePage(page) {
-    console.log(page);
   }
   onSelectPerPage(numItems) {
     this.setState({ elementByPage: numItems });
