@@ -1,5 +1,6 @@
 export const SIGN_IN_SUCCESS = 'SIGN_IN_SUCCESS';
 export const SIGN_IN_ERROR = 'SIGN_IN_ERROR';
+export const SIGN_IN_LOADING = 'SIGN_IN_LOADING';
 export const SIGN_OUT = 'SIGN_OUT';
 export const DATA_API_SUCCESS = 'DATA_API_SUCCESS';
 export const DATA_API_ERROR = 'DATA_API_ERROR';

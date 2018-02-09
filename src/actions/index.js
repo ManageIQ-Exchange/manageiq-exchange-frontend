@@ -12,6 +12,12 @@ export function signInError(user) {
     user: user
   };
 }
+export function signInLoading(isLoading) {
+  return {
+    type: actions.SIGN_IN_LOADING,
+    isLoading: isLoading
+  };
+}
 export function getUsersSuccess(users) {
   return {
     type: actions.GET_USERS_SUCCESS,
