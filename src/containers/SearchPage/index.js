@@ -24,6 +24,7 @@ import { filters } from "./mock/filter";
 import sortFields from "./Sort/";
 import { connect } from "react-redux";
 import { getPopularTag } from "../../thunk/tags";
+import { getSpinSearch } from "../../thunk/spin";
 
 class SearchPage extends React.Component {
   constructor(props) {
@@ -48,6 +49,13 @@ class SearchPage extends React.Component {
   }
   componentDidMount() {
     this.props.getPopularTag();
+    this.props.getSpinSearch();
+    let filterPopularTag = [...this.state.filterPopularTag];
+    let tag = this.props.location.state ? this.props.location.state.tag : null;
+    if (tag) {
+      filterPopularTag.push(tag);
+      this.setState({ filterPopularTag });
+    }
   }
   selectFilterType(filterType) {
     const { currentFilterType } = this.state;
@@ -107,8 +115,7 @@ class SearchPage extends React.Component {
       );
     }
   }
-  onChangePage(page) {
-  }
+  onChangePage(page) {}
   onSelectPerPage(numItems) {
     this.setState({ elementByPage: numItems });
   }
@@ -136,12 +143,13 @@ class SearchPage extends React.Component {
       elementByPage,
       filterPopularTag
     } = this.state;
-    let { tags } = this.props;
+    let { tags, search } = this.props;
     let pagination = {
       page: 1,
       perPage: elementByPage,
       perPageOptions: [5, 10, 15]
     };
+    let results = search && search.spinSearch ? search.spinSearch : [];
     return (
       <div style={{ marginTop: "1%" }}>
         <Filter id="filter-search">
@@ -221,42 +229,26 @@ class SearchPage extends React.Component {
         {!activeFilters ||
           (activeFilters.length === 0 && (
             <Toolbar.Results>
-              <Row style={{paddingLeft: 20}}>
+              <Row style={{ paddingLeft: 20 }}>
                 {filterPopularTag.map(tag => {
-                  return <TagsFilter name={tag} onClick={this.removeTagFilter}/>;
+                  return (
+                    <TagsFilter name={tag} onClick={this.removeTagFilter} />
+                  );
                 })}
               </Row>
-              <h5>{dataSearch.length} Results</h5>
+              <h5>{results.length} Results</h5>
             </Toolbar.Results>
           ))}
         <Row>
           <Col xs={12} md={9}>
             <div className="content-card">
-              {dataSearch.map((data, index) => {
+              {results.map((data, index) => {
                 return (
                   <Col md={3} key={`col_card_${index}`}>
                     <CardItem key={`card_${index}`} cardInformation={data} />
                   </Col>
                 );
               })}
-              <div style={{ padding: "0 20px" }}>
-                <br />
-                <br />
-                <div style={null}>
-                  <Paginator
-                    viewType="list"
-                    pagination={pagination}
-                    onPageSet={this.onChangePage}
-                    onPerPageSelect={this.onSelectPerPage}
-                    itemCount={dataSearch.length}
-                    messages={{
-                      firstPage: "First Page",
-                      previousPage: "Previous Page",
-                      currentPage: "Current Page"
-                    }}
-                  />
-                </div>
-              </div>
             </div>
           </Col>
           <Col
@@ -324,18 +316,38 @@ class SearchPage extends React.Component {
             </div>
           </Col>
         </Row>
+        <Row>
+          <Col xs={12} md={9}>
+            <div style={{ padding: "0 20px" }}>
+              <Paginator
+                viewType="list"
+                pagination={pagination}
+                onPageSet={this.onChangePage}
+                onPerPageSelect={this.onSelectPerPage}
+                itemCount={dataSearch.length}
+                messages={{
+                  firstPage: "First Page",
+                  previousPage: "Previous Page",
+                  currentPage: "Current Page"
+                }}
+              />
+            </div>
+          </Col>
+        </Row>
       </div>
     );
   }
 }
 const mapStateToProps = state => {
   return {
-    tags: state.tags
+    tags: state.tags,
+    search: state.search
   };
 };
 const mapDispatchToProps = dispatch => {
   return {
-    getPopularTag: () => dispatch(getPopularTag())
+    getPopularTag: () => dispatch(getPopularTag()),
+    getSpinSearch: params => dispatch(getSpinSearch(params))
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(SearchPage);

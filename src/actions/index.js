@@ -71,6 +71,24 @@ export function getSpinsUserError() {
     type: actions.GET_SPINS_ERROR
   };
 }
+export function getSpinsSearchSuccess(spins) {
+  return {
+    type: actions.GET_SPINS_SEARCH_SUCCESS,
+    spins: spins
+  };
+}
+export function getSpinsSearchError(error) {
+  return {
+    type: actions.GET_SPINS_SEARCH_ERROR,
+    error: error
+  };
+}
+export function loadingSearch(isLoading) {
+  return {
+    type: actions.SEARCH_LOADING,
+    isLoading: isLoading
+  };
+}
 export function getSpinSuccess(spin) {
   return {
     type: actions.GET_SPIN_SUCCESS,
@@ -114,6 +132,25 @@ export function publishSpinError() {
     type: actions.PUBLISH_SPIN_ERROR
   };
 }
+export function unpublishSpinSuccess() {
+  return {
+    type: actions.UNPUBLISH_SPIN_SUCCESS
+  };
+}
+export function unpublishSpinError(error) {
+  return {
+    type: actions.UNPUBLISH_SPIN_ERROR,
+    error: error
+  };
+}
+
+export function spinsCandidatesLoading(isLoading) {
+  return {
+    type: actions.SPINS_CANDIDATES_LOADING,
+    isLoading: isLoading
+  };
+}
+
 export function validateSpinSuccess() {
   return {
     type: actions.VALIDATE_SPIN_SUCCESS

@@ -104,6 +104,12 @@ class Api {
     api.request("post", ApiPublishSpin +spin_candidate_id+ '/publish', api.headerAuthenticated());
     return api;
   }
+  static unpublishSpin(spin_candidate_id) {
+    const api = new this();
+    api.request("post", ApiPublishSpin +spin_candidate_id+ '/unpublish', api.headerAuthenticated());
+    return api;
+  }
+
 
   static validateSpin(spin_candidate_id) {
     const api = new this();
@@ -130,9 +136,9 @@ class Api {
     api.request("get", GetUserStats + id_or_username);
     return api;
   }
-  static GetSpins() {
+  static GetSpins(params) {
     const api = new this();
-    api.request("get", ApiGetSpins);
+    api.request("get", ApiGetSpins+"?expand=resources");
     return api;
   }
   static GetSpin(id) {

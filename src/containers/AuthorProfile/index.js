@@ -41,9 +41,10 @@ class AuthorProfile extends React.Component {
   }
 
   onClickNameRepository(id) {
-    let route = { pathname: "spin/" + id };
+    let route = { pathname: "/spin/" + id };
     browserHistory.push(route);
   }
+
   searchOnList(keywords) {
     let listSpinsUser = [...this.state.listSpinsUserComplete];
 
@@ -57,6 +58,7 @@ class AuthorProfile extends React.Component {
     let { userDetails, spinsUser } = spins;
     const placeholderSearch = "Search";
     let location = "location Default";
+
     return (
       <Grid width="100%" style={{ marginTop: "20px" }}>
         <Row>
@@ -106,7 +108,7 @@ class AuthorProfile extends React.Component {
             data={listSpinsUser}
             title={null}
             twoHeaders={["Role", "Description"]}
-            keys={["user_login", "description"]}
+            keys={["full_name", "description"]}
             onClickName={null}
             removeBadge={true}
             onClickName={this.onClickNameRepository}

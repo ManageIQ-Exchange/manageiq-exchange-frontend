@@ -18,8 +18,16 @@ class ListRanking extends React.Component {
     super(props);
     this.onClick = this.onClick.bind(this);
   }
+  redirectTo() {
 
-  onClick(id) {
+    let route = { pathname: '/search/' };
+    browserHistory.push(route);
+  }
+
+  onClick(id, secondValue) {
+    let valueReturn = id;
+    if(this.props.redirectTag)
+      id=secondValue;
     this.props.onClickName(id);
   }
   render() {
@@ -43,12 +51,13 @@ class ListRanking extends React.Component {
           <div style={heightContent}>
             {data
               ? data.map((data, index) => {
+                  if(!data) return;
                   return (
                     <div key={"data_" + index}>
                       <ListGroupItem>
                         <a
                           className="first-header"
-                          onClick={() => this.onClick(data[idObject])}
+                          onClick={() => this.onClick(data[idObject],data[keys[0]])}
                         >
                           {data[keys[0]]}
                         </a>
@@ -74,7 +83,7 @@ class ListRanking extends React.Component {
         </ListGroup>
         {renderBottomBtn ? (
           <div className="footer-list">
-            <Button style={{ float: "left" }}> View More</Button>
+            <Button style={{ float: "left" }} onClick={this.redirectTo}> View More</Button>
           </div>
         ) : null}
       </div>

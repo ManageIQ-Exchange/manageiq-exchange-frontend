@@ -60,8 +60,7 @@ class AuthorsPage extends React.Component {
     this.setState({ elementByPage: numItems });
   }
   render() {
-
-    const placeholderSearch = "Search authors";
+    const placeholderSearch = 'Search authors';
     const titleHeader = "Galaxy Contributors";
     let { users } = this.props;
     let { listUsers, elementByPage } = this.state;
