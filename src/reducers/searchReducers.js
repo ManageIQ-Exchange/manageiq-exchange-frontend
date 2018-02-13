@@ -8,7 +8,7 @@ const defaultState = {
   spinSearch: [],
   meta: {},
   error: null,
-  loading: false
+  isLoading: false
 };
 export const search = (state = defaultState, action: any) => {
   let newState = Object.assign({}, state);
@@ -21,7 +21,7 @@ export const search = (state = defaultState, action: any) => {
       newState.error = action.error;
       return newState;
     case SEARCH_LOADING:
-      newState.loading = action.loading;
+      newState.isLoading = action.isLoading;
       return newState;
     default:
       return state;

@@ -11,7 +11,8 @@ import {
   FormControl,
   Icon,
   Toolbar,
-  Paginator
+  Paginator,
+  Spinner
 } from "patternfly-react";
 
 import Api from "../../service/Api";
@@ -40,7 +41,9 @@ class SearchPage extends React.Component {
     this.onChange = this.onChange.bind(this);
     this.onChangePage = this.onChangePage.bind(this);
     this.generateParamsFilter = this.generateParamsFilter.bind(this);
-    this.toggleCurrentSortDirection = this.toggleCurrentSortDirection.bind(this);
+    this.toggleCurrentSortDirection = this.toggleCurrentSortDirection.bind(
+      this
+    );
 
     this.state = {
       currentValue: "",
@@ -54,7 +57,7 @@ class SearchPage extends React.Component {
       filterPopularTag: [],
       filters: {},
       baseParams: { limit: perPageOptions[0] },
-      params:{}
+      params: {}
     };
   }
   componentDidMount() {
@@ -93,7 +96,7 @@ class SearchPage extends React.Component {
 
       baseParams["page"] = 1;
 
-      this.setState({ filters, currentValue: '', baseParams, params });
+      this.setState({ filters, currentValue: "", baseParams, params });
     }
   }
   generateParamsFilter(filters) {
@@ -181,7 +184,6 @@ class SearchPage extends React.Component {
   }
 
   removeTagFilter(name, typeFilter) {
-
     if (typeFilter) {
       const { baseParams, filters } = this.state;
       let listFilters = [...filters[typeFilter].listFilters];
@@ -337,13 +339,20 @@ class SearchPage extends React.Component {
         <Row>
           <Col xs={12} md={9}>
             <div className="content-card">
-              {results.map((data, index) => {
-                return (
-                  <Col md={3} key={`col_card_${index}`}>
-                    <CardItem key={`card_${index}`} cardInformation={data} />
-                  </Col>
-                );
-              })}
+              {search.isLoading ? (
+                <Spinner
+                  style={{ backgroundColor: "#cccccc" }}
+                  loading={search.isLoading}
+                />
+              ) : (
+                results.map((data, index) => {
+                  return (
+                    <Col md={3} key={`col_card_${index}`}>
+                      <CardItem key={`card_${index}`} cardInformation={data} />
+                    </Col>
+                  );
+                })
+              )}
             </div>
           </Col>
           <Col
@@ -419,7 +428,11 @@ class SearchPage extends React.Component {
                 pagination={pagination}
                 onPageSet={this.onChangePage}
                 onPerPageSelect={this.onSelectPerPage}
-                itemCount={search.meta && search.meta.total_count ? search.meta.total_count : 0}
+                itemCount={
+                  search.meta && search.meta.total_count
+                    ? search.meta.total_count
+                    : 0
+                }
                 messages={{
                   firstPage: "First Page",
                   previousPage: "Previous Page",
