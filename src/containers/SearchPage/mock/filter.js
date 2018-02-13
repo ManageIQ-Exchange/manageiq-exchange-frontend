@@ -13,9 +13,9 @@ export const filters = [
     filterType: "text"
   },
   {
-    id: "platform",
-    title: "Platform",
-    placeholder: "Filter by Platform",
+    id: "full_name",
+    title: "Name",
+    placeholder: "Filter by name",
     filterType: "text"
   },
   {

@@ -9,7 +9,8 @@ import {
   FormGroup,
   InputGroup,
   Icon,
-  Paginator
+  Paginator,
+  Table
 } from "patternfly-react";
 import { InputGroupAddon } from "react-bootstrap";
 import { connect } from "react-redux";

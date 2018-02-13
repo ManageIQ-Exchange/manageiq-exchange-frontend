@@ -138,7 +138,10 @@ class Api {
   }
   static GetSpins(params) {
     const api = new this();
-    api.request("get", ApiGetSpins+"?expand=resources");
+
+    const query = params ? toQuery(params) : '';
+    console.log("queryy", query);
+    api.request("get", ApiGetSpins + "?" + query +"&expand=resources");
     return api;
   }
   static GetSpin(id) {

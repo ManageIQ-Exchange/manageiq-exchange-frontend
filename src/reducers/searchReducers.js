@@ -6,7 +6,7 @@ import {
 
 const defaultState = {
   spinSearch: [],
-  meta:{},
+  meta: {},
   error: null,
   loading: false
 };
@@ -14,10 +14,8 @@ export const search = (state = defaultState, action: any) => {
   let newState = Object.assign({}, state);
   switch (action.type) {
     case GET_SPINS_SEARCH_SUCCESS:
-      if (action.spins && action.spins.data) {
-        newState.spinSearch = [...action.spins.data];
-        newState.meta = Object.assign({}, action.spins.meta);
-      }
+      newState.spinSearch = action.spins.data ? [...action.spins.data] : [];
+      newState.meta = Object.assign({}, action.spins.meta);
       return newState;
     case GET_SPINS_SEARCH_ERROR:
       newState.error = action.error;
