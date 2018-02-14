@@ -10,11 +10,15 @@ import {
   Tabs,
   Tab
 } from "patternfly-react";
-
+import { Well } from "react-bootstrap";
 import "./style.css";
-import LinkIcon from '../../../components/LinkIcon/';
-import ListRanking from '../../../components/ListRanking/';
-import { data } from './mock/';
+import LinkIcon from "../../../components/LinkIcon/";
+import ListRanking from "../../../components/ListRanking/";
+import { data } from "./mock/";
+import { formatDate, getFullNameMinimumVersion } from "../../../lib/";
+import Api from "../../../service/Api";
+const _ = require("underscore");
+const fileDownload = require("js-file-download");
 
 export default class TabDetails extends React.Component {
   constructor(props) {
@@ -23,51 +27,143 @@ export default class TabDetails extends React.Component {
 
   componentDidMount() {}
 
+  formatDateRelease(releases) {
+    if (!releases) return [];
+    let listReleases = _.clone(releases);
+    listReleases.forEach(
+      release => (release.created = formatDate(release.created_at))
+    );
+    return listReleases;
+  }
+
   render() {
+    const { spin } = this.props;
+    const watchersCount = spin ? spin.watchers_count : 0;
+    const startsCount = spin ? spin.stargazers_count : 0;
+    const userSpin = spin && spin.user ? spin.user.login : 0;
+    const tags = spin && spin.metadata ? spin.metadata.tags : [];
+    const releases = spin ? spin.releases : [];
+    const releaseModify = this.formatDateRelease(releases);
+    const cloneUrl = spin ? spin.clone_url : "";
+    const urlRelease = spin && spin.id ? Api.generateUrlDownload(spin.id) : '';
+    const licence = spin ? spin.license_name : '';
+    const defaultBranch = spin ? spin.default_branch : '';
+    const metadata = spin ? spin.metadata : {};
+    const metadataAuthor =
+      spin && metadata && metadata.author ? metadata.author : '';
+    const metadataDescription =
+      spin && metadata && metadata.description ? metadata.description : '';
+    const metadataVersion =
+      spin && metadata && metadata.min_miq_version
+        ? getFullNameMinimumVersion(metadata.min_miq_version)
+        : '';
+    const metadataCompany =
+      spin && metadata && metadata.company ? metadata.company : "";
+    const urlIssue = `${cloneUrl}issue`;
+    const urlDownloadLastRelease =
+      spin && spin.id && spin.releases && spin.releases.length > 0
+        ? `${Api.generateUrlDownload(spin.id)}${spin.releases[0].id}/download`
+        : '';
     return (
       <div id="container" style={{ marginTop: "2%" }}>
         <Grid width="100%">
           <Row className="content-links-icon">
             <Col md={7}>
-              <LinkIcon message="Issue Tacker" icon="bug" />
-              <LinkIcon message="Github Repo" icon="github" />
-              <LinkIcon message="Download" icon="cloud-download" />
-              <LinkIcon message="Watch 13" icon="eye" />
-              <LinkIcon message="Star 60" icon="star" />
+              <a>
+                <LinkIcon message="Issue Tacker" icon="bug" />
+              </a>
+              <a href={cloneUrl}>
+                <LinkIcon message="Github Repo" icon="github" />
+              </a>
+              <a href={urlDownloadLastRelease}>
+                <LinkIcon message="Download" icon="cloud-download" />
+              </a>
+              <LinkIcon message={`Watch ${watchersCount}`} icon="eye" />
+              <LinkIcon message={`Star ${startsCount}`} icon="star" />
             </Col>
           </Row>
           <Row>
-            <Col md={5} className="content-details">
+            <Col md={9} className="content-details">
               <div>
-                <span>Type</span>
-                <span style={{ float: "right" }}>Ansible</span>
+                <span>
+                  <strong>Licencia</strong>
+                </span>
+                <span style={{ float: "right" }}> {licence}</span>
               </div>
               <div>
-                <span>Minimum Ansible Version</span>
-                <span style={{ float: "right" }}>1.4</span>
+                <span>
+                  <strong>Default Branch</strong>
+                </span>
+                <span style={{ float: "right" }}> {defaultBranch}</span>
               </div>
               <div>
-                <span>Installation</span>
-                <code style={{color:'#c7254e', float: "right"}} >$ ansible-galaxy install bennojoy.network_interface</code>
+                <span>
+                  <strong>Tag</strong>
+                </span>
+
+                <span style={{ float: "right" }}>
+                  {tags.map((tag, index) => (
+                    <span
+                      key={`key_tag_${index}`}
+                      className="label label-info"
+                      style={{ marginRight: "1%" }}
+                    >
+                      {tag}{" "}
+                    </span>
+                  ))}
+                </span>
               </div>
               <div>
-                <span>Last Commit</span>
-                <span style={{ float: "right" }}> NA</span>
+                <span>
+                  <strong>User</strong>
+                </span>
+                <span style={{ float: "right" }}>
+                  <a href={cloneUrl}>{userSpin}</a>
+                </span>
               </div>
               <div>
-                <span>Last Commit</span>
-                <span style={{ float: "right" }}> NA</span>
+                <Well>
+                  <div>
+                    <span>
+                      <strong>Author</strong>
+                    </span>
+                    <span style={{ float: "right" }}>{metadataAuthor}</span>
+                  </div>
+                  <div>
+                    <span>
+                      <strong>Description</strong>
+                    </span>
+                    <span style={{ float: "right" }}>
+                      {metadataDescription}
+                    </span>
+                  </div>
+                  <div>
+                    <span>
+                      <strong>Minimum version</strong>
+                    </span>
+                    <span style={{ float: "right" }}>{metadataVersion}</span>
+                  </div>
+                  <div>
+                    <span>
+                      <strong>Company</strong>
+                    </span>
+                    <span style={{ float: "right" }}>{metadataCompany}</span>
+                  </div>
+                </Well>
               </div>
             </Col>
             <Col md={2} />
           </Row>
-          <Row style={{ marginTop: '3%' }}>
+          <Row style={{ marginTop: "3%" }}>
             <ListRanking
-              height={'300px'}
-              data={data}
+              height={"300px"}
+              data={releaseModify}
               onClickName={null}
-              title={'OS Platforms'}
-              twoHeaders={['Platform', 'Version']}
+              urlRelease={urlRelease}
+              title={"Release History"}
+              twoHeaders={["Version", "Release Date"]}
+              keys={["tag", "created"]}
+              idObject="id"
             />
           </Row>
         </Grid>

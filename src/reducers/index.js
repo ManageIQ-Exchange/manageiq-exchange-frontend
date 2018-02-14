@@ -8,6 +8,7 @@ import { tags } from "./tagReducer";
 import { tops } from "./topReducer";
 import { spins } from "./spinReducer";
 import { detailsSpin } from "./detailsSpin";
+import { search } from "./searchReducers";
 
 export default combineReducers({
   user,
@@ -17,5 +18,6 @@ export default combineReducers({
   apiVersion,
   tags,
   tops,
-  detailsSpin
+  detailsSpin,
+  search
 });

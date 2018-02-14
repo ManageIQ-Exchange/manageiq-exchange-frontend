@@ -7,7 +7,7 @@ const BackendServer = config.GALAXY_API_BACKEND;
 //Version of API
 const Version = "v1";
 //Root API Base
-const ApiBaseURL = `${BackendServer}/${Version}`;
+export const ApiBaseURL = `${BackendServer}/${Version}`;
 
 // Api Version
 const ApiVersion = `${BackendServer}/`;
@@ -104,6 +104,12 @@ class Api {
     api.request("post", ApiPublishSpin +spin_candidate_id+ '/publish', api.headerAuthenticated());
     return api;
   }
+  static unpublishSpin(spin_candidate_id) {
+    const api = new this();
+    api.request("post", ApiPublishSpin +spin_candidate_id+ '/unpublish', api.headerAuthenticated());
+    return api;
+  }
+
 
   static validateSpin(spin_candidate_id) {
     const api = new this();
@@ -130,15 +136,20 @@ class Api {
     api.request("get", GetUserStats + id_or_username);
     return api;
   }
-  static GetSpins() {
+  static GetSpins(params) {
     const api = new this();
-    api.request("get", ApiGetSpins);
+
+    const query = params ? toQuery(params) : '';
+    api.request("get", ApiGetSpins + "?" + query +"&expand=resources");
     return api;
   }
   static GetSpin(id) {
     const api = new this();
     api.request("get",`${ApiGetSpins}/${id}?expand=resources` );
     return api;
+  }
+  static generateUrlDownload(id, idRelease) {
+    return `${ApiGetSpins}/${id}/releases/`;
   }
   static GetSpinsBy(param, value) {
     const api = new this();

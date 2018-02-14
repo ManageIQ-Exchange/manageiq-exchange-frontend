@@ -12,6 +12,9 @@ import {
   reloadSpinError,
   publishSpinSuccess,
   publishSpinError,
+  unpublishSpinSuccess,
+  unpublishSpinError,
+  spinsCandidatesLoading,
   getUsersSuccess,
   getUsersError,
   getUserSuccess,
@@ -101,6 +104,21 @@ export function publishSpin(id) {
       })
       .catch(error => {
         dispatch(publishSpinError());
+      });
+  };
+}
+export function unpublishSpin(id) {
+  return dispatch => {
+    dispatch(spinsCandidatesLoading(true));
+    return Api.unpublishSpin(id)
+      .then(response => {
+
+        dispatch(unpublishSpinSuccess());
+        dispatch(spinsCandidatesLoading(false));
+      })
+      .catch(error => {
+        dispatch(unpublishSpinError());
+        dispatch(spinsCandidatesLoading(false));
       });
   };
 }

@@ -18,18 +18,34 @@ class ListRanking extends React.Component {
     super(props);
     this.onClick = this.onClick.bind(this);
   }
+  redirectTo() {
+    let route = { pathname: "/search/" };
+    browserHistory.push(route);
+  }
 
-  onClick(id) {
-    this.props.onClickName(id);
+  onClick(id, secondValue) {
+    if (this.props.onClickName) {
+      let valueReturn = id;
+      if (this.props.redirectTag) id = secondValue;
+      this.props.onClickName(id);
+    }
   }
   render() {
-    let { data, title, twoHeaders, renderBottomBtn, idObject } = this.props;
+    let {
+      data,
+      title,
+      twoHeaders,
+      renderBottomBtn,
+      idObject,
+      urlRelease
+    } = this.props;
     let keys = this.props.keys
       ? this.props.keys
       : data && data.length > 0 ? Object.keys(data[0]) : [];
     let heightContent = this.props.height
       ? { height: this.props.height, overflowY: "scroll" }
       : {};
+    const href = urlRelease ? urlRelease : null;
     return (
       <div style={{ height: "550px" }}>
         <div className="header">{title}</div>
@@ -43,25 +59,34 @@ class ListRanking extends React.Component {
           <div style={heightContent}>
             {data
               ? data.map((data, index) => {
+                  if (!data) return;
                   return (
                     <div key={"data_" + index}>
                       <ListGroupItem>
-                        <a
-                          className="first-header"
-                          onClick={() => this.onClick(data[idObject])}
-                        >
-                          {data[keys[0]]}
-                        </a>
+                        {href === null ? (
+                          <a
+                            className="first-header"
+                            onClick={() =>
+                              this.onClick(data[idObject], data[keys[0]])
+                            }
+                          >
+                            {data[keys[0]]}
+                          </a>
+                        ) : (
+                          <a
+                            className="first-header"
+                            href={`${href}${data.id}/download`}
+                          >
+                            {data[keys[0]]}
+                          </a>
+                        )}
+
                         {this.props.children ? (
                           <a className="second-header" href={data[keys[1]]}>
                             {this.props.children}
                           </a>
                         ) : this.props.removeBadge ? (
-                          <Badge
-                            id="badgeDescripcions"
-                          >
-                            {data[keys[1]]}
-                          </Badge>
+                          <Badge id="badgeDescripcions">{data[keys[1]]}</Badge>
                         ) : (
                           <Badge>{data[keys[1]]}</Badge>
                         )}
@@ -74,7 +99,10 @@ class ListRanking extends React.Component {
         </ListGroup>
         {renderBottomBtn ? (
           <div className="footer-list">
-            <Button style={{ float: "left" }}> View More</Button>
+            <Button style={{ float: "left" }} onClick={this.redirectTo}>
+              {" "}
+              View More
+            </Button>
           </div>
         ) : null}
       </div>

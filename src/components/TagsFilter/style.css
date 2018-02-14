@@ -1,14 +1,4 @@
 #content-tag {
-  -webkit-border-top-left-radius: 5px;
-  -webkit-border-top-right-radius: 5px;
-  -moz-border-radius-topleft: 5px;
-  -moz-border-radius-topright: 5px;
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
-  color:#FFFFFF;
-  background-color: #111111;
-  width:4%;
   display:inline-block;
   margin-left: 0.23%;
-  padding: 5;
 }

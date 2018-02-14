@@ -24,9 +24,15 @@ import { connect } from "react-redux";
 import cx from "classnames";
 
 //import ListView from "./ListView";
-import { getUserSpinsCandidates, refreshSpins, publishSpin, validateSpin } from "../../thunk/user";
+import {
+  getUserSpinsCandidates,
+  refreshSpins,
+  publishSpin,
+  validateSpin,
+  unpublishSpin
+} from "../../thunk/user";
 import "./style.css";
-import { filterByAttribute } from '../../lib/';
+import { filterByAttribute } from "../../lib/";
 
 class MyContentPage extends React.Component {
   constructor(props) {
@@ -38,29 +44,31 @@ class MyContentPage extends React.Component {
     this.publishSpin = this.publishSpin.bind(this);
     this.validateSpin = this.validateSpin.bind(this);
     this.onChangeSwicth = this.onChangeSwicth.bind(this);
+    this.unpublishSpin = this.unpublishSpin.bind(this);
     this.renderAdditionalInfoExpandItems = this.renderAdditionalInfoExpandItems.bind(
       this
     );
     this.state = {
       details: [],
       loadingPublish: false,
-      listSpins:[],
-      listSpinsComplete:[],
+      listSpins: [],
+      listSpinsComplete: []
     };
   }
   componentDidMount() {
     this.props.getUserSpinsCandidates();
   }
   componentWillReceiveProps(nextProps: Props) {
-    let { data } = nextProps.spins;
-    if (this.props.spins.data !== data) this.setState({ listSpins: data, listSpinsComplete: data });
+    let { spins } = nextProps.spins;
+    if (this.props.spins.spins !== spins)
+      this.setState({ listSpins: spins, listSpinsComplete: spins });
   }
 
   searchOnList(keywords) {
     let listSpins = [...this.state.listSpinsComplete];
 
-    listSpins = filterByAttribute(keywords, listSpins, 'full_name')
-    this.setState({listSpins})
+    listSpins = filterByAttribute(keywords, listSpins, "full_name");
+    this.setState({ listSpins });
   }
 
   renderAdditionalInfoExpandItems(item) {
@@ -118,34 +126,40 @@ class MyContentPage extends React.Component {
     this.setState({ details });
   }
   publishSpin(id) {
-    this.setState({loadingPublish: true});
-    this.props.publishSpin(id).then((response) => {
-      this.setState({loadingPublish: false});
+    this.setState({ loadingPublish: true });
+    this.props.publishSpin(id).then(response => {
+      this.setState({ loadingPublish: false });
       this.props.getUserSpinsCandidates();
-    })
+    });
+  }
+  unpublishSpin(id) {
+    this.setState({ loadingPublish: true });
+    this.props.unpublishSpin(id).then(response => {
+      this.setState({ loadingPublish: false });
+      this.props.getUserSpinsCandidates();
+    });
   }
   validateSpin(id) {
     this.setState({ loadingPublish: true });
     this.props.validateSpin(id).then(response => {
-      this.setState({loadingPublish: false});
+      this.setState({ loadingPublish: false });
       this.props.getUserSpinsCandidates();
-    })
+    });
   }
   refreshSpins() {
     this.setState({ loadingPublish: true });
     this.props.refreshSpins().then(response => {
-      this.setState({loadingPublish: false});
+      this.setState({ loadingPublish: false });
       this.props.getUserSpinsCandidates();
-    })
+    });
   }
   onChangeSwicth(el, state, id) {
     if (state) this.publishSpin(id);
-    else
-      this.props.getUserSpinsCandidates();
+    else this.unpublishSpin(id);
   }
   render() {
     const placeholderSearch = "Search";
-    const messageLoad = 'Loading';
+    const messageLoad = "Loading";
     const titleBtnPublish = "Publish";
     const titleBtnValidate = "Validate";
     let { spins } = this.props;
@@ -192,16 +206,14 @@ class MyContentPage extends React.Component {
                 <Button onClick={this.refreshSpins}>
                   <Icon name="refresh" />
                 </Button>
-
               </Col>
               <Col xs={1} md={1}>
-              <Spinner loading={loadingPublish}/>
+                <Spinner loading={loadingPublish} />
               </Col>
             </Col>
           </Row>
           <Row>
-
-           {listSpins
+            {listSpins
               ? listSpins.map((spin, index) => {
                   return (
                     <Row
@@ -209,7 +221,11 @@ class MyContentPage extends React.Component {
                       style={{ marginTop: "13px" }}
                     >
                       <Row
-                        style={{ backgroundColor: "#F1F1F1", color: "black", padding:10 }}
+                        style={{
+                          backgroundColor: "#F1F1F1",
+                          color: "black",
+                          padding: 10
+                        }}
                       >
                         <Col xs={6} md={4}>
                           Name: {spin.full_name}
@@ -223,19 +239,13 @@ class MyContentPage extends React.Component {
                           </Button>
                         </Col>
                         <Col xs={6} md={2}>
-                          <Button
-                            onClick={() => this.publishSpin(spin.id)}
-                            disabled={spin.published ? spin.published : true}
-                          >
-                            {titleBtnPublish}
-                          </Button>
-                        </Col>
-                        <Col xs={6} md={2}>
                           <Button onClick={() => this.validateSpin(spin.id)}>
                             {titleBtnValidate}
                           </Button>
+                        </Col>
+                        <Col xs={6} md={2}>
                           <span>
-                            {loadingPublish !== '' ? loadingPublish : ''}
+                            {loadingPublish !== "" ? loadingPublish : ""}
                           </span>
                           <Switch
                             bsSize="normal"
@@ -248,7 +258,7 @@ class MyContentPage extends React.Component {
                           />
                         </Col>
                       </Row>
-                      <Row style={{ backgroundColor: '#f2eaea' }}>
+                      <Row style={{ backgroundColor: "#f2eaea" }}>
                         <Collapse in={this.state.details[index]}>
                           <Col xs={12} md={8}>
                             <h3>Log:</h3>
@@ -276,8 +286,9 @@ const mapDispatchToProps = dispatch => {
   return {
     getUserSpinsCandidates: () => dispatch(getUserSpinsCandidates()),
     refreshSpins: () => dispatch(refreshSpins()),
-    publishSpin: (id) => dispatch(publishSpin(id)),
-    validateSpin: (id) => dispatch(validateSpin(id))
+    publishSpin: id => dispatch(publishSpin(id)),
+    unpublishSpin: id => dispatch(unpublishSpin(id)),
+    validateSpin: id => dispatch(validateSpin(id))
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(MyContentPage);
