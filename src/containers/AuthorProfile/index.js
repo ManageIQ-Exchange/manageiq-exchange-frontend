@@ -58,11 +58,12 @@ class AuthorProfile extends React.Component {
     let { userDetails, spinsUser } = spins;
     const placeholderSearch = "Search";
     let location = "location Default";
+    const nameUser = userDetails.login ? userDetails.login : "";
 
     return (
       <Grid width="100%" style={{ marginTop: "20px" }}>
         <Row>
-          <h1>{userDetails.login ? userDetails.login : ""}</h1>
+          <h1 className="first-header">{nameUser}</h1>
         </Row>
         <Row>
           <Col xs={12} md={6} style={{ padding: 0 }}>

@@ -12,6 +12,7 @@ import {
 } from "patternfly-react";
 import { connect } from "react-redux";
 
+import './style.css';
 import Api from "../../service/Api";
 import TabDetails from "./TabDetails/";
 import { getSpin } from "../../thunk/spin";
@@ -26,27 +27,24 @@ class SpinProfile extends React.Component {
   }
 
   render() {
-    let { detailsSpin } = this.props;
-
+    const { detailsSpin } = this.props;
+    let descriptionSpin = detailsSpin && detailsSpin.spin ? detailsSpin.spin.description : "";
+    let nameSpin = detailsSpin && detailsSpin.spin ? detailsSpin.spin.name : "";
     return (
       <div id="container" style={{ marginTop: "2%" }}>
         <Grid width="100%">
           <Row>
-            <h1 />
+            <h1 className="first-header">{nameSpin}</h1>
           </Row>
           <Row>
-            <h2>
-              {detailsSpin && detailsSpin.spin
-                ? detailsSpin.spin.description
-                : ""}
-            </h2>
+            <h2 className="second-header">{descriptionSpin}</h2>
           </Row>
           <Tabs defaultActiveKey={1} style={{ marginTop: "10px" }}>
             <Tab eventKey={1} title="Details">
               <TabDetails spin={detailsSpin.spin} />
             </Tab>
             <Tab eventKey={2} title="README">
-              <Row style={{ marginTop: '10px' }}>
+              <Row style={{ marginTop: "10px" }}>
                 <pre>
                   <code>
                     {detailsSpin && detailsSpin.spin

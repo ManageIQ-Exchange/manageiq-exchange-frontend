@@ -7,7 +7,7 @@ const BackendServer = config.GALAXY_API_BACKEND;
 //Version of API
 const Version = "v1";
 //Root API Base
-const ApiBaseURL = `${BackendServer}/${Version}`;
+export const ApiBaseURL = `${BackendServer}/${Version}`;
 
 // Api Version
 const ApiVersion = `${BackendServer}/`;
@@ -140,7 +140,6 @@ class Api {
     const api = new this();
 
     const query = params ? toQuery(params) : '';
-    console.log("queryy", query);
     api.request("get", ApiGetSpins + "?" + query +"&expand=resources");
     return api;
   }
@@ -148,6 +147,9 @@ class Api {
     const api = new this();
     api.request("get",`${ApiGetSpins}/${id}?expand=resources` );
     return api;
+  }
+  static generateUrlDownload(id, idRelease) {
+    return `${ApiGetSpins}/${id}/releases/`;
   }
   static GetSpinsBy(param, value) {
     const api = new this();

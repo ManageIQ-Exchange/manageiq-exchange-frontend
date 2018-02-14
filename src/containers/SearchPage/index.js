@@ -332,6 +332,11 @@ class SearchPage extends React.Component {
                     <TagsFilter name={tag} onClick={this.removeTagFilter} />
                   );
                 })}
+                {keys.length > 0 ? (
+                  <p>
+                    <a href="#">Clear All Filters</a>
+                  </p>
+                ) : null}
               </Row>
               <h5>{results.length} Results</h5>
             </Toolbar.Results>

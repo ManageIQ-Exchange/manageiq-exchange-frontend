@@ -5,7 +5,7 @@ import { imgIndex } from '../../ImageImport';
 import './style.css';
 
 const TagsFilter = ({ name, onClick }) => (
-  <div id="content-tag" onClick={() => onClick(name)}>
+  <div id="content-tag" className="label label-info" onClick={() => onClick(name)}>
     <span>{name}</span>
     <Icon style={{ marginLeft: '5px' }} name="close" />
   </div>

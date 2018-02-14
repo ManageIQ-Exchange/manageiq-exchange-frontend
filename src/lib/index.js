@@ -1,7 +1,9 @@
-export function filterByAttribute( keywords, list, attributeItem ) {
-  if(!list || (list && !list.length)) return[];
+import moment from "moment";
 
-  let result =  list.filter(item => {
+export function filterByAttribute(keywords, list, attributeItem) {
+  if (!list || (list && !list.length)) return [];
+
+  let result = list.filter(item => {
     let mtch = JSON.stringify(item[attributeItem]).match(new RegExp(keywords));
     return mtch ? true : false;
   });
@@ -19,4 +21,8 @@ export function toQuery(params, delimiter = "&") {
 
     return query;
   }, "");
+}
+
+export function formatDate(date) {
+  return moment(date).format("YYYY-MM-DD");
 }
