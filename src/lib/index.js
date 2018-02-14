@@ -26,3 +26,14 @@ export function toQuery(params, delimiter = "&") {
 export function formatDate(date) {
   return moment(date).format("YYYY-MM-DD");
 }
+
+export function getFullNameMinimumVersion(key){
+  const keyFormat = key.toLowerCase();
+   const opctions={
+     f:"Fine",
+     g:"Gaprindashvili",
+     h:"Hammer",
+     e:"Euwe"
+   };
+   return opctions[keyFormat];
+}

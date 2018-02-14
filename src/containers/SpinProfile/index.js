@@ -29,7 +29,7 @@ class SpinProfile extends React.Component {
   render() {
     const { detailsSpin } = this.props;
     let descriptionSpin = detailsSpin && detailsSpin.spin ? detailsSpin.spin.description : "";
-    let nameSpin = detailsSpin && detailsSpin.spin ? detailsSpin.spin.name : "";
+    let nameSpin = detailsSpin && detailsSpin.spin ? detailsSpin.spin.full_name : "";
     return (
       <div id="container" style={{ marginTop: "2%" }}>
         <Grid width="100%">

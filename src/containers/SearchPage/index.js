@@ -27,7 +27,7 @@ import { connect } from "react-redux";
 import { getPopularTag } from "../../thunk/tags";
 import { getSpinSearch } from "../../thunk/spin";
 
-const perPageOptions = [1, 2, 3];
+const perPageOptions = [5, 10, 15];
 
 class SearchPage extends React.Component {
   constructor(props) {
@@ -104,8 +104,10 @@ class SearchPage extends React.Component {
     let params = Object.assign({}, baseParams);
     params["page"] = 1;
     let keys = Object.keys(filters);
+
     keys.forEach(key => {
-      params[key] = filters[key].listFilters[0];
+      if (filters[key].listFilters && filters[key].listFilters.length > 0)
+        params[key] = filters[key].listFilters[0];
     });
     return params;
   }
@@ -170,40 +172,66 @@ class SearchPage extends React.Component {
     this.setState({ elementByPage: numItems, baseParams });
   }
   addFilterPopularTag(name) {
-    let filterPopularTag = [...this.state.filterPopularTag];
-    filterPopularTag.push(name);
+    const {
+      currentFilterType,
+      currentValue,
+      filterCategory,
+      filters
+    } = this.state;
+    const nameTag = "tag";
+    let baseParams = Object.assign({}, this.state.baseParams);
 
-    this.setState({ filterPopularTag });
+    let filter = filters[nameTag] ? filters[nameTag] : {};
+    let list = filter.listFilters ? filter.listFilters : [];
+    let value = name;
+    list.push(value);
+    filter.listFilters = list;
+    filters[nameTag] = filter;
+
+    let params = this.generateParamsFilter(filters);
+    this.props.getSpinSearch(params);
+
+    baseParams["page"] = 1;
+
+    this.setState({ filters, currentValue: "", baseParams, params });
   }
 
   toggleCurrentSortDirection() {
-    const { isSortAscending } = this.state;
+    const { isSortAscending, params } = this.state;
+    const baseParams = Object.assign({}, this.state.baseParams);
+    baseParams["Order"] = !isSortAscending ? "asc" : "desc";
+    const resultParams = Object.assign({}, params, baseParams);
+    this.props.getSpinSearch(resultParams);
     this.setState({
-      isSortAscending: !isSortAscending
+      isSortAscending: !isSortAscending,
+      baseParams
     });
   }
 
   removeTagFilter(name, typeFilter) {
     if (typeFilter) {
-      const { baseParams, filters } = this.state;
-      let listFilters = [...filters[typeFilter].listFilters];
+      const { baseParams, filters, params } = this.state;
+
+      const newFilters = Object.assign({}, filters);
+      let listFilters = newFilters[typeFilter].listFilters;
 
       let index = listFilters.indexOf(name);
       listFilters.splice(index, 1);
 
+      newFilters[typeFilter].listFilters = listFilters;
       let keys = Object.keys(filters);
-      let params = Object.assign({}, baseParams);
-      keys.forEach(key => {
-        let value = listFilters[0];
-        if (value) params[key] = value;
-      });
-      let newBaseParams = Object.assign({}, baseParams);
-      newBaseParams["page"] = 1;
-      this.props.getSpinSearch(params);
 
-      let newFilters = Object.assign({}, filters);
-      newFilters[typeFilter] = listFilters;
-      this.setState({ filters: newFilters, baseParams: newBaseParams });
+      let newBaseParams = Object.assign({}, params);
+      newBaseParams["page"] = 1;
+      delete newBaseParams[typeFilter];
+
+      this.props.getSpinSearch(newBaseParams);
+
+      this.setState({
+        filters: newFilters,
+        baseParams: newBaseParams,
+        params: newBaseParams
+      });
     } else {
       let filterPopularTag = [...this.state.filterPopularTag];
       let index = filterPopularTag.indexOf(name);
@@ -345,10 +373,7 @@ class SearchPage extends React.Component {
           <Col xs={12} md={9}>
             <div className="content-card">
               {search.isLoading ? (
-                <Spinner
-                  style={{ backgroundColor: "#cccccc" }}
-                  loading={search.isLoading}
-                />
+                <Spinner loading={search.isLoading} />
               ) : (
                 results.map((data, index) => {
                   return (
