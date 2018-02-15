@@ -88,10 +88,10 @@ class Api {
   static GetUserSpins(name) {
     const api = new this();
     const params = toQuery({
-      author: name,
       expand: "resources"
     });
-    api.request("get", ApiGetSpins + '?'+ params , api.headerAuthenticated());
+    const url = `${ApiGetUsers}/${name}/spins/?${params}`;
+    api.request("get", url, api.headerAuthenticated());
     return api;
   }
   static RefreshSpins() {

@@ -98,7 +98,13 @@ class SearchPage extends React.Component {
 
       baseParams["page"] = 1;
 
-      this.setState({ filters, currentValue: "", baseParams, params, showAlertAlready: false });
+      this.setState({
+        filters,
+        currentValue: "",
+        baseParams,
+        params,
+        showAlertAlready: false
+      });
     }
   }
   generateParamsFilter(filters) {
@@ -125,7 +131,17 @@ class SearchPage extends React.Component {
   }
   updateCurrentSortType(sortType) {
     const { currentSortType } = this.state;
-
+/*
+    const baseParams = Object.assign({}, this.state.baseParams);
+    baseParams["Order"] = !isSortAscending ? "asc" : "desc";
+    const resultParams = Object.assign({}, params, baseParams);
+    this.props.getSpinSearch(resultParams);
+    this.setState({
+      isSortAscending: !isSortAscending,
+      baseParams,
+      showAlertAlready: false
+    });
+*/
     if (currentSortType !== sortType) {
       this.setState({
         currentSortType: sortType,
@@ -262,9 +278,7 @@ class SearchPage extends React.Component {
     let results = search && search.spinSearch ? search.spinSearch : [];
     let keys = Object.keys(this.state.filters);
     const messageError = "There has been a problem";
-    const showAlert = !showAlertAlready
-      ? search.error !== null
-      : false;
+    const showAlert = !showAlertAlready ? search.error !== null : false;
     return (
       <div style={{ marginTop: "1%" }}>
         <Filter id="filter-search">
@@ -340,7 +354,7 @@ class SearchPage extends React.Component {
           </Toolbar.ViewSelector>
         </Toolbar.RightContent>
         <Toolbar.Results>
-          <Row style={{ paddingLeft: 20, marginLeft:'3%' }}>
+          <Row style={{ paddingLeft: 20, marginLeft: "3%" }}>
             <h5>{results.length} Results</h5>
             {keys.map((data, index) => {
               return this.state.filters[data].listFilters
@@ -355,19 +369,18 @@ class SearchPage extends React.Component {
                 : null;
             })}
             {keys.length > 0 ? (
-              <p>
+              <p style={{marginLeft: '2%'}}>
                 <a onClick={this.clearFilter}>Clear All Filters</a>
               </p>
             ) : null}
           </Row>
-
         </Toolbar.Results>
         <Row>
           {showAlert ? (
             <Alert
               style={{ width: "50%", marginLeft: "2%" }}
               type="warning"
-              onDismiss={()=> this.setState({showAlertAlready: true})}
+              onDismiss={() => this.setState({ showAlertAlready: true })}
             >
               {messageError}
             </Alert>
@@ -391,63 +404,67 @@ class SearchPage extends React.Component {
             xs={12}
             md={2}
             style={{
-              backgroundColor: "#E1E1E1",
               overflowX: "hidden",
               padding: 0,
               textAlign: "center"
             }}
           >
-            <div style={{ borderBottom: " 2px solid white", width: "100%" }}>
-              <h2 style={{ color: "#848992" }}>Popular tags</h2>
-            </div>
-            <div>
-              <div style={{ overflowY: "scroll", height: "300px" }}>
-                <Row style={{ padding: 0, width: "100%", marginTop: "10px" }}>
-                  {tags && tags.tags
-                    ? tags.tags.map((data, index) => {
-                        let infoTag = data;
-                        return (
-                          <Row
-                            key={`popular_tag_row_${index}`}
-                            style={{ marginTop: "10px" }}
-                          >
-                            <Col
-                              xs={6}
-                              md={3}
-                              mdOffset={2}
-                              onClick={() =>
-                                this.addFilterPopularTag(infoTag.name)
-                              }
+            <div className="card-pf">
+              <div className="card-pf-heading">
+                <h2 className="card-pf-title">Popular Tags</h2>
+              </div>
+              <div>
+                <div
+                  className="card-pf-body"
+                  style={{ overflowY: 'scroll', height: '300px' }}
+                >
+                  <Row style={{ padding: 0, width: "100%", marginTop: "10px" }}>
+                    {tags && tags.tags
+                      ? tags.tags.map((data, index) => {
+                          let infoTag = data;
+                          return (
+                            <Row
+                              key={`popular_tag_row_${index}`}
+                              style={{ marginTop: "10px" }}
                             >
-                              <div
-                                style={{
-                                  backgroundColor: "#b7b7b7",
-                                  borderRadius: "10px",
-                                  margin: "0 auto",
-                                  width: "125px",
-                                  color: "#FFFFFF"
-                                }}
+                              <Col
+                                xs={6}
+                                md={3}
+                                mdOffset={2}
+                                onClick={() =>
+                                  this.addFilterPopularTag(infoTag.name)
+                                }
                               >
-                                {infoTag.name}
-                              </div>
-                            </Col>
-                            <Col xs={6} md={3} mdOffset={2}>
-                              <div
-                                style={{
-                                  backgroundColor: "#848992",
-                                  color: "#FFFFFF",
-                                  margin: "0 auto",
-                                  borderRadius: "10px"
-                                }}
-                              >
-                                {infoTag.count_spins}
-                              </div>
-                            </Col>
-                          </Row>
-                        );
-                      })
-                    : null}
-                </Row>
+                                <div
+                                  style={{
+                                    backgroundColor: "#b7b7b7",
+                                    borderRadius: "10px",
+                                    margin: "0 auto",
+                                    width: "125px",
+                                    color: "#FFFFFF"
+                                  }}
+                                >
+                                  {infoTag.name}
+                                </div>
+                              </Col>
+                              <Col xs={6} md={3} mdOffset={2}>
+                                <div
+                                  style={{
+                                    backgroundColor: "#848992",
+                                    color: "#FFFFFF",
+                                    margin: "0 auto",
+                                    borderRadius: "10px"
+                                  }}
+                                >
+                                  {infoTag.count_spins}
+                                </div>
+                              </Col>
+                            </Row>
+                          );
+                        })
+                      : null}
+                  </Row>
+                </div>
               </div>
             </div>
           </Col>
