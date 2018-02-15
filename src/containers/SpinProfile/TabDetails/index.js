@@ -8,7 +8,8 @@ import {
   Nav,
   NavItem,
   Tabs,
-  Tab
+  Tab,
+  Table
 } from "patternfly-react";
 import { Well } from "react-bootstrap";
 import "./style.css";
@@ -17,8 +18,7 @@ import ListRanking from "../../../components/ListRanking/";
 import { data } from "./mock/";
 import { formatDate, getFullNameMinimumVersion } from "../../../lib/";
 import Api from "../../../service/Api";
-const _ = require("underscore");
-const fileDownload = require("js-file-download");
+import { mockBootstrapColumns } from "./mock/";
 
 export default class TabDetails extends React.Component {
   constructor(props) {
@@ -27,12 +27,15 @@ export default class TabDetails extends React.Component {
 
   componentDidMount() {}
 
-  formatDateRelease(releases) {
+  formatDateRelease(releases, idSpin) {
     if (!releases) return [];
-    let listReleases = _.clone(releases);
-    listReleases.forEach(
-      release => (release.created = formatDate(release.created_at))
-    );
+    let listReleases = [...releases];
+    listReleases.forEach(release => {
+      release.created = formatDate(release.created_at);
+      release.url_download = `${Api.generateUrlDownload(idSpin)}${
+        release.id
+      }/download`;
+    });
     return listReleases;
   }
 
@@ -43,27 +46,29 @@ export default class TabDetails extends React.Component {
     const userSpin = spin && spin.user ? spin.user.login : 0;
     const tags = spin && spin.metadata ? spin.metadata.tags : [];
     const releases = spin ? spin.releases : [];
-    const releaseModify = this.formatDateRelease(releases);
+    const releaseModify =
+      spin && spin.id ? this.formatDateRelease(releases, spin.id) : [];
     const cloneUrl = spin ? spin.clone_url : "";
-    const urlRelease = spin && spin.id ? Api.generateUrlDownload(spin.id) : '';
-    const licence = spin ? spin.license_name : '';
-    const defaultBranch = spin ? spin.default_branch : '';
+    const urlRelease = spin && spin.id ? Api.generateUrlDownload(spin.id) : "";
+    const licence = spin ? spin.license_name : "";
+    const defaultBranch = spin ? spin.default_branch : "";
     const metadata = spin ? spin.metadata : {};
     const metadataAuthor =
-      spin && metadata && metadata.author ? metadata.author : '';
+      spin && metadata && metadata.author ? metadata.author : "";
     const metadataDescription =
-      spin && metadata && metadata.description ? metadata.description : '';
+      spin && metadata && metadata.description ? metadata.description : "";
     const metadataVersion =
       spin && metadata && metadata.min_miq_version
         ? getFullNameMinimumVersion(metadata.min_miq_version)
-        : '';
+        : "";
     const metadataCompany =
       spin && metadata && metadata.company ? metadata.company : "";
     const urlIssue = `${cloneUrl}issue`;
     const urlDownloadLastRelease =
       spin && spin.id && spin.releases && spin.releases.length > 0
         ? `${Api.generateUrlDownload(spin.id)}${spin.releases[0].id}/download`
-        : '';
+        : "";
+    const titleReleases = "Release History";
     return (
       <div id="container" style={{ marginTop: "2%" }}>
         <Grid width="100%">
@@ -122,6 +127,9 @@ export default class TabDetails extends React.Component {
                 </span>
               </div>
               <div>
+                <span>
+                  <strong>Metadata</strong>
+                </span>
                 <Well>
                   <div>
                     <span>
@@ -155,16 +163,18 @@ export default class TabDetails extends React.Component {
             <Col md={2} />
           </Row>
           <Row style={{ marginTop: "3%" }}>
-            <ListRanking
-              height={"300px"}
-              data={releaseModify}
-              onClickName={null}
-              urlRelease={urlRelease}
-              title={"Release History"}
-              twoHeaders={["Version", "Release Date"]}
-              keys={["tag", "created"]}
-              idObject="id"
-            />
+            <h2>{titleReleases}</h2>
+            <div className="table-responsive">
+              <Table.PfProvider
+                striped
+                bordered
+                hover
+                columns={mockBootstrapColumns}
+              >
+                <Table.Header />
+                <Table.Body rows={releaseModify} />
+              </Table.PfProvider>
+            </div>
           </Row>
         </Grid>
       </div>

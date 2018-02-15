@@ -130,23 +130,20 @@ class SearchPage extends React.Component {
     }
   }
   updateCurrentSortType(sortType) {
-    const { currentSortType } = this.state;
-/*
+    const { currentSortType, params } = this.state;
+
     const baseParams = Object.assign({}, this.state.baseParams);
-    baseParams["Order"] = !isSortAscending ? "asc" : "desc";
+    baseParams["sort"] = sortType.id;
     const resultParams = Object.assign({}, params, baseParams);
     this.props.getSpinSearch(resultParams);
-    this.setState({
-      isSortAscending: !isSortAscending,
-      baseParams,
-      showAlertAlready: false
-    });
-*/
+
     if (currentSortType !== sortType) {
       this.setState({
         currentSortType: sortType,
         isSortNumeric: sortType.isNumeric,
-        isSortAscending: true
+        isSortAscending: true,
+        baseParams,
+        showAlertAlready: false
       });
     }
   }
@@ -217,7 +214,7 @@ class SearchPage extends React.Component {
   toggleCurrentSortDirection() {
     const { isSortAscending, params } = this.state;
     const baseParams = Object.assign({}, this.state.baseParams);
-    baseParams["Order"] = !isSortAscending ? "asc" : "desc";
+    baseParams["order"] = !isSortAscending ? "asc" : "desc";
     const resultParams = Object.assign({}, params, baseParams);
     this.props.getSpinSearch(resultParams);
     this.setState({
