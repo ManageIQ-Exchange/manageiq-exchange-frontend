@@ -16,6 +16,7 @@ export const search = (state = defaultState, action: any) => {
     case GET_SPINS_SEARCH_SUCCESS:
       newState.spinSearch = action.spins.data ? [...action.spins.data] : [];
       newState.meta = Object.assign({}, action.spins.meta);
+      newState.error = null;
       return newState;
     case GET_SPINS_SEARCH_ERROR:
       newState.error = action.error;

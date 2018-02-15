@@ -5,7 +5,7 @@ export function getPopularTag() {
   return dispatch => {
     Api.GetTags()
       .then(response => {
-        dispatch(getTagSuccess(response.data))
+        dispatch(getTagSuccess(response.data.data))
       })
       .catch(error => {
         dispatch(getTagError());
