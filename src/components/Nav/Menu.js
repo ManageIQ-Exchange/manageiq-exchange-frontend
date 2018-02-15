@@ -104,7 +104,6 @@ export default class Menu extends React.Component {
             <NavBrand
               title="ManageIQ"
               href="/"
-              iconImg="http://www.patternfly.org/assets/img/brand.svg"
             />
           </HorizontalNavHeader>
           <HorizontalCollapse>
