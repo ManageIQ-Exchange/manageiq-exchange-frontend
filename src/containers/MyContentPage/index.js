@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Grid,
   Col,
@@ -7,32 +7,25 @@ import {
   FormGroup,
   InputGroup,
   FormControl,
-  ListViewInfoItem,
-  ListViewIcon,
-  ListViewItem,
-  ListViewRow,
   Button,
-  DropdownKebab,
-  MenuItem,
   ListView,
   Switch,
-  Spinner,
-  Toolbar
-} from "patternfly-react";
-import { Collapse, Well } from "react-bootstrap";
-import { connect } from "react-redux";
-import cx from "classnames";
+  Spinner
+} from 'patternfly-react';
+import { Collapse, Well } from 'react-bootstrap';
+import { connect } from 'react-redux';
+import cx from 'classnames';
 
-//import ListView from "./ListView";
+// import ListView from "./ListView";
 import {
   getUserSpinsCandidates,
   refreshSpins,
   publishSpin,
   validateSpin,
   unpublishSpin
-} from "../../thunk/user";
-import "./style.css";
-import { filterByAttribute } from "../../lib/";
+} from '../../thunk/user';
+import './style.css';
+import { filterByAttribute } from '../../lib/';
 
 class MyContentPage extends React.Component {
   constructor(props) {
@@ -58,7 +51,7 @@ class MyContentPage extends React.Component {
   componentDidMount() {
     this.props.getUserSpinsCandidates();
   }
-  componentWillReceiveProps(nextProps: Props) {
+  componentWillReceiveProps(nextProps) {
     let { spins } = nextProps.spins;
     if (this.props.spins.spins !== spins)
       this.setState({ listSpins: spins, listSpinsComplete: spins });
@@ -67,7 +60,7 @@ class MyContentPage extends React.Component {
   searchOnList(keywords) {
     let listSpins = [...this.state.listSpinsComplete];
 
-    listSpins = filterByAttribute(keywords, listSpins, "full_name");
+    listSpins = filterByAttribute(keywords, listSpins, 'full_name');
     this.setState({ listSpins });
   }
 
@@ -75,11 +68,11 @@ class MyContentPage extends React.Component {
     return (
       item.properties &&
       Object.keys(item.properties).map(prop => {
-        const classNames = cx("pficon", {
-          "pficon-flavor": prop === "hosts",
-          "pficon-cluster": prop === "clusters",
-          "pficon-container-node": prop === "nodes",
-          "pficon-image": prop === "images"
+        const classNames = cx('pficon', {
+          'pficon-flavor': prop === 'hosts',
+          'pficon-cluster': prop === 'clusters',
+          'pficon-container-node': prop === 'nodes',
+          'pficon-image': prop === 'images'
         });
         return (
           <ListView.InfoItem key={prop}>
@@ -158,11 +151,8 @@ class MyContentPage extends React.Component {
     else this.unpublishSpin(id);
   }
   render() {
-    const placeholderSearch = "Search";
-    const messageLoad = "Loading";
-    const titleBtnPublish = "Publish";
-    const titleBtnValidate = "Validate";
-    let { spins } = this.props;
+    const placeholderSearch = 'Search';
+    const titleBtnValidate = 'Validate';
     let { loadingPublish, listSpins } = this.state;
     return (
       <div>
@@ -183,7 +173,7 @@ class MyContentPage extends React.Component {
               authorized organizations.
             </p>
           </Row>
-          <Row style={{ borderBottom: "1px solid grey", padding: 20 }}>
+          <Row style={{ borderBottom: '1px solid grey', padding: 20 }}>
             <Col xs={12} md={6}>
               <h2 />
             </Col>
@@ -218,12 +208,12 @@ class MyContentPage extends React.Component {
                   return (
                     <Row
                       key={`key_spins_own_list${index}`}
-                      style={{ marginTop: "13px" }}
+                      style={{ marginTop: '13px' }}
                     >
                       <Row
                         style={{
-                          backgroundColor: "#F1F1F1",
-                          color: "black",
+                          backgroundColor: '#F1F1F1',
+                          color: 'black',
                           padding: 10
                         }}
                       >
@@ -245,7 +235,7 @@ class MyContentPage extends React.Component {
                         </Col>
                         <Col xs={6} md={2}>
                           <span>
-                            {loadingPublish !== "" ? loadingPublish : ""}
+                            {loadingPublish !== '' ? loadingPublish : ''}
                           </span>
                           <Switch
                             bsSize="normal"
@@ -258,7 +248,7 @@ class MyContentPage extends React.Component {
                           />
                         </Col>
                       </Row>
-                      <Row style={{ backgroundColor: "#f2eaea" }}>
+                      <Row style={{ backgroundColor: '#f2eaea' }}>
                         <Collapse in={this.state.details[index]}>
                           <Col xs={12} md={8}>
                             <h3>Log:</h3>
