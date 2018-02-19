@@ -19,7 +19,8 @@ import './style.css';
 
 const propTypes = {
   user: PropTypes.object,
-  isShowModal: PropTypes.func
+  isShowModal: PropTypes.func,
+  signOut: PropTypes.func
 };
 
 class Menu extends React.Component {
@@ -27,19 +28,26 @@ class Menu extends React.Component {
     route = { pathname: route };
     browserHistory.push(route);
   }
+  onSignOut = () => {
+    this.props.signOut();
+    this.redirectTo('/');
+  }
   render() {
     let { user } = this.props;
     const titleLogin = 'Login';
+    console.log("props", this.props)
     return (
       <div>
         <HorizontalNav>
           <HorizontalNavHeader>
-            <NavBrand title="ManageIQ" href="/" />
+            <NavBrand title="ManageIQ" >
+              <Link to={'/'} className="header-nav">ManageIQ</Link>
+            </NavBrand>
           </HorizontalNavHeader>
           <HorizontalCollapse>
             <ListGroup bsClass="nav navbar-nav navbar-primary">
               <ListGroupItem bsClass="">
-                <a href="#0">ABOUT</a>
+                <Link to={'/about/'}>ABOUT</Link>
               </ListGroupItem>
               <ListGroupItem bsClass="">
                 <Link to={'/explore/'}>EXPLORE</Link>

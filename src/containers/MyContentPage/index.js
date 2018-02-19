@@ -26,6 +26,7 @@ import {
 } from '../../thunk/user';
 import './style.css';
 import { filterByAttribute } from '../../lib/';
+import ListViewItem from './ListViewItem/';
 
 class MyContentPage extends React.Component {
   constructor(props) {
@@ -179,7 +180,7 @@ class MyContentPage extends React.Component {
             </Col>
             <Col xs={12} md={6}>
               <Col xs={12} md={9}>
-                <FormGroup>
+                <FormGroup style={{ width: '100%' }}>
                   <InputGroup>
                     <FormControl
                       type="text"
@@ -210,57 +211,17 @@ class MyContentPage extends React.Component {
                       key={`key_spins_own_list${index}`}
                       style={{ marginTop: '13px' }}
                     >
-                      <Row
-                        style={{
-                          backgroundColor: '#F1F1F1',
-                          color: 'black',
-                          padding: 10
-                        }}
-                      >
-                        <Col xs={6} md={4}>
-                          Name: {spin.full_name}
-                        </Col>
-                        <Col xs={6} md={2}>
-                          Id: {spin.id}
-                        </Col>
-                        <Col xs={6} md={2}>
-                          <Button onClick={() => this.onHandleDetails(index)}>
-                            More Info
-                          </Button>
-                        </Col>
-                        <Col xs={6} md={2}>
-                          <Button onClick={() => this.validateSpin(spin.id)}>
-                            {titleBtnValidate}
-                          </Button>
-                        </Col>
-                        <Col xs={6} md={2}>
-                          <span>
-                            {loadingPublish !== '' ? loadingPublish : ''}
-                          </span>
-                          <Switch
-                            bsSize="normal"
-                            title="normal"
-                            id="bsSize-example"
-                            onChange={(el, state) =>
-                              this.onChangeSwicth(el, state, spin.id)
-                            }
-                            value={spin.published}
-                          />
-                        </Col>
-                      </Row>
-                      <Row style={{ backgroundColor: '#f2eaea' }}>
-                        <Collapse in={this.state.details[index]}>
-                          <Col xs={12} md={8}>
-                            <h3>Log:</h3>
-                            {spin.validation_log}
-                          </Col>
-                        </Collapse>
-                      </Row>
+                      <ListViewItem
+                        dataList={spin}
+                        onValidate={this.validateSpin}
+                        onPublish={this.onChangeSwicth}
+                      />
                     </Row>
                   );
                 })
               : null}
           </Row>
+
         </Grid>
       </div>
     );

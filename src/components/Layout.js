@@ -48,7 +48,7 @@ class Layout extends React.Component {
         <AboutModal
           show={showModalLogin}
           onHide={() => this.isShowModal(false)}
-          productTitle="Log In to Your Account"
+          productTitle="Sign In to Your Account"
           trademarkText={null}
         >
           <Login

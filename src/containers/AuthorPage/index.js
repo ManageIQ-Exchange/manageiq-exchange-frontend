@@ -62,7 +62,7 @@ class AuthorsPage extends React.Component {
   }
   render() {
     const placeholderSearch = 'Search authors';
-    const titleHeader = "Galaxy Contributors";
+    const titleHeader = "Exchange Contributors";
     let { users } = this.props;
     let { listUsers, elementByPage } = this.state;
     let {meta} = users;
@@ -73,16 +73,6 @@ class AuthorsPage extends React.Component {
     };
     return (
       <div id="container">
-        <div>
-          <img
-            id="imgHome"
-            style={{ height: "50px" }}
-            src={imgIndex}
-            alt="image init"
-          />
-          <span className="name-tab">BROWSE AUTHORS</span>
-        </div>
-
         <Grid width="100%" style={{ marginTop: "20px" }}>
           <Row>
             <Col md={12}>
@@ -92,7 +82,7 @@ class AuthorsPage extends React.Component {
           <Row>
             <Col md={6} />
             <Col md={6}>
-              <FormGroup>
+              <FormGroup style={{ width: '100%' }}>
                 <InputGroup>
                   <FormControl
                     type="text"
@@ -122,7 +112,7 @@ class AuthorsPage extends React.Component {
               </ListRanking>
             </Col>
           </Row>
-          <Row>
+          <Row style={{ marginTop: '4%' }}>
             <Paginator
               viewType="list"
               pagination={pagination}
