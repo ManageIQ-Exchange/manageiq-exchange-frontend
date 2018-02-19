@@ -1,15 +1,10 @@
 import React from "react";
 import {
-  Grid,
   Row,
   Col,
   Filter,
   Sort,
-  Button,
-  MenuItem,
-  DropdownKebab,
   FormControl,
-  Icon,
   Toolbar,
   Paginator,
   Spinner,
@@ -312,43 +307,7 @@ class SearchPage extends React.Component {
           </div>
           */}
         <Toolbar.RightContent>
-          <Toolbar.Find
-            placeholder="Find By Keyword..."
-            currentIndex={1}
-            totalCount={3}
-            onChange={null}
-            onEnter={null}
-            onFindNext={null}
-            onFindPrevious={null}
-          />
-          <Toolbar.ViewSelector>
-            <Button
-              title="List View"
-              bsStyle="link"
-              className={{ active: currentViewType === "list" }}
-              onClick={null}
-            >
-              <Icon type="fa" name="th-list" />
-            </Button>
-            <Button
-              title="Card View"
-              bsStyle="link"
-              className={{ active: currentViewType === "card" }}
-              onClick={null}
-            >
-              <Icon type="fa" name="th" />
-            </Button>
-            <Button
-              title="Table View"
-              bsStyle="link"
-              className={{ active: currentViewType === "table" }}
-              onClick={() => {
-                this.setViewType("table");
-              }}
-            >
-              <Icon type="fa" name="table" />
-            </Button>
-          </Toolbar.ViewSelector>
+          <Toolbar.ViewSelector />
         </Toolbar.RightContent>
         <Toolbar.Results>
           <Row style={{ paddingLeft: 20, marginLeft: "3%" }}>

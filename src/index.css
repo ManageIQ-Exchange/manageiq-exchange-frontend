@@ -32,6 +32,7 @@ body, html {
 
 body, html, #main {
   height: 100%;
+  font-size: 16px !important;
 }
 
 .name-tab {
@@ -40,4 +41,7 @@ body, html, #main {
   left: 74%;
   top: -40px;
   font-size: 25px;
+}
+a {
+  text-decoration: none;
 }

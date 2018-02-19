@@ -1,8 +1,11 @@
-
 .link-icon{
-  border: 1px solid #00659C;
   padding: 10px;
   color: #00659C;
   width: 100%;
   margin-right: 3px;
+  text-decoration: none;
+  cursor: pointer;
+}
+.link-icon:hover{
+   text-decoration: none;
 }

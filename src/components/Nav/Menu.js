@@ -35,7 +35,6 @@ class Menu extends React.Component {
   render() {
     let { user } = this.props;
     const titleLogin = 'Login';
-    console.log("props", this.props)
     return (
       <div>
         <HorizontalNav>

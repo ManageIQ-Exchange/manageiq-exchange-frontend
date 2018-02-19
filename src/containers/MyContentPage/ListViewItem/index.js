@@ -18,7 +18,7 @@ class ListViewItem extends React.Component {
     const { openDetails } = this.state;
     const { full_name, id, published, validation_log } = this.props.dataList;
     const titleBtnValidate = 'Validate';
-    const colorHeader = openDetails ? '#EDF8FF' : '';
+    const colorHeader = openDetails ? '#ededed' : '';
     const shadow = openDetails
       ? '0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08)'
       : '';
@@ -34,7 +34,9 @@ class ListViewItem extends React.Component {
             </div>
             <div className="list-view-pf-body">
               <div className="list-view-pf-description">
-                <div className="list-group-item-heading">{full_name}</div>
+                <div className="list-group-item-heading">
+                  <a style={{ textDecoration: 'none' }}>{full_name}</a>
+                </div>
                 <div className="list-group-item-text" />
               </div>
               <div className="list-view-pf-additional-info">

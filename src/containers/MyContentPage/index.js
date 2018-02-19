@@ -174,7 +174,7 @@ class MyContentPage extends React.Component {
               authorized organizations.
             </p>
           </Row>
-          <Row style={{ borderBottom: '1px solid grey', padding: 20 }}>
+          <Row style={{ padding: 20 }}>
             <Col xs={12} md={6}>
               <h2 />
             </Col>
