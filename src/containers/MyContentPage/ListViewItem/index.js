@@ -1,5 +1,5 @@
 import React from 'react';
-import { Icon, Switch, Row, Col, Button, MenuItem, DropdownKebab } from 'patternfly-react';
+import { Switch, Col, Button, MenuItem, DropdownKebab } from 'patternfly-react';
 import { Collapse } from 'react-bootstrap';
 import './style.css';
 
@@ -18,17 +18,21 @@ class ListViewItem extends React.Component {
     const { openDetails } = this.state;
     const { full_name, id, published, validation_log } = this.props.dataList;
     const titleBtnValidate = 'Validate';
-    const colorHeader = openDetails ? '#ededed' : '';
+    const colorHeader = openDetails ? '#edf8ff' : '';
     const shadow = openDetails
       ? '0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08)'
       : '';
     return (
-      <div className="info-item" style={{boxShadow: shadow}}>
-        <div className="list-group-item" id="info-header" style={{backgroundColor:colorHeader}}>
-          <div className="list-view-pf-main-info" style={{height: '60px'}}>
+      <div className="info-item" style={{ boxShadow: shadow }}>
+        <div
+          className="list-group-item"
+          id="info-header"
+          style={{ backgroundColor: colorHeader }}
+        >
+          <div className="list-view-pf-main-info" style={{ height: '60px' }}>
             <div className="list-view-pf-expand">
               <span
-                className={`fa fa-angle-${openDetails ? 'down': 'right'}`}
+                className={`fa fa-angle-${openDetails ? 'down' : 'right'}`}
                 onClick={() => this.setState({ openDetails: !openDetails })}
               />
             </div>
@@ -40,7 +44,12 @@ class ListViewItem extends React.Component {
                 <div className="list-group-item-text" />
               </div>
               <div className="list-view-pf-additional-info">
-                <Col md={8} />
+                <Col md={6} />
+                <Col xs={6} md={2}>
+                  <Button onClick={() => this.props.onValidate(id)}>
+                    {titleBtnValidate}
+                  </Button>
+                </Col>
                 <Switch
                   bsSize="normal"
                   title="normal"
@@ -49,14 +58,6 @@ class ListViewItem extends React.Component {
                   value={published}
                 />
                 <Col md={2} xs={0} />
-                <DropdownKebab>
-                  <MenuItem
-                    eventKey="5"
-                    onClick={() => this.props.onValidate(id)}
-                  >
-                    Validate
-                  </MenuItem>
-                </DropdownKebab>
               </div>
             </div>
           </div>

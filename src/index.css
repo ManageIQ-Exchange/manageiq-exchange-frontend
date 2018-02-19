@@ -27,7 +27,7 @@ body {
 }
 body, html {
   max-width: 100%;
- overflow-x: hidden;
+  overflow-x: hidden;
 }
 
 body, html, #main {

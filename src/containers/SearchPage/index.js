@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Row,
   Col,
@@ -9,50 +9,44 @@ import {
   Paginator,
   Spinner,
   Alert
-} from "patternfly-react";
+} from 'patternfly-react';
+import PropTypes from 'prop-types';
 
-import Api from "../../service/Api";
-import CardItem from "../../components/CardItem/";
-import TagsFilter from "../../components/TagsFilter/";
-import { imgIndex } from "../../ImageImport";
-import "./style.css";
-import { dataSearch, popularTag } from "./mock/";
-import { filters } from "./mock/filter";
-import sortFields from "./Sort/";
-import { connect } from "react-redux";
-import { getPopularTag } from "../../thunk/tags";
-import { getSpinSearch } from "../../thunk/spin";
+import CardItem from '../../components/CardItem/';
+import TagsFilter from '../../components/TagsFilter/';
+
+import { filters } from './Filter/';
+import sortFields from './Sort/';
+import { connect } from 'react-redux';
+import { getPopularTag } from '../../thunk/tags';
+import { getSpinSearch } from '../../thunk/spin';
+
+import './style.css';
 
 const perPageOptions = [5, 10, 15];
+
+const propTypes = {
+  tags: PropTypes.object,
+  search: PropTypes.object,
+  getSpinSearch: PropTypes.func,
+  getPopularTag: PropTypes.func
+};
 
 class SearchPage extends React.Component {
   constructor(props) {
     super(props);
-    this.selectFilterType = this.selectFilterType.bind(this);
-    this.updateCurrentSortType = this.updateCurrentSortType.bind(this);
-    this.onSelectPerPage = this.onSelectPerPage.bind(this);
-    this.addFilterPopularTag = this.addFilterPopularTag.bind(this);
-    this.removeTagFilter = this.removeTagFilter.bind(this);
-    this.onSearch = this.onSearch.bind(this);
-    this.onChange = this.onChange.bind(this);
-    this.onChangePage = this.onChangePage.bind(this);
-    this.generateParamsFilter = this.generateParamsFilter.bind(this);
-    this.clearFilter = this.clearFilter.bind(this);
-    this.toggleCurrentSortDirection = this.toggleCurrentSortDirection.bind(
-      this
-    );
 
     this.state = {
-      currentValue: "",
+      currentValue: '',
       currentFilterType: filters[0],
       currentSortType: sortFields[0],
       isSortNumeric: sortFields[0].isNumeric,
       isSortAscending: true,
-      currentViewType: "list",
+      currentViewType: 'list',
       elementByPage: perPageOptions[0],
       filterPopularTag: [],
       filters: {},
-      baseParams: { limit: perPageOptions[0] },
+      baseParams: { limit: perPageOptions[0], sort: sortFields[0].id },
       params: {},
       showAlertAlready: false
     };
@@ -68,17 +62,12 @@ class SearchPage extends React.Component {
       this.setState({ filterPopularTag });
     }
   }
-  onSearch(e) {
-    const {
-      currentFilterType,
-      currentValue,
-      filterCategory,
-      filters
-    } = this.state;
+  onSearch = e => {
+    const { currentFilterType, filters } = this.state;
 
     let baseParams = Object.assign({}, this.state.baseParams);
 
-    if (e.key === "Enter") {
+    if (e.key === 'Enter') {
       let filter = filters[currentFilterType.id]
         ? filters[currentFilterType.id]
         : {};
@@ -91,21 +80,21 @@ class SearchPage extends React.Component {
       let params = this.generateParamsFilter(filters);
       this.props.getSpinSearch(params);
 
-      baseParams["page"] = 1;
+      baseParams['page'] = 1;
 
       this.setState({
         filters,
-        currentValue: "",
+        currentValue: '',
         baseParams,
         params,
         showAlertAlready: false
       });
     }
-  }
-  generateParamsFilter(filters) {
+  };
+  generateParamsFilter = filters => {
     let { baseParams } = this.state;
     let params = Object.assign({}, baseParams);
-    params["page"] = 1;
+    params['page'] = 1;
     let keys = Object.keys(filters);
 
     keys.forEach(key => {
@@ -113,22 +102,18 @@ class SearchPage extends React.Component {
         params[key] = filters[key].listFilters[0];
     });
     return params;
-  }
-  selectFilterType(filterType) {
+  };
+  selectFilterType = filterType => {
     const { currentFilterType } = this.state;
     if (currentFilterType !== filterType) {
-      this.setState({ currentValue: "", currentFilterType: filterType });
-
-      if (filterType.filterType === "complex-select") {
-        this.setState({ filterCategory: undefined, categoryValue: "" });
-      }
+      this.setState({ currentValue: '', currentFilterType: filterType });
     }
-  }
-  updateCurrentSortType(sortType) {
+  };
+  updateCurrentSortType = sortType => {
     const { currentSortType, params } = this.state;
 
     const baseParams = Object.assign({}, this.state.baseParams);
-    baseParams["sort"] = sortType.id;
+    baseParams['sort'] = sortType.id;
     const resultParams = Object.assign({}, params, baseParams);
     this.props.getSpinSearch(resultParams);
 
@@ -141,19 +126,19 @@ class SearchPage extends React.Component {
         showAlertAlready: false
       });
     }
-  }
-  onChange(e, type) {
+  };
+  onChange = (e, type) => {
     let state = Object.assign({}, this.state);
     state[type] = e.target.value;
     this.setState(state);
-  }
+  };
   renderInput() {
-    const { currentFilterType, currentValue, filterCategory } = this.state;
+    const { currentFilterType, currentValue } = this.state;
     return (
       <FormControl
         type={currentFilterType.filterType}
         onChange={e => {
-          this.onChange(e, "currentValue");
+          this.onChange(e, 'currentValue');
         }}
         value={currentValue}
         placeholder={currentFilterType.placeholder}
@@ -161,34 +146,29 @@ class SearchPage extends React.Component {
       />
     );
   }
-  onChangePage(page) {
+  onChangePage = page => {
     let baseParams = Object.assign(
       {},
       this.state.baseParams,
       this.state.params
     );
-    baseParams["page"] = page;
+    baseParams['page'] = page;
 
     this.props.getSpinSearch(baseParams);
 
     this.setState({ baseParams });
-  }
-  onSelectPerPage(numItems) {
+  };
+  onSelectPerPage = numItems => {
     let { baseParams } = this.state;
 
-    baseParams["limit"] = numItems;
+    baseParams['limit'] = numItems;
     this.props.getSpinSearch(baseParams);
 
     this.setState({ elementByPage: numItems, baseParams });
-  }
-  addFilterPopularTag(name) {
-    const {
-      currentFilterType,
-      currentValue,
-      filterCategory,
-      filters
-    } = this.state;
-    const nameTag = "tag";
+  };
+  addFilterPopularTag = name => {
+    const { filters } = this.state;
+    const nameTag = 'tag';
     let baseParams = Object.assign({}, this.state.baseParams);
 
     let filter = filters[nameTag] ? filters[nameTag] : {};
@@ -201,15 +181,15 @@ class SearchPage extends React.Component {
     let params = this.generateParamsFilter(filters);
     this.props.getSpinSearch(params);
 
-    baseParams["page"] = 1;
+    baseParams['page'] = 1;
 
-    this.setState({ filters, currentValue: "", baseParams, params });
-  }
+    this.setState({ filters, currentValue: '', baseParams, params });
+  };
 
-  toggleCurrentSortDirection() {
+  toggleCurrentSortDirection = () => {
     const { isSortAscending, params } = this.state;
     const baseParams = Object.assign({}, this.state.baseParams);
-    baseParams["order"] = !isSortAscending ? "asc" : "desc";
+    baseParams['order'] = !isSortAscending ? 'asc' : 'desc';
     const resultParams = Object.assign({}, params, baseParams);
     this.props.getSpinSearch(resultParams);
     this.setState({
@@ -217,10 +197,10 @@ class SearchPage extends React.Component {
       baseParams,
       showAlertAlready: false
     });
-  }
+  };
 
-  removeTagFilter(name, typeFilter) {
-    const { baseParams, filters, params } = this.state;
+  removeTagFilter = (name, typeFilter) => {
+    const { filters, params } = this.state;
 
     const newFilters = Object.assign({}, filters);
     let listFilters = newFilters[typeFilter].listFilters;
@@ -229,10 +209,8 @@ class SearchPage extends React.Component {
     listFilters.splice(index, 1);
 
     newFilters[typeFilter].listFilters = listFilters;
-    let keys = Object.keys(filters);
-
     let newBaseParams = Object.assign({}, params);
-    newBaseParams["page"] = 1;
+    newBaseParams['page'] = 1;
     delete newBaseParams[typeFilter];
 
     this.props.getSpinSearch(newBaseParams);
@@ -243,8 +221,8 @@ class SearchPage extends React.Component {
       params: newBaseParams,
       showAlertAlready: false
     });
-  }
-  clearFilter() {
+  };
+  clearFilter = () => {
     const { baseParams } = this.state;
     this.props.getSpinSearch(baseParams);
     this.setState({ params: {}, filters: {}, showAlertAlready: false });
@@ -253,12 +231,9 @@ class SearchPage extends React.Component {
     let {
       currentFilterType,
       currentSortType,
-      currentViewType,
       isSortNumeric,
       isSortAscending,
-      currentValue,
       elementByPage,
-      filterPopularTag,
       showAlertAlready
     } = this.state;
     let { tags, search } = this.props;
@@ -269,10 +244,10 @@ class SearchPage extends React.Component {
     };
     let results = search && search.spinSearch ? search.spinSearch : [];
     let keys = Object.keys(this.state.filters);
-    const messageError = "There has been a problem";
+    const messageError = 'There has been a problem';
     const showAlert = !showAlertAlready ? search.error !== null : false;
     return (
-      <div style={{ marginTop: "1%" }}>
+      <div style={{ marginTop: '1%' }}>
         <Filter id="filter-search">
           <Filter.TypeSelector
             filterTypes={filters}
@@ -293,164 +268,161 @@ class SearchPage extends React.Component {
             onClick={() => this.toggleCurrentSortDirection()}
           />
         </Sort>
-        {/*
-          <div className="form-group" style={{marginLeft:'2%'}} >
-            <Button onClick={null}>Action 1</Button>
-            <Button onClick={null}>Action 2</Button>
-            <DropdownKebab id="toolbarActionKebab">
-              <MenuItem onClick={null}>Action</MenuItem>
-              <MenuItem onClick={null}>Another Action</MenuItem>
-              <MenuItem onClick={null}>Something Else Here</MenuItem>
-              <MenuItem role="separator" className="divider" />
-              <MenuItem onClick={null}>Separate</MenuItem>
-            </DropdownKebab>
-          </div>
-          */}
         <Toolbar.RightContent>
           <Toolbar.ViewSelector />
         </Toolbar.RightContent>
-        <Toolbar.Results>
-          <Row style={{ paddingLeft: 20, marginLeft: "3%" }}>
-            <h5>{results.length} Results</h5>
-            {keys.map((data, index) => {
-              return this.state.filters[data].listFilters
-                ? this.state.filters[data].listFilters.map((element, index) => {
+        <div>
+          <Toolbar.Results>
+            <Row style={{ paddingLeft: 20, marginLeft: '3%' }}>
+              <h5>{results.length} Results</h5>
+              {keys.map((data, index) => {
+                return this.state.filters[data].listFilters
+                  ? this.state.filters[data].listFilters.map((element, index) => {
+                      return (
+                        <TagsFilter
+                          name={`${data}: ${element}`}
+                          onClick={() => this.removeTagFilter(element, data)}
+                        />
+                      );
+                      }
+                    )
+                  : null;
+              })}
+              {keys.length > 0 ? (
+                <p style={{ marginLeft: '2%' }}>
+                  <a onClick={this.clearFilter}>Clear All Filters</a>
+                </p>
+              ) : null}
+            </Row>
+          </Toolbar.Results>
+          <Row>
+            {showAlert ? (
+              <Alert
+                style={{ width: '50%', marginLeft: '2%' }}
+                type="warning"
+                onDismiss={() => this.setState({ showAlertAlready: true })}
+              >
+                {messageError}
+              </Alert>
+            ) : null}
+            <Col xs={12} md={9}>
+              <div className="content-card">
+                {search.isLoading ? (
+                  <Spinner loading={search.isLoading} />
+                ) : (
+                  results.map((data, index) => {
                     return (
-                      <TagsFilter
-                        name={`${data}: ${element}`}
-                        onClick={() => this.removeTagFilter(element, data)}
-                      />
+                      <Col md={3} key={`col_card_${index}`}>
+                        <CardItem
+                          key={`card_${index}`}
+                          cardInformation={data}
+                        />
+                      </Col>
                     );
                   })
-                : null;
-            })}
-            {keys.length > 0 ? (
-              <p style={{marginLeft: '2%'}}>
-                <a onClick={this.clearFilter}>Clear All Filters</a>
-              </p>
-            ) : null}
-          </Row>
-        </Toolbar.Results>
-        <Row>
-          {showAlert ? (
-            <Alert
-              style={{ width: "50%", marginLeft: "2%" }}
-              type="warning"
-              onDismiss={() => this.setState({ showAlertAlready: true })}
-            >
-              {messageError}
-            </Alert>
-          ) : null}
-          <Col xs={12} md={9}>
-            <div className="content-card">
-              {search.isLoading ? (
-                <Spinner loading={search.isLoading} />
-              ) : (
-                results.map((data, index) => {
-                  return (
-                    <Col md={3} key={`col_card_${index}`}>
-                      <CardItem key={`card_${index}`} cardInformation={data} />
-                    </Col>
-                  );
-                })
-              )}
-            </div>
-          </Col>
-          <Col
-            xs={12}
-            md={2}
-            style={{
-              overflowX: "hidden",
-              padding: 0,
-              textAlign: "center"
-            }}
-          >
-            <div className="card-pf">
-              <div className="card-pf-heading">
-                <h2 className="card-pf-title">Popular Tags</h2>
+                )}
               </div>
-              <div>
-                <div
-                  className="card-pf-body"
-                  style={{ overflowY: 'scroll', height: '300px' }}
-                >
-                  <Row style={{ padding: 0, width: "100%", marginTop: "10px" }}>
-                    {tags && tags.tags
-                      ? tags.tags.map((data, index) => {
-                          let infoTag = data;
-                          return (
-                            <Row
-                              key={`popular_tag_row_${index}`}
-                              style={{ marginTop: "10px" }}
-                            >
-                              <Col
-                                xs={6}
-                                md={3}
-                                mdOffset={2}
-                                onClick={() =>
-                                  this.addFilterPopularTag(infoTag.name)
-                                }
+            </Col>
+            <Col
+              xs={12}
+              md={2}
+              style={{
+                overflowX: 'hidden',
+                padding: 0,
+                textAlign: 'center'
+              }}
+            >
+              <div className="card-pf">
+                <div className="card-pf-heading">
+                  <h2 className="card-pf-title">Popular Tags</h2>
+                </div>
+                <div>
+                  <div
+                    className="card-pf-body"
+                    style={{ overflowY: 'scroll', height: '300px' }}
+                  >
+                    <Row
+                      style={{ padding: 0, width: '100%', marginTop: '10px' }}
+                    >
+                      {tags && tags.tags
+                        ? tags.tags.map((data, index) => {
+                            let infoTag = data;
+                            return (
+                              <Row
+                                key={`popular_tag_row_${index}`}
+                                style={{ marginTop: '10px' }}
                               >
-                                <div
-                                  style={{
-                                    backgroundColor: "#b7b7b7",
-                                    borderRadius: "10px",
-                                    margin: "0 auto",
-                                    width: "125px",
-                                    color: "#FFFFFF"
-                                  }}
+                                <Col
+                                  xs={6}
+                                  md={3}
+                                  mdOffset={2}
+                                  onClick={() =>
+                                    this.addFilterPopularTag(infoTag.name)
+                                  }
                                 >
-                                  {infoTag.name}
-                                </div>
-                              </Col>
-                              <Col xs={6} md={3} mdOffset={2}>
-                                <div
-                                  style={{
-                                    backgroundColor: "#848992",
-                                    color: "#FFFFFF",
-                                    margin: "0 auto",
-                                    borderRadius: "10px"
-                                  }}
-                                >
-                                  {infoTag.count_spins}
-                                </div>
-                              </Col>
-                            </Row>
-                          );
-                        })
-                      : null}
-                  </Row>
+                                  <div
+                                    style={{
+                                      backgroundColor: '#b7b7b7',
+                                      borderRadius: '10px',
+                                      margin: '0 auto',
+                                      width: '125px',
+                                      color: '#FFFFFF'
+                                    }}
+                                  >
+                                    {infoTag.name}
+                                  </div>
+                                </Col>
+                                <Col xs={6} md={3} mdOffset={2}>
+                                  <div
+                                    style={{
+                                      backgroundColor: '#848992',
+                                      color: '#FFFFFF',
+                                      margin: '0 auto',
+                                      borderRadius: '10px'
+                                    }}
+                                  >
+                                    {infoTag.count_spins}
+                                  </div>
+                                </Col>
+                              </Row>
+                            );
+                          })
+                        : null}
+                    </Row>
+                  </div>
                 </div>
               </div>
-            </div>
-          </Col>
-        </Row>
-        <Row>
-          <Col xs={12} md={9}>
-            <div style={{ padding: "0 20px" }}>
-              <Paginator
-                viewType="list"
-                pagination={pagination}
-                onPageSet={this.onChangePage}
-                onPerPageSelect={this.onSelectPerPage}
-                itemCount={
-                  search.meta && search.meta.total_count
-                    ? search.meta.total_count
-                    : 0
-                }
-                messages={{
-                  firstPage: "First Page",
-                  previousPage: "Previous Page",
-                  currentPage: "Current Page"
-                }}
-              />
-            </div>
-          </Col>
-        </Row>
+            </Col>
+          </Row>
+          <Row>
+            <Col xs={12} md={9}>
+              <div style={{ padding: '0 20px' }}>
+                <Paginator
+                  viewType="list"
+                  pagination={pagination}
+                  onPageSet={this.onChangePage}
+                  onPerPageSelect={this.onSelectPerPage}
+                  itemCount={
+                    search.meta && search.meta.total_count
+                      ? search.meta.total_count
+                      : 0
+                  }
+                  messages={{
+                    firstPage: 'First Page',
+                    previousPage: 'Previous Page',
+                    currentPage: 'Current Page'
+                  }}
+                />
+              </div>
+            </Col>
+          </Row>
+        </div>
       </div>
     );
   }
 }
+SearchPage.propTypes = propTypes;
+
 const mapStateToProps = state => {
   return {
     tags: state.tags,
