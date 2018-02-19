@@ -25,6 +25,7 @@ const routes = (
     <Route path="/:userName/:spinName" component={SpinView}/>
     <Route path="/search/" component={SearchPage}/>
     <Route path="/mycontent/" component={MyContentPage}/>
+    <Route path="/about/" component={AboutPage}/>
     <Route path="*" component={NotFoundPage}/>
   </Route>
 );

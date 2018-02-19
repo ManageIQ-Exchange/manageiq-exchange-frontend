@@ -1,37 +1,27 @@
- const sortFields = [
+const sortFields = [
   {
-    id: "relevance",
-    title: "Relevance",
+    id: 'user_login',
+    title: 'Author username',
     isNumeric: false
   },
   {
-    id: "name",
-    title: "Name",
+    id: 'name',
+    title: 'Name',
     isNumeric: false
   },
   {
-    id: "author",
-    title: "Author",
-    isNumeric: true
-  },
-  {
-    id: "created",
-    title: "Created",
+    id: 'stargazers_count',
+    title: 'Stargazers',
     isNumeric: false
   },
   {
-    id: "star",
-    title: "Stargazers",
+    id: 'watchers_count',
+    title: 'Watchers',
     isNumeric: false
   },
   {
-    id: "watchers",
-    title: "Watchers",
-    isNumeric: false
-  },
-  {
-    id: "downloads",
-    title: "Downloads",
+    id: 'downloads_count',
+    title: 'Downloads',
     isNumeric: false
   }
 ];

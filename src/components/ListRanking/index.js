@@ -8,9 +8,7 @@ import {
   ListGroupItem,
   Button
 } from "patternfly-react";
-import { Link, browserHistory } from "react-router";
-import GoPrimitiveDot from "react-icons/lib/go/primitive-dot";
-import TiSocialGithubCircular from "react-icons/lib/ti/social-github-circular";
+import { browserHistory } from "react-router";
 import "./style.css";
 
 class ListRanking extends React.Component {
@@ -44,7 +42,7 @@ class ListRanking extends React.Component {
       : data && data.length > 0 ? Object.keys(data[0]) : [];
     let heightContent = this.props.height
       ? { height: this.props.height, overflowY: "scroll" }
-      : {};
+      : { height: '80%'};
     const href = urlRelease ? urlRelease : null;
     return (
       <div style={{ height: "550px" }}>
@@ -86,9 +84,16 @@ class ListRanking extends React.Component {
                             {this.props.children}
                           </a>
                         ) : this.props.removeBadge ? (
-                          <Badge id="badgeDescripcions">{data[keys[1]]}</Badge>
+                          <Badge
+                            style={{ backgroundColor: 'white', color: '#9fa5a5' }}
+                            id="badgeDescripcions"
+                          >
+                            {data[keys[1]]}
+                          </Badge>
                         ) : (
-                          <Badge>{data[keys[1]]}</Badge>
+                          <Badge style={{ backgroundColor: 'white', color: '#9fa5a5' }}>
+                            {data[keys[1]]}
+                          </Badge>
                         )}
                       </ListGroupItem>
                     </div>
