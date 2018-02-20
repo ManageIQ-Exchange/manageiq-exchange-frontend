@@ -28,7 +28,7 @@
     "react-markdown": "^3.2.0",
     "react-redux": "^5.0.6",
     "react-router": "^2.6.1",
-    "react-scripts": "https://github.com/ManageIQ-Exchange/react-scripts.git#41c56b7",
+    "react-scripts": "https://github.com/ManageIQ-Exchange/react-scripts.git#5937b01",
     "redux": "^3.7.2",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.2.0"
