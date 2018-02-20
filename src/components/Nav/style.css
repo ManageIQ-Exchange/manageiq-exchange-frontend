@@ -17,3 +17,7 @@
   border: 0;
   color: #FFFFFF;
 }
+.header-nav {
+  text-decoration: none !important; 
+  color: #FFFFFF;
+}

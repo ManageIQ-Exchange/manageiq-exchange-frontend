@@ -1,99 +1,37 @@
-import React from "react";
-//import { Navbar, Nav, NavItem, MenuItem, NavDropdown, Col, Image, Glyphicon } from 'react-bootstrap';
+import React from 'react';
 import {
   HorizontalNav,
   HorizontalNavHeader,
   NavBrand,
   HorizontalCollapse
-} from "../Navigation";
+} from '../Navigation';
 import {
   ListGroup,
   ListGroupItem,
   MenuItem,
   DropdownButton,
   Spinner
-} from "patternfly-react";
-import { browserHistory } from "react-router";
-import Api from "../../service/Api";
+} from 'patternfly-react';
+import PropTypes from 'prop-types';
+import { browserHistory, Link } from 'react-router';
 
-import "./style.css";
+import './style.css';
 
-export default class Menu extends React.Component {
-  constructor(props) {
-    super(props);
-    this.UserLogged = this.UserLogged.bind(this);
-    this.UserLogging = this.UserLogging.bind(this);
-    this.UserLogOut = this.UserLogOut.bind(this);
-    this.postSpins = this.postSpins.bind(this);
-    this.onSignOut = this.onSignOut.bind(this);
-    var user = "";
-    var ava = "";
-    var logged = false;
-    if (typeof sessionStorage !== "undefined") {
-      if (sessionStorage.getItem("github_login")) {
-        (logged = true),
-          (user = sessionStorage.getItem("github_login")),
-          (ava = sessionStorage.getItem("github_avatar_url"));
-      }
-    }
-    this.state = {
-      logged: logged,
-      logging: false,
-      username: user,
-      avatar: ava
-    };
-  }
+const propTypes = {
+  user: PropTypes.object,
+  isShowModal: PropTypes.func,
+  signOut: PropTypes.func
+};
 
-  UserLogged() {
-    this.setState({
-      logging: false,
-      logged: true,
-      username: sessionStorage.getItem("github_login"),
-      avatar: sessionStorage.getItem("github_avatar_url")
-    });
-  }
-  UserLogging(value) {
-    this.setState({
-      logging: value
-    });
-  }
-  postSpins() {
-    Api.RefreshSpin()
-      .then(response => {
-        if (response.status == 200) {
-          console.log(response);
-        } else {
-          console.log("ERROR " + response);
-        }
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }
-  UserLogOut() {
-    Api.SignOut()
-      .then(response => {
-        if (response.status == 200) {
-          this.setState({ logged: false });
-          console.log("Logout");
-          sessionStorage.clear();
-        } else {
-          console.log("ERROR " + response);
-        }
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }
+class Menu extends React.Component {
   redirectTo(route) {
     route = { pathname: route };
     browserHistory.push(route);
   }
-  onSignOut() {
+  onSignOut = () => {
     this.props.signOut();
     this.redirectTo('/');
   }
-
   render() {
     let { user } = this.props;
     const titleLogin = 'Login';
@@ -101,33 +39,35 @@ export default class Menu extends React.Component {
       <div>
         <HorizontalNav>
           <HorizontalNavHeader>
-            <NavBrand
-              title="ManageIQ"
-              href="/"
-            />
+            <NavBrand title="ManageIQ" >
+              <Link to={'/'} className="header-nav">ManageIQ</Link>
+            </NavBrand>
           </HorizontalNavHeader>
           <HorizontalCollapse>
             <ListGroup bsClass="nav navbar-nav navbar-primary">
               <ListGroupItem bsClass="">
-                <a href="#0">ABOUT</a>
+                <Link to={'/about/'}>ABOUT</Link>
               </ListGroupItem>
               <ListGroupItem bsClass="">
-                <a href="/explore/">EXPLORE</a>
+                <Link to={'/explore/'}>EXPLORE</Link>
               </ListGroupItem>
               <ListGroupItem bsClass="">
-                <a href="/search/">SEARCH</a>
+                <Link to={'/search/'}>SEARCH</Link>
               </ListGroupItem>
               <ListGroupItem bsClass="">
-                <a href="/authors/">BROWSE AUTHORS</a>
+                <Link to={'/authors/'}>BROWSE AUTHORS</Link>
               </ListGroupItem>
               {user.logged ? (
                 <ListGroupItem bsClass="">
-                  <a href="/mycontent/">MY CONTENT</a>
+                  <Link to={'/mycontent/'}>MY CONTENT</Link>
                 </ListGroupItem>
               ) : null}
             </ListGroup>
             <ListGroup bsClass="nav navbar-nav navbar-utility">
-              <Spinner style={{backgroundColor:'#cccccc'}} loading={user.loading} />
+              <Spinner
+                style={{ backgroundColor: '#cccccc' }}
+                loading={user.loading}
+              />
               {user.logged ? (
                 <DropdownButton
                   bsStyle="link"
@@ -135,19 +75,12 @@ export default class Menu extends React.Component {
                   key={1}
                   id="dropdown-basic-1"
                 >
-                  <MenuItem eventKey="1">My Imports</MenuItem>
-                  <MenuItem eventKey="2">Manage E-mail</MenuItem>
-                  <MenuItem eventKey="3">My Stars</MenuItem>
-                  <MenuItem eventKey="4">Manage Linked Accounts</MenuItem>
                   <MenuItem divider />
                   <MenuItem eventKey="5" onClick={this.onSignOut}>
                     Sign out
                   </MenuItem>
                 </DropdownButton>
-              ) : user.loading ?
-              null
-              :
-              (
+              ) : user.loading ? null : (
                 <ListGroupItem
                   bsClass="btn-login"
                   onClick={() => {
@@ -166,3 +99,6 @@ export default class Menu extends React.Component {
     );
   }
 }
+
+Menu.propTypes = propTypes;
+export default Menu;

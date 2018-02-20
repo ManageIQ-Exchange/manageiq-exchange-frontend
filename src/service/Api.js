@@ -159,7 +159,7 @@ class Api {
 
   static GetTags() {
     const api = new this();
-    api.request("get", ApiTags, api.headerAuthenticated());
+    api.request("get",  `${ApiTags}?`, api.headerAuthenticated());
     return api;
   }
   static GetTops() {

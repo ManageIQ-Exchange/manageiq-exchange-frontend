@@ -1,26 +1,21 @@
-import React from "react";
+import React from 'react';
 import {
   Grid,
   Row,
-  Col,
-  Button,
-  Uncontrolledp,
-  Nav,
-  NavItem,
   Tabs,
   Tab
-} from "patternfly-react";
-import { connect } from "react-redux";
+} from 'patternfly-react';
+import { connect } from 'react-redux';
+
+
+import Api from '../../service/Api';
+import TabDetails from './TabDetails/';
+import TabReadme from './TabReadme/';
+import { getSpin } from '../../thunk/spin';
 
 import './style.css';
-import Api from "../../service/Api";
-import TabDetails from "./TabDetails/";
-import { getSpin } from "../../thunk/spin";
-class SpinProfile extends React.Component {
-  constructor(props) {
-    super(props);
-  }
 
+class SpinProfile extends React.Component {
   componentDidMount() {
     let { idSpin } = this.props.params;
     if (idSpin) this.props.getSpin(idSpin);
@@ -28,10 +23,16 @@ class SpinProfile extends React.Component {
 
   render() {
     const { detailsSpin } = this.props;
-    let descriptionSpin = detailsSpin && detailsSpin.spin ? detailsSpin.spin.description : "";
-    let nameSpin = detailsSpin && detailsSpin.spin ? detailsSpin.spin.full_name : "";
+    const descriptionSpin =
+      detailsSpin && detailsSpin.spin ? detailsSpin.spin.description : '';
+    const nameSpin =
+      detailsSpin && detailsSpin.spin ? detailsSpin.spin.full_name : '';
+    const readme =
+      detailsSpin && detailsSpin.spin ? detailsSpin.spin.readme : '';
+    const titleTabDetails = 'Details';
+    const titleReadme = 'README';
     return (
-      <div id="container" style={{ marginTop: "2%" }}>
+      <div id="container" style={{ marginTop: '2%' }}>
         <Grid width="100%">
           <Row>
             <h1 className="first-header">{nameSpin}</h1>
@@ -39,19 +40,14 @@ class SpinProfile extends React.Component {
           <Row>
             <h2 className="second-header">{descriptionSpin}</h2>
           </Row>
-          <Tabs defaultActiveKey={1} style={{ marginTop: "10px" }}>
-            <Tab eventKey={1} title="Details">
+          <Tabs defaultActiveKey={1} style={{ marginTop: '10px' }}>
+            <Tab eventKey={1} title={titleTabDetails}>
               <TabDetails spin={detailsSpin.spin} />
             </Tab>
-            <Tab eventKey={2} title="README">
+            <Tab eventKey={2} title={titleReadme}>
+
               <Row style={{ marginTop: "10px" }}>
-                <pre>
-                  <code>
-                    {detailsSpin && detailsSpin.spin
-                      ? detailsSpin.spin.readme
-                      : ""}
-                  </code>
-                </pre>
+                <TabReadme textReadme={readme} />
               </Row>
             </Tab>
           </Tabs>
