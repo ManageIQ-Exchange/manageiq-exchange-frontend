@@ -20,3 +20,7 @@
   color: #000000;
   font-weight:300;
 }
+.col-header{
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

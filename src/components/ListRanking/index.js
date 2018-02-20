@@ -42,7 +42,7 @@ class ListRanking extends React.Component {
       : data && data.length > 0 ? Object.keys(data[0]) : [];
     let heightContent = this.props.height
       ? { height: this.props.height, overflowY: "scroll" }
-      : { height: '80%'};
+      : { height: "80%" };
     const href = urlRelease ? urlRelease : null;
     return (
       <div style={{ height: "550px" }}>
@@ -61,40 +61,53 @@ class ListRanking extends React.Component {
                   return (
                     <div key={"data_" + index}>
                       <ListGroupItem>
-                        {href === null ? (
-                          <a
-                            className="first-header"
-                            onClick={() =>
-                              this.onClick(data[idObject], data[keys[0]])
-                            }
-                          >
-                            {data[keys[0]]}
-                          </a>
-                        ) : (
-                          <a
-                            className="first-header"
-                            href={`${href}${data.id}/download`}
-                          >
-                            {data[keys[0]]}
-                          </a>
-                        )}
-
-                        {this.props.children ? (
-                          <a className="second-header" href={data[keys[1]]}>
-                            {this.props.children}
-                          </a>
-                        ) : this.props.removeBadge ? (
-                          <Badge
-                            style={{ backgroundColor: 'white', color: '#9fa5a5' }}
-                            id="badgeDescripcions"
-                          >
-                            {data[keys[1]]}
-                          </Badge>
-                        ) : (
-                          <Badge style={{ backgroundColor: 'white', color: '#9fa5a5' }}>
-                            {data[keys[1]]}
-                          </Badge>
-                        )}
+                        <Row>
+                          <Col md={9} xs={9} className="col-header">
+                            {href === null ? (
+                              <a
+                                className="first-header"
+                                onClick={() =>
+                                  this.onClick(data[idObject], data[keys[0]])
+                                }
+                              >
+                                {data[keys[0]]}
+                              </a>
+                            ) : (
+                              <a
+                                className="first-header"
+                                href={`${href}${data.id}/download`}
+                              >
+                                {data[keys[0]]}
+                              </a>
+                            )}
+                          </Col>
+                          <Col md={3} xs={3} style={{ padding: 0 }}>
+                            {this.props.children ? (
+                              <a className="second-header" href={data[keys[1]]}>
+                                {this.props.children}
+                              </a>
+                            ) : this.props.removeBadge ? (
+                              <Badge
+                                style={{
+                                  backgroundColor: "white",
+                                  color: "#9fa5a5"
+                                }}
+                                id="badgeDescripcions"
+                              >
+                                {data[keys[1]]}
+                              </Badge>
+                            ) : (
+                              <Badge
+                                style={{
+                                  backgroundColor: "white",
+                                  color: "#9fa5a5"
+                                }}
+                              >
+                                {data[keys[1]]}
+                              </Badge>
+                            )}
+                          </Col>
+                        </Row>
                       </ListGroupItem>
                     </div>
                   );
