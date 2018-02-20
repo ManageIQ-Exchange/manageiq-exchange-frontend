@@ -6,7 +6,7 @@
   "repository": "https://github.com/miq-consumption/manageiq-EXCHANGE-web.git",
   "scripts": {
     "start:react": "react-scripts start",
-    "start": "react-scripts build && node src/server.js",
+    "start": "node src/server.js",
     "build": "react-scripts build",
     "start-dev-hmr": "react-scripts start",
     "test": "CI=true react-scripts test --env=jsdom"
