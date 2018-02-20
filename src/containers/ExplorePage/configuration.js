@@ -3,8 +3,7 @@ export const configurationList = [
     nameAttribute: "Newest",
     nameHeaders: ["Name", "Added On"],
     namesAttributes: ["name", "Added on"],
-    changeData: true,
-    redirectUser: true
+    changeData: true
   },
   {
     nameAttribute: "mostDownloaded",

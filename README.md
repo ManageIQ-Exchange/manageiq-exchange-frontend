@@ -1,8 +1,10 @@
 # manageiq-exchange-frontend
-React application that integrates with the manageiq-galaxy backend
+React application that integrates with the manageiq-EXCHANGE backend
 
 # Configure app
-
+  -  EXCHANGE_API_BACKEND:
+  -  EXCHANGE_API_VERSION:
+  -  GITHUB_OAUTH_ID:
 
 ## Start & watch
 
@@ -13,3 +15,4 @@ React application that integrates with the manageiq-galaxy backend
     $ npm run build
 ## Test
     $ npm run test
+

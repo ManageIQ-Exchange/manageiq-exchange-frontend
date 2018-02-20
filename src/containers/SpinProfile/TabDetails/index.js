@@ -62,18 +62,18 @@ export default class TabDetails extends React.Component {
         : '';
     const metadataCompany =
       spin && metadata && metadata.company ? metadata.company : '';
-    const urlIssue = `${cloneUrl}issue`;
     const urlDownloadLastRelease =
       spin && spin.id && spin.releases && spin.releases.length > 0
         ? `${Api.generateUrlDownload(spin.id)}${spin.releases[0].id}/download`
         : '';
     const titleReleases = 'Release History';
+    const urlIssue = spin ? spin.issues_url : '';
     return (
       <div id="container" style={{ marginTop: "2%" }}>
         <Grid width="100%">
           <Row className="content-links-icon">
             <Col md={7}>
-              <LinkIcon message="Issue Tacker" icon="bug" />
+              <LinkIcon message="Issue Tacker" icon="bug" href={urlIssue} />
               <LinkIcon message="Github Repo" icon="github" href={cloneUrl} />
               <LinkIcon
                 message="Download"

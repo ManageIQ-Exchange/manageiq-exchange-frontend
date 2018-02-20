@@ -1,67 +1,79 @@
-import React from "react";
+import React from 'react';
 import {
   Grid,
   Row,
   Col,
-  Button,
-  Filter,
   FormControl,
   FormGroup,
   InputGroup,
-  Icon,
-  Paginator
-} from "patternfly-react";
-import { connect } from "react-redux";
-import { browserHistory } from "react-router";
+  Icon
+} from 'patternfly-react';
+import { connect } from 'react-redux';
+import { browserHistory } from 'react-router';
+import PropTypes from 'prop-types';
 
-import ListRanking from "../../components/ListRanking/";
-import { getInformationUserProfile } from "../../thunk/user";
-import { filterByAttribute } from "../../lib/";
+import ListRanking from '../../components/ListRanking/';
+import { getInformationUserProfile } from '../../thunk/user';
+import { filterByAttribute } from '../../lib/';
 
-class AuthorProfile extends React.Component {
+const defaultProps = {
+  spins: {
+    spinsUser: [],
+    userDetails: {}
+  }
+};
+
+const propTypes = {
+  getInformationUserProfile: PropTypes.func,
+  spins: PropTypes.object,
+  params: PropTypes.object
+};
+
+export class AuthorProfile extends React.Component {
   constructor(props) {
     super(props);
 
     this.searchOnList = this.searchOnList.bind(this);
 
     this.state = {
-      listSpinsUser: [],
-      listSpinsUserComplete: []
+      listSpinsUser: props.spins.spinsUser,
+      listSpinsUserComplete: props.spins.spinsUser,
+      userDetails: props.spins.userDetails
     };
   }
   componentDidMount() {
-    let { idAuthor } = this.props.params;
+    const idAuthor = this.props.params ? this.props.params.idAuthor : null;
     if (idAuthor) this.props.getInformationUserProfile(idAuthor).then(() => {});
   }
 
-  componentWillReceiveProps(nextProps: Props) {
+  componentWillReceiveProps(nextProps) {
     let data = nextProps.spins.spinsUser;
-    if (this.props.spins.spinsUser != data)
+    if (this.props.spins.spinsUser !== data)
       this.setState({ listSpinsUser: data, listSpinsUserComplete: data });
   }
 
   onClickNameRepository(id) {
-    let route = { pathname: "/spin/" + id };
+    let route = { pathname: '/spin/' + id };
     browserHistory.push(route);
   }
 
   searchOnList(keywords) {
     let listSpinsUser = [...this.state.listSpinsUserComplete];
+    const attributeSearch = 'user_login';
 
-    listSpinsUser = filterByAttribute(keywords, listSpinsUser, "user_login");
+    listSpinsUser = filterByAttribute(keywords, listSpinsUser, attributeSearch);
     this.setState({ listSpinsUser });
   }
 
   render() {
-    let { spins } = this.props;
-    let { listSpinsUser } = this.state;
-    let { userDetails, spinsUser } = spins;
-    const placeholderSearch = "Search";
-    let location = "location Default";
-    const nameUser = userDetails.login ? userDetails.login : "";
+    const { spins } = this.props;
+    const { listSpinsUser } = this.state;
+    const { userDetails } = spins || this.state.userDetails;
+    const placeholderSearch = 'Search';
+    const nameUser = userDetails && userDetails.login ? userDetails.login : '';
 
     return (
-      <Grid width="100%" style={{ marginTop: "20px" }}>
+      <Grid width="100%" style={{ marginTop: '20px' }}>
         <Row>
           <h1 className="first-header">{nameUser}</h1>
         </Row>
@@ -76,13 +88,18 @@ class AuthorProfile extends React.Component {
               />
             </Col>
             <Col xs={12} md={3} style={{ padding: 0 }}>
-              <span style={{ marginLeft: "1%" }}>
-
-                <div style={{ width: "75%" }}>
-                  <span style={{ width: "75%" }}>
-                    {userDetails.github_location
-                      ?  (<span><Icon name="map-marker fa-2x" /> {userDetails.github_location}</span>)
-                      : null}
+              <span style={{ marginLeft: '1%' }}>
+                <div style={{ width: '75%' }}>
+                  <span style={{ width: '75%' }}>
+                    {
+                      userDetails.github_location ?
+                      <span>
+                        <Icon name="map-marker fa-2x" />{' '}
+                        {userDetails.github_location}
+                      </span>
+                      :
+                     null
+                   }
                   </span>
                 </div>
               </span>
@@ -105,13 +122,12 @@ class AuthorProfile extends React.Component {
         </Row>
         <Row>
           <ListRanking
-            height={"500px"}
+            height={'500px'}
             data={listSpinsUser}
             title={null}
-            twoHeaders={["Role", "Description"]}
-            keys={["full_name", "description"]}
-            onClickName={null}
-            removeBadge={true}
+            twoHeaders={['Role', 'Description']}
+            keys={['full_name', 'description']}
+            removeBadge
             onClickName={this.onClickNameRepository}
             idObject="id"
           />
@@ -120,6 +136,10 @@ class AuthorProfile extends React.Component {
     );
   }
 }
+
+AuthorProfile.propTypes = propTypes;
+AuthorProfile.defaultProps = defaultProps;
+
 const mapStateToProps = state => {
   return {
     spins: state.spins
