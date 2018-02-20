@@ -117,7 +117,7 @@ class ListRanking extends React.Component {
 
 ListRanking.propTypes = {
   data: PropTypes.array.isRequired,
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string,
   renderBottomBtn: PropTypes.bool
 };
 

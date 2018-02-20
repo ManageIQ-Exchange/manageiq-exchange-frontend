@@ -1,5 +1,5 @@
 # manageiq-exchange-frontend
-React application that integrates with the manageiq-galaxy backend
+React application that integrates with the manageiq-EXCHANGE backend
 
 # Configure app
 

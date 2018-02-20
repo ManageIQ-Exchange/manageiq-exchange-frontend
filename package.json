@@ -1,9 +1,9 @@
 {
-  "name": "manageiq-galaxy",
+  "name": "manageiq-EXCHANGE",
   "version": "1.0.0",
   "description": "Simple application to showcase how to achieve universal rendering and routing with React and Express.",
   "main": "src/server.js",
-  "repository": "https://github.com/miq-consumption/manageiq-galaxy-web.git",
+  "repository": "https://github.com/miq-consumption/manageiq-EXCHANGE-web.git",
   "scripts": {
     "start:react": "react-scripts start",
     "start": "react-scripts build && node src/server.js",

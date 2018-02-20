@@ -1,5 +1,5 @@
-import React from 'react'
-import { Route, IndexRoute } from 'react-router'
+import React from 'react';
+import { Route, IndexRoute } from 'react-router';
 import Layout from './components/Layout';
 import IndexPage from './containers/IndexPage/index';
 import ExplorePage from './containers/ExplorePage/';
@@ -15,18 +15,18 @@ import NotFoundPage from './containers/NotFoundPage/index';
 
 const routes = (
   <Route path="/" component={Layout}>
-    <IndexRoute component={IndexPage}/>
-    <Route path="/explore/" component={ExplorePage}/>
-    <Route path="/signin/" component={SignInPage}/>
-    <Route path="/about/" component={AboutPage}/>
-    <Route path="/authors/" component={AuthorsPage}/>
-    <Route path="/authors/:idAuthor" component={AuthorProfile}/>
-    <Route path="/spin/:idSpin" component={SpinProfile}/>
-    <Route path="/:userName/:spinName" component={SpinView}/>
-    <Route path="/search/" component={SearchPage}/>
-    <Route path="/mycontent/" component={MyContentPage}/>
-    <Route path="/about/" component={AboutPage}/>
-    <Route path="*" component={NotFoundPage}/>
+    <IndexRoute component={IndexPage} />
+    <Route path="/explore/" component={ExplorePage} />
+    <Route path="/signin/" component={SignInPage} />
+    <Route path="/about/" component={AboutPage} />
+    <Route path="/authors/" component={AuthorsPage} />
+    <Route path="/authors/:idAuthor" component={AuthorProfile} />
+    <Route path="/spin/:idSpin" component={SpinProfile} />
+    <Route path="/:userName/:spinName" component={SpinView} />
+    <Route path="/search/" component={SearchPage} />
+    <Route path="/mycontent/" component={MyContentPage} />
+    <Route path="/about/" component={AboutPage} />
+    <Route path="*" component={NotFoundPage} />
   </Route>
 );
 

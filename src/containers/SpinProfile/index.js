@@ -6,7 +6,7 @@ import {
   Tab
 } from 'patternfly-react';
 import { connect } from 'react-redux';
-
+import PropTypes from 'prop-types';
 
 import Api from '../../service/Api';
 import TabDetails from './TabDetails/';
@@ -15,9 +15,16 @@ import { getSpin } from '../../thunk/spin';
 
 import './style.css';
 
-class SpinProfile extends React.Component {
+
+
+const propTypes = {
+  getSpin: PropTypes.func,
+  detailsSpin: PropTypes.object
+};
+
+export class SpinProfile extends React.Component {
   componentDidMount() {
-    let { idSpin } = this.props.params;
+    let idSpin = this.props.params ? this.props.params.idSpin : null;
     if (idSpin) this.props.getSpin(idSpin);
   }
 
@@ -31,6 +38,7 @@ class SpinProfile extends React.Component {
       detailsSpin && detailsSpin.spin ? detailsSpin.spin.readme : '';
     const titleTabDetails = 'Details';
     const titleReadme = 'README';
+    const spin = detailsSpin && detailsSpin.spin ? detailsSpin.spin : {};
     return (
       <div id="container" style={{ marginTop: '2%' }}>
         <Grid width="100%">
@@ -42,7 +50,7 @@ class SpinProfile extends React.Component {
           </Row>
           <Tabs defaultActiveKey={1} style={{ marginTop: '10px' }}>
             <Tab eventKey={1} title={titleTabDetails}>
-              <TabDetails spin={detailsSpin.spin} />
+              <TabDetails spin={spin} />
             </Tab>
             <Tab eventKey={2} title={titleReadme}>
 
@@ -56,6 +64,8 @@ class SpinProfile extends React.Component {
     );
   }
 }
+SpinProfile.propTypes = propTypes;
+
 const mapStateToProps = state => {
   return {
     detailsSpin: state.detailsSpin

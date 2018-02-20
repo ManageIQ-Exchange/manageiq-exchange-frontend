@@ -1,36 +1,36 @@
-import axios from "axios";
-import { LogError } from "./Log";
+import axios from 'axios';
+import { LogError } from './Log';
 import config from '../config';
 import { toQuery } from '../lib/';
-//Server Backend
-const BackendServer = config.GALAXY_API_BACKEND;
-//Version of API
-const Version = "v1";
-//Root API Base
+// Server Backend
+const BackendServer = config.EXCHANGE_API_BACKEND;
+// Version of API
+const Version = config.EXCHANGE_API_VERSION;
+// Root API Base
 export const ApiBaseURL = `${BackendServer}/${Version}`;
 
 // Api Version
 const ApiVersion = `${BackendServer}/`;
 
-//Users
+// Users
 const ApiSignin = `${ApiBaseURL}/users/sign_in`; /* User Log in */
 const ApiSignout = `${ApiBaseURL}/users/sign_out`; /* User Log out */
-const ApiGetUsers = `${ApiBaseURL}/users`; /* List of Users*/
-const ApiGetUser = `${ApiBaseURL}/users/`; /* Get a specific user  adding id or username in path*/
-const ApiGetUserSpins = `${ApiBaseURL}/spin_candidates/`; /* Get a specific user  adding id or username in path*/
+const ApiGetUsers = `${ApiBaseURL}/users`; /* List of Users */
+const ApiGetUser = `${ApiBaseURL}/users/`; /* Get a specific user  adding id or username in path */
+const ApiGetUserSpins = `${ApiBaseURL}/spin_candidates/`; /* Get a specific user  adding id or username in path */
 
-//GIT
-const GetUserStats = `https://api.github.com/users/`; /* Get a specific user stats in GIT  adding id or username in path*/
+// GIT
+const GetUserStats = `https://api.github.com/users/`; /* Get a specific user stats in GIT  adding id or username in path */
 
-//Spins
+// Spins
 const ApiGetSpins = `${ApiBaseURL}/spins`; /* Get Spins */
 const ApiRefreshSpin = `${ApiBaseURL}/spins/refresh`; /* Refresh Spins */
 const ApiPublishSpin = `${ApiBaseURL}/spin_candidates/`; /* Refresh Spins */
 
-//TAG
+// TAG
 const ApiTags = `${ApiBaseURL}/tags/`;
 
-//TOPLIST
+// TOPLIST
 const ApiTops = `${ApiBaseURL}/top/`;
 
 class Api {
@@ -42,110 +42,122 @@ class Api {
   }
   headerAuthenticated() {
     return {
-      "X-USER-ID": sessionStorage.getItem("github_id"),
-      "X-USER-TOKEN": sessionStorage.getItem("authentication_token")
+      'X-USER-ID': sessionStorage.getItem('github_id'),
+      'X-USER-TOKEN': sessionStorage.getItem('authentication_token')
     };
   }
 
   static version() {
     const api = new this();
-    api.request("get", ApiVersion);
+    api.request('get', ApiVersion);
     return api;
   }
 
   static SignIn(code, provider) {
     const api = new this();
-    api.request("post", ApiSignin, api.headerSignIn(code, provider));
+    api.request('post', ApiSignin, api.headerSignIn(code, provider));
     return api;
   }
   static SignOut() {
     const api = new this();
-    api.request("delete", ApiSignout, api.headerAuthenticated());
+    api.request('delete', ApiSignout, api.headerAuthenticated());
     return api;
   }
 
   static GetUsers() {
     const api = new this();
-    api.request("get", ApiGetUsers);
+    api.request('get', ApiGetUsers);
     return api;
   }
   static GetUser(id_or_username) {
     const api = new this();
-    api.request("get", ApiGetUser + id_or_username + "?expand=resources");
+    api.request('get', ApiGetUser + id_or_username + '?expand=resources');
     return api;
   }
   static GetUsersBy(username) {
     const api = new this();
-    api.request("get", ApiGetUsers + "?query=" + username);
+    api.request('get', ApiGetUsers + '?query=' + username);
     return api;
   }
   static GetUserSpinsCandidates(id) {
     const api = new this();
     let header = Object.assign(api.headerAuthenticated(), { id: id });
-    api.request("get", ApiGetUserSpins , header);
+    api.request('get', ApiGetUserSpins, header);
     return api;
   }
   static GetUserSpins(name) {
     const api = new this();
     const params = toQuery({
-      expand: "resources"
+      expand: 'resources'
     });
     const url = `${ApiGetUsers}/${name}/spins/?${params}`;
-    api.request("get", url, api.headerAuthenticated());
+    api.request('get', url, api.headerAuthenticated());
     return api;
   }
   static RefreshSpins() {
     const api = new this();
-    api.request("post", ApiGetUserSpins + 'refresh', api.headerAuthenticated());
+    api.request('post', ApiGetUserSpins + 'refresh', api.headerAuthenticated());
     return api;
   }
-  static publishSpin(spin_candidate_id) {
-    const api = new this();
-    api.request("post", ApiPublishSpin +spin_candidate_id+ '/publish', api.headerAuthenticated());
-    return api;
-  }
-  static unpublishSpin(spin_candidate_id) {
-    const api = new this();
-    api.request("post", ApiPublishSpin +spin_candidate_id+ '/unpublish', api.headerAuthenticated());
-    return api;
-  }
-
-
-  static validateSpin(spin_candidate_id) {
-    const api = new this();
-    api.request("post", ApiPublishSpin +spin_candidate_id+ '/validate', api.headerAuthenticated());
-    return api;
-  }
-
-  static GetUserSpinsBy(username, spin_name) {
-    const api = new this();
-    api.request("get", ApiGetUser + username + "/spins?query=" + spin_name);
-    return api;
-  }
-
-  static GetUserSpin(username, repo_name) {
+  static publishSpin(spinCandidateId) {
     const api = new this();
     api.request(
-      "get",
-      ApiGetUser + username + "/spins/" + repo_name + "?expand=resources"
+      'post',
+      ApiPublishSpin + spinCandidateId + '/publish',
+      api.headerAuthenticated()
     );
     return api;
   }
-  static GitUserStats(id_or_username) {
+  static unpublishSpin(spinCandidateId) {
     const api = new this();
-    api.request("get", GetUserStats + id_or_username);
+    api.request(
+      'post',
+      ApiPublishSpin + spinCandidateId + '/unpublish',
+      api.headerAuthenticated()
+    );
+    return api;
+  }
+
+
+  static validateSpin(spinCandidateId) {
+    const api = new this();
+    api.request(
+      'post',
+      ApiPublishSpin + spinCandidateId + '/validate',
+      api.headerAuthenticated()
+    );
+    return api;
+  }
+
+  static GetUserSpinsBy(username, spinName) {
+    const api = new this();
+    api.request('get', ApiGetUser + username + '/spins?query=' + spinName);
+    return api;
+  }
+
+  static GetUserSpin(username, repoName) {
+    const api = new this();
+    api.request(
+      'get',
+      ApiGetUser + username + '/spins/' + repoName + '?expand=resources'
+    );
+    return api;
+  }
+  static GitUserStats(idOrUsername) {
+    const api = new this();
+    api.request('get', GetUserStats + idOrUsername);
     return api;
   }
   static GetSpins(params) {
     const api = new this();
 
     const query = params ? toQuery(params) : '';
-    api.request("get", ApiGetSpins + "?" + query +"&expand=resources");
+    api.request('get', ApiGetSpins + '?' + query + '&expand=resources');
     return api;
   }
   static GetSpin(id) {
     const api = new this();
-    api.request("get",`${ApiGetSpins}/${id}?expand=resources` );
+    api.request('get', `${ApiGetSpins}/${id}?expand=resources`);
     return api;
   }
   static generateUrlDownload(id, idRelease) {
@@ -153,23 +165,22 @@ class Api {
   }
   static GetSpinsBy(param, value) {
     const api = new this();
-    api.request("get", ApiGetSpins + "?query=" + value);
+    api.request('get', ApiGetSpins + '?query=' + value);
     return api;
   }
 
   static GetTags() {
     const api = new this();
-    api.request("get",  `${ApiTags}?`, api.headerAuthenticated());
+    api.request('get', `${ApiTags}?`, api.headerAuthenticated());
     return api;
   }
   static GetTops() {
     const api = new this();
-    api.request("get", ApiTops, api.headerAuthenticated());
+    api.request('get', ApiTops, api.headerAuthenticated());
     return api;
   }
 
   request(method, url, headers = {}, params = {}, data = {}) {
-
     this.promise = new Promise((resolve, reject) => {
       // GET request for remote image
       axios({
@@ -180,15 +191,12 @@ class Api {
         params: params
       })
         .then(response => {
-          //LogError("Test")
           resolve(response);
-          return;
         })
         .catch(error => {
           this.showError(error);
           reject(new Error(error));
-          //ErrorApiControl(error)
-          return;
+
         });
     });
   }

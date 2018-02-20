@@ -1,26 +1,68 @@
 import React from 'react';
-import { Grid, Row, Col, Button, Table } from 'patternfly-react';
-import { Link, browserHistory } from 'react-router';
+import { Grid, Row, Col, Button } from 'patternfly-react';
+import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
 import moment from 'moment';
+import PropTypes from 'prop-types';
 
 import ListRanking from '../../components/ListRanking';
-import { imgIndex } from '../../ImageImport';
 import { getTops } from '../../thunk/top';
 import { configurationList } from './configuration';
 
 import './style.css';
 
-class ExplorePage extends React.Component {
+const defaultProps = {
+  tops: {
+    mostStarred: {
+      name: '',
+      data: []
+    },
+    mostWatched: {
+      name: '',
+      data: []
+    },
+    mostDownloaded: {
+      name: '',
+      data: []
+    },
+    topTags: {
+      name: '',
+      data: []
+    },
+    topContributors: {
+      name: '',
+      data: []
+    },
+    Newest: {
+      name: '',
+      data: []
+    }
+  }
+};
+
+const propTypes = {
+  tops: PropTypes.object,
+  getTops: PropTypes.func
+};
+
+export class ExplorePage extends React.Component {
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      top: props.tops
+    };
+  }
 
   componentDidMount() {
-    this.props.getTops();
+    if (this.props.getTops) this.props.getTops();
   }
 
   redirectTo(id, redirectUser, redirectTag) {
     let nameRoute = redirectUser
-      ? "/authors/" + id
-      : redirectTag ? "/search/" : "/spin/" + id;
+      ? '/authors/' + id
+      : redirectTag ? '/search/' : '/spin/' + id;
     let state = redirectTag ? { tag: id } : {};
 
     let route = { pathname: nameRoute, state };
@@ -36,19 +78,6 @@ class ExplorePage extends React.Component {
 
     return (
       <div id="container">
-        {/*
-        <div>
-          <img
-            id="imgHome"
-            style={{ height: "50px" }}
-            src={imgIndex}
-            alt="image init"
-          />
-          <span className="name-tab">EXPLORE</span>
-        </div>
-        */
-      }
-
         <Grid width="100%" style={{ marginTop: '50px' }}>
           <Row style={{ padding: 15 }}>
             <Button
@@ -76,7 +105,7 @@ class ExplorePage extends React.Component {
                   data.forEach(item => {
                     let formatDate = moment(
                       item[elemConf.namesAttributes[1]]
-                    ).format("YYYY-MM-DD");
+                    ).format('YYYY-MM-DD');
                     item[elemConf.namesAttributes[1]] = formatDate;
                   });
                 }
@@ -110,6 +139,10 @@ class ExplorePage extends React.Component {
     );
   }
 }
+
+ExplorePage.propTypes = propTypes;
+ExplorePage.defaultProps = defaultProps;
+
 const mapStateToProps = state => {
   return {
     tops: state.tops

@@ -1,71 +1,86 @@
-import React from "react";
+import React from 'react';
 import {
   Grid,
   Row,
   Col,
-  Button,
-  Filter,
   FormControl,
   FormGroup,
   InputGroup,
   Icon,
-  Paginator,
-  Table
-} from "patternfly-react";
-import { InputGroupAddon } from "react-bootstrap";
-import { connect } from "react-redux";
-import { browserHistory } from "react-router";
+  Paginator
+} from 'patternfly-react';
+import { connect } from 'react-redux';
+import { browserHistory } from 'react-router';
+import PropTypes from 'prop-types';
 
-import { imgIndex } from "../../ImageImport";
-import ListRanking from "../../components/ListRanking";
-import BtnViewGithub from "../../components/BtnViewGithub";
-import "./style.css";
-import { data } from "./mock/";
-import { getUsers } from "../../thunk/user";
+import ListRanking from '../../components/ListRanking';
+import BtnViewGithub from '../../components/BtnViewGithub';
+import { getUsers } from '../../thunk/user';
+import { filterByAttribute } from '../../lib/';
 
-class AuthorsPage extends React.Component {
+import './style.css';
+
+const defaultProps = {
+  users: {
+    users: [],
+    meta: {
+      page: 1,
+      perPage: 10,
+      perPageOptions: [5, 10, 15]
+    }
+  }
+};
+
+const propTypes = {
+  getUsers: PropTypes.func,
+  users: PropTypes.object
+};
+
+export class AuthorsPage extends React.Component {
   constructor(props) {
     super(props);
     this.searchOnList = this.searchOnList.bind(this);
     this.onSelectPerPage = this.onSelectPerPage.bind(this);
     this.state = {
-      listUsers: this.props.users.users,
-      listUsersComplete: this.props.users.users,
-      elementByPage: 5
+      listUsers: props.users.users,
+      listUsersComplete: props.users.users,
+      meta: props.users.meta,
+      elementByPage: 25
     };
   }
 
   componentDidMount() {
-    this.props.getUsers();
+    if (this.props.getUsers) {
+      this.props.getUsers();
+    }
   }
-  componentWillReceiveProps(nextProps: Props) {
+  componentWillReceiveProps(nextProps) {
     let { users } = nextProps.users;
-    if (this.props.users.users !== users) this.setState({ listUsers: users, listUsersComplete: users });
+    if (this.props.users.users !== users)
+      this.setState({ listUsers: users, listUsersComplete: users });
   }
   searchOnList(keywords) {
     let listUsers = [...this.state.listUsersComplete];
-    listUsers = listUsers.filter(user => {
-      let mtch = JSON.stringify(user.login).match(new RegExp(keywords));
-      return mtch ? true : false;
-    });
+    const attributeSearch = 'login';
+    listUsers = filterByAttribute(keywords, listUsers, attributeSearch);
 
-    this.setState({listUsers})
+    this.setState({ listUsers });
   }
   redirectToAuthor(idAuthor) {
-    let route = { pathname:'/authors/'+ idAuthor };
+    let route = { pathname: '/authors/' + idAuthor };
     browserHistory.push(route);
   }
-  onChangePage(page) {
-  }
+  onChangePage(page) {}
   onSelectPerPage(numItems) {
     this.setState({ elementByPage: numItems });
   }
   render() {
     const placeholderSearch = 'Search authors';
-    const titleHeader = "Exchange Contributors";
+    const titleHeader = 'Exchange Contributors';
     let { users } = this.props;
     let { listUsers, elementByPage } = this.state;
-    let {meta} = users;
+    let { meta } = users;
+    meta = meta || this.state.meta;
     let pagination = {
       page: meta.current_page,
       perPage: elementByPage,
@@ -73,7 +88,7 @@ class AuthorsPage extends React.Component {
     };
     return (
       <div id="container">
-        <Grid width="100%" style={{ marginTop: "20px" }}>
+        <Grid width="100%" style={{ marginTop: '20px' }}>
           <Row>
             <Col md={12}>
               <h1 className="title-header">{titleHeader}</h1>
@@ -100,11 +115,11 @@ class AuthorsPage extends React.Component {
           <Row>
             <Col md={12}>
               <ListRanking
-                height={"500px"}
-                data={listUsers ? listUsers : []}
+                height={'500px'}
+                data={listUsers || []}
                 title={null}
-                twoHeaders={["Author", ""]}
-                keys={["login", "url_profile"]}
+                twoHeaders={['Author', '']}
+                keys={['login', 'url_profile']}
                 idObject="github_id"
                 onClickName={this.redirectToAuthor}
               >
@@ -120,9 +135,9 @@ class AuthorsPage extends React.Component {
               onPerPageSelect={this.onSelectPerPage}
               itemCount={listUsers.length}
               messages={{
-                firstPage: "First Page",
-                previousPage: "Previous Page",
-                currentPage: "Current Page"
+                firstPage: 'First Page',
+                previousPage: 'Previous Page',
+                currentPage: 'Current Page'
               }}
             />
           </Row>
@@ -131,6 +146,10 @@ class AuthorsPage extends React.Component {
     );
   }
 }
+
+AuthorsPage.propTypes = propTypes;
+AuthorsPage.defaultProps = defaultProps;
+
 const mapStateToProps = state => {
   return {
     users: state.users

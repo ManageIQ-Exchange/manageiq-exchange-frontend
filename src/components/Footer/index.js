@@ -54,7 +54,7 @@ export default class Footer extends React.Component {
 
               <div className="content-icon">
                 <a
-                  href="https://github.com/miq-consumption/manageiq-galaxy"
+                  href="https://github.com/miq-consumption/manageiq-EXCHANGE"
                   target="_blank"
                 >
                   <Icon

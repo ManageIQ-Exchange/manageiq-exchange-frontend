@@ -25,6 +25,20 @@ import './style.css';
 
 const perPageOptions = [5, 10, 15];
 
+const defaultProps = {
+  tags: {
+    tags: []
+  },
+  search: {
+    spinSearch: [],
+    meta: {
+      page: 1,
+      perPage: 10,
+      perPageOptions: [5, 10, 15]
+    }
+  }
+};
+
 const propTypes = {
   tags: PropTypes.object,
   search: PropTypes.object,
@@ -32,7 +46,7 @@ const propTypes = {
   getPopularTag: PropTypes.func
 };
 
-class SearchPage extends React.Component {
+export class SearchPage extends React.Component {
   constructor(props) {
     super(props);
 
@@ -48,15 +62,20 @@ class SearchPage extends React.Component {
       filters: {},
       baseParams: { limit: perPageOptions[0], sort: sortFields[0].id },
       params: {},
-      showAlertAlready: false
+      showAlertAlready: false,
+      tags: props.tags,
+      search: props.search
     };
   }
   componentDidMount() {
-    let { baseParams } = this.state;
-    this.props.getPopularTag();
-    this.props.getSpinSearch(baseParams);
+    let baseParams = this.state.baseParams ? this.state.baseParams : null;
+    if (this.props.getPopularTag) this.props.getPopularTag();
+    if (this.props.getSpinSearch) this.props.getSpinSearch(baseParams);
     let filterPopularTag = [...this.state.filterPopularTag];
-    let tag = this.props.location.state ? this.props.location.state.tag : null;
+    let tag =
+      this.props.location && this.props.location.state
+        ? this.props.location.state.tag
+        : null;
     if (tag) {
       filterPopularTag.push(tag);
       this.setState({ filterPopularTag });
@@ -226,9 +245,9 @@ class SearchPage extends React.Component {
     const { baseParams } = this.state;
     this.props.getSpinSearch(baseParams);
     this.setState({ params: {}, filters: {}, showAlertAlready: false });
-  }
+  };
   render() {
-    let {
+    const {
       currentFilterType,
       currentSortType,
       isSortNumeric,
@@ -236,12 +255,16 @@ class SearchPage extends React.Component {
       elementByPage,
       showAlertAlready
     } = this.state;
+
     let { tags, search } = this.props;
-    let pagination = {
-      page: search.meta.current_page ? search.meta.current_page : 0,
-      perPage: elementByPage,
-      perPageOptions: perPageOptions
-    };
+    tags = tags || this.state.tags;
+    let pagination = search
+      ? {
+          page: search.meta.current_page ? search.meta.current_page : 0,
+          perPage: elementByPage,
+          perPageOptions: perPageOptions
+        }
+      : this.state.meta;
     let results = search && search.spinSearch ? search.spinSearch : [];
     let keys = Object.keys(this.state.filters);
     const messageError = 'There has been a problem';
@@ -277,13 +300,14 @@ class SearchPage extends React.Component {
               <h5>{results.length} Results</h5>
               {keys.map((data, index) => {
                 return this.state.filters[data].listFilters
-                  ? this.state.filters[data].listFilters.map((element, index) => {
-                      return (
-                        <TagsFilter
-                          name={`${data}: ${element}`}
-                          onClick={() => this.removeTagFilter(element, data)}
-                        />
-                      );
+                  ? this.state.filters[data].listFilters.map(
+                      (element, index) => {
+                        return (
+                          <TagsFilter
+                            name={`${data}: ${element}`}
+                            onClick={() => this.removeTagFilter(element, data)}
+                          />
+                        );
                       }
                     )
                   : null;
@@ -422,6 +446,7 @@ class SearchPage extends React.Component {
   }
 }
 SearchPage.propTypes = propTypes;
+SearchPage.defaultProps = defaultProps;
 
 const mapStateToProps = state => {
   return {
