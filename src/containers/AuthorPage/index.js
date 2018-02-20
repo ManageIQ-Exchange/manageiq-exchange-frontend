@@ -77,6 +77,7 @@ export class AuthorsPage extends React.Component {
   render() {
     const placeholderSearch = 'Search authors';
     const titleHeader = 'Exchange Contributors';
+
     let { users } = this.props;
     let { listUsers, elementByPage } = this.state;
     let { meta } = users;

@@ -15,3 +15,4 @@ React application that integrates with the manageiq-EXCHANGE backend
     $ npm run build
 ## Test
     $ npm run test
+

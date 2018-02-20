@@ -8,6 +8,7 @@ import {
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+
 import Api from '../../service/Api';
 import TabDetails from './TabDetails/';
 import TabReadme from './TabReadme/';
@@ -15,14 +16,13 @@ import { getSpin } from '../../thunk/spin';
 
 import './style.css';
 
-
-
 const propTypes = {
   getSpin: PropTypes.func,
   detailsSpin: PropTypes.object
 };
 
 export class SpinProfile extends React.Component {
+
   componentDidMount() {
     let idSpin = this.props.params ? this.props.params.idSpin : null;
     if (idSpin) this.props.getSpin(idSpin);
@@ -39,6 +39,7 @@ export class SpinProfile extends React.Component {
     const titleTabDetails = 'Details';
     const titleReadme = 'README';
     const spin = detailsSpin && detailsSpin.spin ? detailsSpin.spin : {};
+
     return (
       <div id="container" style={{ marginTop: '2%' }}>
         <Grid width="100%">

@@ -46,6 +46,7 @@ const propTypes = {
   getPopularTag: PropTypes.func
 };
 
+
 export class SearchPage extends React.Component {
   constructor(props) {
     super(props);
@@ -447,6 +448,7 @@ export class SearchPage extends React.Component {
 }
 SearchPage.propTypes = propTypes;
 SearchPage.defaultProps = defaultProps;
+
 
 const mapStateToProps = state => {
   return {

@@ -73,7 +73,6 @@ export class MyContentPage extends React.Component {
     listSpins = filterByAttribute(keywords, listSpins, 'full_name');
     this.setState({ listSpins });
   }
-
   publishSpin(id) {
     this.setState({ loadingPublish: true });
     this.props.publishSpin(id).then(response => {
