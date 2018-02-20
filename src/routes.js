@@ -6,7 +6,6 @@ import ExplorePage from './containers/ExplorePage/';
 import AboutPage from './containers/AboutPage/index';
 import AuthorsPage from './containers/AuthorPage/index';
 import SpinProfile from './containers/SpinProfile/';
-import SpinView from './containers/SpinView/index';
 import SearchPage from './containers/SearchPage/index';
 import SignInPage from './containers/SignInPage/';
 import MyContentPage from './containers/MyContentPage/';
@@ -22,7 +21,6 @@ const routes = (
     <Route path="/authors/" component={AuthorsPage} />
     <Route path="/authors/:idAuthor" component={AuthorProfile} />
     <Route path="/spin/:idSpin" component={SpinProfile} />
-    <Route path="/:userName/:spinName" component={SpinView} />
     <Route path="/search/" component={SearchPage} />
     <Route path="/mycontent/" component={MyContentPage} />
     <Route path="/about/" component={AboutPage} />
