@@ -1,4 +1,4 @@
-import { toParams, toQuery } from './utils';
+import { toParams } from './utils';
 
 class PopupWindow {
   constructor(id, url, options = {}) {
@@ -8,13 +8,9 @@ class PopupWindow {
   }
 
   open() {
-    const { url, id, options } = this;
+    const { url } = this;
 
-    this.window = window.open(
-      url,
-      '',
-      'width=1000,height=600'
-    );
+    this.window = window.open(url, '', 'width=1000,height=600');
   }
 
   close() {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, Col, Button, MenuItem, DropdownKebab } from 'patternfly-react';
+import { Switch, Col, Button } from 'patternfly-react';
 import { Collapse } from 'react-bootstrap';
 import './style.css';
 

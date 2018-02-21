@@ -1,18 +1,23 @@
-import React from "react";
-import { Row, Col, Icon } from "patternfly-react";
-import { Link } from "react-router";
+import React from 'react';
+import { Row, Col, Icon } from 'patternfly-react';
 
-import Logo from "./manageiq-logo.png";
-import "./style.css";
+import Logo from './manageiq-logo.png';
+import './style.css';
 
 export default class Footer extends React.Component {
   render() {
-    const COLOUR_LOGO = "#ffffff";
+    const COLOUR_LOGO = '#ffffff';
     return (
       <footer>
         <Row className="indexFooter" style={{ margin: 0 }}>
           <Col md={4}>
-            <img className="imgLogo" src={Logo} height={120} width={200} />
+            <img
+              className="imgLogo"
+              alt="logo manageiq"
+              src={Logo}
+              height={120}
+              width={200}
+            />
           </Col>
           <Col md={4} className="left-border">
             <section>
@@ -55,7 +60,6 @@ export default class Footer extends React.Component {
               <div className="content-icon">
                 <a
                   href="https://github.com/miq-consumption/manageiq-EXCHANGE"
-                  target="_blank"
                 >
                   <Icon
                     style={{ color: COLOUR_LOGO }}

@@ -1,15 +1,10 @@
-import React from "react";
-import Menu from "./Nav/Menu";
-import Footer from "./Footer/index";
-import axios from "axios";
-import config from "../config";
-import { Link } from "react-router";
-import { LogError } from "../service/Log";
-import { AboutModal } from "patternfly-react";
-import { connect } from "react-redux";
-import Login from "./Login/";
-import { signIn, checkSessionUser, signOut } from "../thunk/user";
-import { apiVersion } from "../thunk/dataApi";
+import React from 'react';
+import Menu from './Nav/Menu';
+import { AboutModal } from 'patternfly-react';
+import { connect } from 'react-redux';
+import Login from './Login/';
+import { signIn, checkSessionUser, signOut } from '../thunk/user';
+import { apiVersion } from '../thunk/dataApi';
 
 class Layout extends React.Component {
   constructor(props) {

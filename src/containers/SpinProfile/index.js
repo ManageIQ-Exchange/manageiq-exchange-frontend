@@ -9,7 +9,6 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 
-import Api from '../../service/Api';
 import TabDetails from './TabDetails/';
 import TabReadme from './TabReadme/';
 import { getSpin } from '../../thunk/spin';

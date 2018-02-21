@@ -10,7 +10,7 @@ export default class IndexPage extends React.Component {
     return (
       <div>
         <div id="imgHomeContent">
-          <img id="imgHome" src={imgHome} alt="image init" />
+          <img id="imgHome" src={imgHome} alt="init" />
         </div>
         <Grid width="100%">
           <Row style={{ height: '90%', padding: '8px' }}>
@@ -19,7 +19,7 @@ export default class IndexPage extends React.Component {
                 <Icon
                   className="icon icon-download"
                   name="cloud-download fa-2x"
-                />DOWNLOAD{' '}
+                />DOWNLOAD
               </h2>
               <p>
                 Jump-start your automation project with great content from the

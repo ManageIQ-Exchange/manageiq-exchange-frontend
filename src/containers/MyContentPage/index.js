@@ -8,11 +8,9 @@ import {
   InputGroup,
   FormControl,
   Button,
-  ListView,
   Spinner
 } from 'patternfly-react';
 import { connect } from 'react-redux';
-import cx from 'classnames';
 import PropTypes from 'prop-types';
 
 import {
@@ -128,9 +126,7 @@ export class MyContentPage extends React.Component {
             </p>
           </Row>
           <Row style={{ padding: 20 }}>
-            <Col xs={12} md={6}>
-              <h2 />
-            </Col>
+            <Col xs={12} md={6} />
             <Col xs={12} md={6}>
               <Col xs={12} md={9}>
                 <FormGroup style={{ width: '100%' }}>

@@ -1,15 +1,15 @@
-import moment from "moment";
+import moment from 'moment';
 
 export function filterByAttribute(keywords, list, attributeItem) {
   if (!list || (list && !list.length)) return [];
 
   let result = list.filter(item => {
     let mtch = JSON.stringify(item[attributeItem]).match(new RegExp(keywords));
-    return mtch ? true : false;
+    return !!mtch;
   });
   return result;
 }
-export function toQuery(params, delimiter = "&") {
+export function toQuery(params, delimiter = '&') {
   const keys = Object.keys(params);
 
   return keys.reduce((str, key, index) => {
@@ -20,20 +20,20 @@ export function toQuery(params, delimiter = "&") {
     }
 
     return query;
-  }, "");
+  }, '');
 }
 
 export function formatDate(date) {
-  return moment(date).format("YYYY-MM-DD");
+  return moment(date).format('YYYY-MM-DD');
 }
 
-export function getFullNameMinimumVersion(key){
+export function getFullNameMinimumVersion(key) {
   const keyFormat = key.toLowerCase();
-   const opctions={
-     f:"Fine",
-     g:"Gaprindashvili",
-     h:"Hammer",
-     e:"Euwe"
-   };
-   return opctions[keyFormat];
+  const opctions = {
+    f: 'Fine',
+    g: 'Gaprindashvili',
+    h: 'Hammer',
+    e: 'Euwe'
+  };
+  return opctions[keyFormat];
 }

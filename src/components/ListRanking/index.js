@@ -51,7 +51,7 @@ class ListRanking extends React.Component {
           <div style={heightContent}>
             {data
               ? data.map((data, index) => {
-                  if (!data) return;
+                  if (!data) return <ListGroupItem />;
                   return (
                     <div key={'data_' + index}>
                       <ListGroupItem>

@@ -7,8 +7,6 @@ const CardItem = ({ cardInformation }) => {
     cardInformation && cardInformation.full_name
       ? cardInformation.full_name
       : '';
-  const name =
-    cardInformation && cardInformation.name ? cardInformation.name : '';
   const numWatchers =
     cardInformation
       ? cardInformation.watchers_count

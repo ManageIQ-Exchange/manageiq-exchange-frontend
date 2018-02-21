@@ -1,30 +1,18 @@
-import React from "react";
+import React from 'react';
 import {
   Grid,
   Row,
   Col,
-  Button,
-  Icon,
-  Nav,
-  NavItem,
-  Tabs,
-  Tab,
   Table
 } from "patternfly-react";
-import { Well } from "react-bootstrap";
-import "./style.css";
-import LinkIcon from "../../../components/LinkIcon/";
-import ListRanking from "../../../components/ListRanking/";
-import { data } from "./mock/";
-import { formatDate, getFullNameMinimumVersion } from "../../../lib/";
-import Api from "../../../service/Api";
-import { mockBootstrapColumns } from "./mock/";
+import { Well } from 'react-bootstrap';
+import './style.css';
+import LinkIcon from '../../../components/LinkIcon/';
+import { formatDate, getFullNameMinimumVersion } from '../../../lib/';
+import Api from '../../../service/Api';
+import { mockBootstrapColumns } from './mock/';
 
 export default class TabDetails extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   componentDidMount() {}
 
   formatDateRelease(releases, idSpin) {

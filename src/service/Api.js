@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { LogError } from './Log';
 import config from '../config';
 import { toQuery } from '../lib/';
 // Server Backend
@@ -24,7 +23,6 @@ const GetUserStats = `https://api.github.com/users/`; /* Get a specific user sta
 
 // Spins
 const ApiGetSpins = `${ApiBaseURL}/spins`; /* Get Spins */
-const ApiRefreshSpin = `${ApiBaseURL}/spins/refresh`; /* Refresh Spins */
 const ApiPublishSpin = `${ApiBaseURL}/spin_candidates/`; /* Refresh Spins */
 
 // TAG

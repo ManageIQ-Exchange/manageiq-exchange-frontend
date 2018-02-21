@@ -2,7 +2,6 @@ import {
   DATA_API_SUCCESS,
   DATA_API_ERROR
 } from '../actions/typeActions';
-import { User } from '../models/user';
 
 export const apiVersion = (apiVersion = {}, action: any) => {
   let newState = {};
