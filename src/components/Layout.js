@@ -51,7 +51,7 @@ class Layout extends React.Component {
             provider={apiVersion.providers}
           />
         </AboutModal>
-        <div>{this.props.children}</div>
+        <div className="content-layout">{this.props.children}</div>
       </div>
     );
   }
