@@ -24,3 +24,9 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+a {
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: none !important;
+}
