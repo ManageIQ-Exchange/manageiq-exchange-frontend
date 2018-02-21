@@ -271,7 +271,7 @@ export class SearchPage extends React.Component {
     const messageError = 'There has been a problem';
     const showAlert = !showAlertAlready ? search.error !== null : false;
     return (
-      <div style={{ marginTop: '1%' }}>
+      <div style={{ width: '100%', height: '100%', marginTop: '1%' }}>
         <Filter id="filter-search">
           <Filter.TypeSelector
             filterTypes={filters}

@@ -84,7 +84,7 @@ export class AuthorProfile extends React.Component {
                 src={userDetails.avatar}
                 width={100}
                 height={100}
-                alt="image profile user"
+                alt="profile user"
               />
             </Col>
             <Col xs={12} md={3} style={{ padding: 0 }}>

@@ -1,13 +1,10 @@
-import React from "react";
-import { Icon } from "patternfly-react";
+import React from 'react';
+import { Icon } from 'patternfly-react';
 
-import "./style.css";
-import PopupWindow from "./PopupWindow";
-import { toQuery, sessionUserDataSave } from "./utils";
-import Api from "../../service/Api";
-import config from "../../config";
-
-const provider = "github.com";
+import './style.css';
+import PopupWindow from './PopupWindow';
+import { toQuery } from './utils';
+import config from '../../config';
 
 class SocialButtonLogin extends React.Component {
   constructor(props) {
@@ -20,10 +17,10 @@ class SocialButtonLogin extends React.Component {
   onBtnClick() {
     const search = toQuery({
       client_id: config.GITHUB_OAUTH_ID,
-      user: "email"
+      user: 'email'
     });
     const popup = PopupWindow.open(
-      "github-oauth-authorize",
+      'github-oauth-authorize',
       `https://github.com/login/oauth/authorize?${search}`,
       { height: 1000, width: 600 }
     );
@@ -32,10 +29,9 @@ class SocialButtonLogin extends React.Component {
   }
 
   OnRequest() {
-    console.info("GitHub Login Request");
+    console.info('GitHub Login Request');
   }
   OnSuccess(data) {
-    console.log("code", data.code);
     let code = data.code;
     if (!code) {
     } else {
@@ -48,14 +44,14 @@ class SocialButtonLogin extends React.Component {
     console.error(error);
   }
   render() {
-    let { type, sizeIcon, message, provider } = this.props;
+    let { type, sizeIcon, provider } = this.props;
     const attrs = { onClick: this.onBtnClick };
 
     return (
       <div className="content-social-login" {...attrs}>
-        <div style={{ margin: "0 auto" }}>
+        <div style={{ margin: '0 auto' }}>
           <Icon
-            style={{ marginRight: "15px" }}
+            style={{ marginRight: '15px' }}
             name={`${type} fa-${sizeIcon}x`}
           />
           <span className="message-icon">{provider}</span>

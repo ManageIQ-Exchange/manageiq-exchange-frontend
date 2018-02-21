@@ -1,4 +1,4 @@
-import { GET_SPIN_SUCCESS, GET_SPIN_ERROR } from "../actions/typeActions";
+import { GET_SPIN_SUCCESS, GET_SPIN_ERROR } from '../actions/typeActions';
 
 const stateDeafult = {
   spin: {},

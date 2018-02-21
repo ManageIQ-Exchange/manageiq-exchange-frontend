@@ -7,7 +7,6 @@ import AboutPage from './containers/AboutPage/index';
 import AuthorsPage from './containers/AuthorPage/index';
 import SpinProfile from './containers/SpinProfile/';
 import SearchPage from './containers/SearchPage/index';
-import SignInPage from './containers/SignInPage/';
 import MyContentPage from './containers/MyContentPage/';
 import AuthorProfile from './containers/AuthorProfile/';
 import NotFoundPage from './containers/NotFoundPage/index';
@@ -16,7 +15,6 @@ const routes = (
   <Route path="/" component={Layout}>
     <IndexRoute component={IndexPage} />
     <Route path="/explore/" component={ExplorePage} />
-    <Route path="/signin/" component={SignInPage} />
     <Route path="/about/" component={AboutPage} />
     <Route path="/authors/" component={AuthorsPage} />
     <Route path="/authors/:idAuthor" component={AuthorProfile} />
