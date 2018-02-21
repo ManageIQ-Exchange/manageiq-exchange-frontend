@@ -2,7 +2,7 @@ import React from 'react';
 import { Icon } from 'patternfly-react';
 import './style.css';
 
-const CardItem = ({ cardInformation }) => {
+const CardItem = ({ cardInformation, onClick }) => {
   const fullName =
     cardInformation && cardInformation.full_name
       ? cardInformation.full_name
@@ -16,12 +16,23 @@ const CardItem = ({ cardInformation }) => {
       ? cardInformation.stargazers_count
       : '';
   return (
-    <div className="card-pf card-pf-view card-pf-view-select card-pf-view-single-select">
+    <div
+      className="card-pf card-pf-view card-pf-view-select card-pf-view-single-select"
+      onClick={onClick}
+    >
       <div className="card-pf-body">
         <div className="card-pf-top-element">
           <span className="fa pficon-service-catalog card-pf-icon-circle" />
         </div>
-        <h2 className="card-pf-title text-center" style={{ fontSize: '14px', width:'100%', overflow:'hidden', textOverflow:'ellipsis' }}>
+        <h2
+          className="card-pf-title text-center"
+          style={{
+            fontSize: '14px',
+            width: '100%',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis'
+          }}
+        >
           {fullName}
         </h2>
         <div className="card-pf-items text-center">

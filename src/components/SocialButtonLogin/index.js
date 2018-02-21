@@ -4,7 +4,6 @@ import { Icon } from 'patternfly-react';
 import './style.css';
 import PopupWindow from './PopupWindow';
 import { toQuery } from './utils';
-import config from '../../config';
 
 class SocialButtonLogin extends React.Component {
   constructor(props) {
@@ -15,8 +14,11 @@ class SocialButtonLogin extends React.Component {
     this.OnFailure = this.OnFailure.bind(this);
   }
   onBtnClick() {
+    const idApplication = this.props.idApplication
+      ? this.props.idApplication
+      : '';
     const search = toQuery({
-      client_id: config.GITHUB_OAUTH_ID,
+      client_id: idApplication,
       user: 'email'
     });
     const popup = PopupWindow.open(

@@ -11,6 +11,7 @@ import {
   Alert
 } from 'patternfly-react';
 import PropTypes from 'prop-types';
+import { browserHistory } from 'react-router';
 
 import CardItem from '../../components/CardItem/';
 import TagsFilter from '../../components/TagsFilter/';
@@ -247,6 +248,10 @@ export class SearchPage extends React.Component {
     this.props.getSpinSearch(baseParams);
     this.setState({ params: {}, filters: {}, showAlertAlready: false });
   };
+  redirectSpin(id) {
+    let route = { pathname: `/spin/${id}` };
+    browserHistory.push(route);
+  }
   render() {
     const {
       currentFilterType,
@@ -352,6 +357,9 @@ export class SearchPage extends React.Component {
                           <CardItem
                             key={`card_${index}`}
                             cardInformation={data}
+                            onClick={() => {
+                              this.redirectSpin(data.id);
+                            }}
                           />
                         </Col>
                       );
@@ -376,7 +384,7 @@ export class SearchPage extends React.Component {
                   <div>
                     <div
                       className="card-pf-body"
-                      style={{ overflowY: 'scroll', height: '300px' }}
+                      style={{ overflowY: 'auto', height: '300px' }}
                     >
                       <Row
                         style={{ padding: 0, width: '100%', marginTop: '10px' }}
@@ -390,36 +398,21 @@ export class SearchPage extends React.Component {
                                   style={{ marginTop: '10px' }}
                                 >
                                   <Col
-                                    xs={6}
-                                    md={3}
+                                    xs={4}
+                                    md={6}
                                     mdOffset={2}
+                                    xsOffset={2}
+                                    style={{ textAlign: 'left' }}
                                     onClick={() =>
                                       this.addFilterPopularTag(infoTag.name)
                                     }
                                   >
-                                    <div
-                                      style={{
-                                        backgroundColor: '#b7b7b7',
-                                        borderRadius: '10px',
-                                        margin: '0 auto',
-                                        width: '125px',
-                                        color: '#FFFFFF'
-                                      }}
-                                    >
+                                    <a style={{ cursor: 'pointer' }}>
                                       {infoTag.name}
-                                    </div>
+                                    </a>
                                   </Col>
-                                  <Col xs={6} md={3} mdOffset={2}>
-                                    <div
-                                      style={{
-                                        backgroundColor: '#848992',
-                                        color: '#FFFFFF',
-                                        margin: '0 auto',
-                                        borderRadius: '10px'
-                                      }}
-                                    >
-                                      {infoTag.count_spins}
-                                    </div>
+                                  <Col xs={6} md={3}>
+                                    <div>{infoTag.count_spins}</div>
                                   </Col>
                                 </Row>
                               );
