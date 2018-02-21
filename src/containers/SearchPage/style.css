@@ -14,6 +14,6 @@
 }
 .content-card {
   margin-top: 2%;
-  overflow-y: scroll;
+  overflow-y: auto;
   height:700px;
 }

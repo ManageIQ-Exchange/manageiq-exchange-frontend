@@ -11,6 +11,7 @@ import {
   Alert
 } from 'patternfly-react';
 import PropTypes from 'prop-types';
+import { browserHistory } from 'react-router';
 
 import CardItem from '../../components/CardItem/';
 import TagsFilter from '../../components/TagsFilter/';
@@ -247,6 +248,10 @@ export class SearchPage extends React.Component {
     this.props.getSpinSearch(baseParams);
     this.setState({ params: {}, filters: {}, showAlertAlready: false });
   };
+  redirectSpin(id) {
+    let route = { pathname: `/spin/${id}` };
+    browserHistory.push(route);
+  }
   render() {
     const {
       currentFilterType,
@@ -295,152 +300,153 @@ export class SearchPage extends React.Component {
         <Toolbar.RightContent>
           <Toolbar.ViewSelector />
         </Toolbar.RightContent>
-        <div>
-          <Toolbar.Results>
-            <Row style={{ paddingLeft: 20, marginLeft: '3%' }}>
-              <h5>{results.length} Results</h5>
-              {keys.map((data, index) => {
-                return this.state.filters[data].listFilters
-                  ? this.state.filters[data].listFilters.map(
-                      (element, index) => {
-                        return (
-                          <TagsFilter
-                            name={`${data}: ${element}`}
-                            onClick={() => this.removeTagFilter(element, data)}
-                          />
-                        );
-                      }
-                    )
-                  : null;
-              })}
-              {keys.length > 0 ? (
-                <p style={{ marginLeft: '2%' }}>
-                  <a onClick={this.clearFilter}>Clear All Filters</a>
-                </p>
+        <div style={{ height: '100%', backgroundColor: '#f7f7f7' }}>
+          <div
+            style={{
+              backgroundColor: '#ffffff',
+              boxShadow: '0px 10px 10px -15px #111'
+            }}
+          >
+            <Toolbar.Results>
+              <Row style={{ paddingLeft: 20, marginLeft: '3%' }}>
+                <h5>{results.length} Results</h5>
+                <h5>Active filters : </h5>
+                {keys.map((data, index) => {
+                  return this.state.filters[data].listFilters
+                    ? this.state.filters[data].listFilters.map(
+                        (element, index) => {
+                          return (
+                            <TagsFilter
+                              name={`${data}: ${element}`}
+                              onClick={() =>
+                                this.removeTagFilter(element, data)
+                              }
+                            />
+                          );
+                        }
+                      )
+                    : null;
+                })}
+                {keys.length > 0 ? (
+                  <p style={{ marginLeft: '2%' }}>
+                    <a onClick={this.clearFilter}>Clear All Filters</a>
+                  </p>
+                ) : null}
+              </Row>
+            </Toolbar.Results>
+          </div>
+          <div>
+            <Row>
+              {showAlert ? (
+                <Alert
+                  style={{ width: '50%', marginLeft: '2%' }}
+                  type="warning"
+                  onDismiss={() => this.setState({ showAlertAlready: true })}
+                >
+                  {messageError}
+                </Alert>
               ) : null}
-            </Row>
-          </Toolbar.Results>
-          <Row>
-            {showAlert ? (
-              <Alert
-                style={{ width: '50%', marginLeft: '2%' }}
-                type="warning"
-                onDismiss={() => this.setState({ showAlertAlready: true })}
-              >
-                {messageError}
-              </Alert>
-            ) : null}
-            <Col xs={12} md={9}>
-              <div className="content-card">
-                {search.isLoading ? (
-                  <Spinner loading={search.isLoading} />
-                ) : (
-                  results.map((data, index) => {
-                    return (
-                      <Col md={3} key={`col_card_${index}`}>
-                        <CardItem
-                          key={`card_${index}`}
-                          cardInformation={data}
-                        />
-                      </Col>
-                    );
-                  })
-                )}
-              </div>
-            </Col>
-            <Col
-              xs={12}
-              md={2}
-              style={{
-                overflowX: 'hidden',
-                padding: 0,
-                textAlign: 'center'
-              }}
-            >
-              <div className="card-pf">
-                <div className="card-pf-heading">
-                  <h2 className="card-pf-title">Popular Tags</h2>
+              <Col xs={12} md={9}>
+                <div className="content-card">
+                  {search.isLoading ? (
+                    <Spinner loading={search.isLoading} />
+                  ) : (
+                    results.map((data, index) => {
+                      return (
+                        <Col md={3} key={`col_card_${index}`}>
+                          <CardItem
+                            key={`card_${index}`}
+                            cardInformation={data}
+                            onClick={() => {
+                              this.redirectSpin(data.id);
+                            }}
+                          />
+                        </Col>
+                      );
+                    })
+                  )}
                 </div>
-                <div>
-                  <div
-                    className="card-pf-body"
-                    style={{ overflowY: 'scroll', height: '300px' }}
-                  >
-                    <Row
-                      style={{ padding: 0, width: '100%', marginTop: '10px' }}
+              </Col>
+              <Col
+                xs={12}
+                md={2}
+                style={{
+                  overflowX: 'hidden',
+                  padding: 0,
+                  textAlign: 'center',
+                  marginTop: '2%'
+                }}
+              >
+                <div className="card-pf">
+                  <div className="card-pf-heading">
+                    <h2 className="card-pf-title">Popular Tags</h2>
+                  </div>
+                  <div>
+                    <div
+                      className="card-pf-body"
+                      style={{ overflowY: 'auto', height: '300px' }}
                     >
-                      {tags && tags.tags
-                        ? tags.tags.map((data, index) => {
-                            let infoTag = data;
-                            return (
-                              <Row
-                                key={`popular_tag_row_${index}`}
-                                style={{ marginTop: '10px' }}
-                              >
-                                <Col
-                                  xs={6}
-                                  md={3}
-                                  mdOffset={2}
-                                  onClick={() =>
-                                    this.addFilterPopularTag(infoTag.name)
-                                  }
+                      <Row
+                        style={{ padding: 0, width: '100%', marginTop: '10px' }}
+                      >
+                        {tags && tags.tags
+                          ? tags.tags.map((data, index) => {
+                              let infoTag = data;
+                              return (
+                                <Row
+                                  key={`popular_tag_row_${index}`}
+                                  style={{ marginTop: '10px' }}
                                 >
-                                  <div
-                                    style={{
-                                      backgroundColor: '#b7b7b7',
-                                      borderRadius: '10px',
-                                      margin: '0 auto',
-                                      width: '125px',
-                                      color: '#FFFFFF'
-                                    }}
+                                  <Col
+                                    xs={4}
+                                    md={6}
+                                    mdOffset={2}
+                                    xsOffset={2}
+                                    style={{ textAlign: 'left' }}
+                                    onClick={() =>
+                                      this.addFilterPopularTag(infoTag.name)
+                                    }
                                   >
-                                    {infoTag.name}
-                                  </div>
-                                </Col>
-                                <Col xs={6} md={3} mdOffset={2}>
-                                  <div
-                                    style={{
-                                      backgroundColor: '#848992',
-                                      color: '#FFFFFF',
-                                      margin: '0 auto',
-                                      borderRadius: '10px'
-                                    }}
-                                  >
-                                    {infoTag.count_spins}
-                                  </div>
-                                </Col>
-                              </Row>
-                            );
-                          })
-                        : null}
-                    </Row>
+                                    <a style={{ cursor: 'pointer' }}>
+                                      {infoTag.name}
+                                    </a>
+                                  </Col>
+                                  <Col xs={6} md={3}>
+                                    <div>{infoTag.count_spins}</div>
+                                  </Col>
+                                </Row>
+                              );
+                            })
+                          : null}
+                      </Row>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </Col>
-          </Row>
-          <Row>
-            <Col xs={12} md={9}>
-              <div style={{ padding: '0 20px' }}>
-                <Paginator
-                  viewType="list"
-                  pagination={pagination}
-                  onPageSet={this.onChangePage}
-                  onPerPageSelect={this.onSelectPerPage}
-                  itemCount={
-                    search.meta && search.meta.total_count
-                      ? search.meta.total_count
-                      : 0
-                  }
-                  messages={{
-                    firstPage: 'First Page',
-                    previousPage: 'Previous Page',
-                    currentPage: 'Current Page'
-                  }}
-                />
-              </div>
-            </Col>
-          </Row>
+              </Col>
+            </Row>
+            <Row>
+              <Col xs={12} md={9}>
+                <div style={{ padding: '0 20px' }}>
+                  <Paginator
+                    viewType="list"
+                    pagination={pagination}
+                    onPageSet={this.onChangePage}
+                    onPerPageSelect={this.onSelectPerPage}
+                    itemCount={
+                      search.meta && search.meta.total_count
+                        ? search.meta.total_count
+                        : 0
+                    }
+                    messages={{
+                      firstPage: 'First Page',
+                      previousPage: 'Previous Page',
+                      currentPage: 'Current Page'
+                    }}
+                  />
+                </div>
+              </Col>
+            </Row>
+          </div>
         </div>
       </div>
     );

@@ -47,6 +47,8 @@ a {
 a:hover {
   text-decoration: none;
 }
-.app-container {
+.app-container,
+.content-layout {
   width: 100%;
+  height: 100%;
 }
