@@ -57,7 +57,7 @@ export default class TabDetails extends React.Component {
     const titleReleases = 'Release History';
     const urlIssue = spin ? spin.issues_url : '';
     return (
-      <div id="container" style={{ marginTop: "2%" }}>
+      <div id="container" style={{ marginTop: '2%' }}>
         <Grid width="100%">
           <Row className="content-links-icon">
             <Col md={7}>
