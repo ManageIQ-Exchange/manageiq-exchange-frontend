@@ -76,7 +76,9 @@ class ListRanking extends React.Component {
                             }}
                           >
                             {this.props.children ?
-                              <a href={data[keys[1]]}>{this.props.children}</a>
+                              <a href={data[keys[1]]} target="_blank">
+                                {this.props.children}
+                              </a>
                              :
                               <span>{data[keys[1]]}</span>
                             }
