@@ -6,21 +6,21 @@
 Welcome to the ManageIQ Exchange! This is the official community portal for finding and sharing ManageIQ Spins. A Spin is the ManageIQ way of bundling content and making it reusable.
 
 ## What is a Spin
-A Spin is a content package that can be imported into ManageIQ. Spins are stored in a content management system and are publicly available for other users. A Spin can also be applied to [Red Hat CloudForms](https://www.redhat.com/en/technologies/management/cloudforms), based on the ManageIQ project.
+A Spin is a content package that can be imported into ManageIQ. Spins are stored in a content management system and are publicly available for other users. A Spin can also be applied to [Red Hat CloudForms](https://www.redhat.com/en/technologies/management/cloudforms), based on the [ManageIQ project](http://manageiq.org).
 
 ## What is a Spin Candidate
-A Spin Candidate is an SCM repository that is identified as a potential Spin. Spin Candidates can be found in the "My Content" tab when you are logged in, with the option to be published in the ManageIQ Exchange to be publicly searchable by other users.
+A Spin Candidate is an SCM repository that is identified as a potential Spin. Spin Candidates can be found in the [My Content](/mycontent/) tab when you are logged in, with the option to be published in the ManageIQ Exchange to be publicly [searchable](/search/) by other users.
 
 ### What kind of content can be included in a Spin Candidate
 Any kind of content that can be imported to/exported from ManageIQ can be part of a Spin Candidate. Related content (like dialogues related to a workflow) should be part of the same Spin. Please remember to label your Spins properly.
 
 ## Sign up and sign in
-We use an Oauth application to identify the user and its content. Currently GitHub is supported. To sign in or sign up, click on "Login" at the top right corner of the ManageIQ Exchange. You will be asked to log in to GitHub, and to authorize ManageIQ Exchange if this is your first time accessing the Exchange.
+We use an OAuth application to identify the user and its content. Currently GitHub is supported. To sign in or sign up, click on "Login" at the top right corner of the ManageIQ Exchange. You will be asked to log in to GitHub, and to authorize ManageIQ Exchange if this is your first time accessing the Exchange.
 
 ## Creating Spins
 
 ### Identifying Spin Candidates
-Spin Candidates are identified by having a file with the name `.manageiq-spin` in the root folder of the repository. To populate your Spin Candidates, press the "Refresh" button located under "My Content" tab. After a few seconds, a list of Spin Candidates will be displayed.
+Spin Candidates are identified by having a file with the name `.manageiq-spin` in the root folder of the repository. To populate your Spin Candidates, press the "Refresh" button located under [My Content](/mycontent/) tab. After a few seconds, a list of Spin Candidates will be displayed.
 
 ### Publishing Spins
 You can promote a Spin Candidate to a Spin, which is publicly visible in the Exchange. In order to do so, the Spin Candidate needs to comply with some policies. There is an up-to-date example in [ManageIQ Exchange Spin Template](https://github.com/ManageIQ-Exchange/manageiq-exchange-spin-template). Currently the policies are:
@@ -38,11 +38,11 @@ You can promote a Spin Candidate to a Spin, which is publicly visible in the Exc
 
 ## Discovering Spins
 
-From the [Explore](/explore/) page, you can find the most popular Spins and recently added Spins. Use the [Search](/search/) tab to filter Spins by author, Spin name, or tag. [Browse Authors](/authors/) to find content creaters in the ManageIQ Exchange.
+From the [Explore](/explore/) page, you can find the most popular Spins and recently added Spins. Use the [Search](/search/) tab to filter Spins by author, Spin name, or tag. [Browse Authors](/authors/) to find content creators in the ManageIQ Exchange.
 
 ## Managing your content
 
-You can see a list of your Spin Candidates and Spins associated with your GitHub account on the "My Content" page. From here, you can refresh, validate, and publish your Spin Candidates to Spins.
+You can see a list of your Spin Candidates and Spins associated with your GitHub account on the [My Content](/mycontent/) page. From here, you can refresh, validate, and publish your Spin Candidates to Spins.
 
 ***
 
