@@ -50,7 +50,11 @@ const CardItem = ({ cardInformation, onClick }) => {
           <div>
             {cardInformation && cardInformation.metadata
               ? cardInformation.metadata.tags.map((tag, index) => (
-                  <span className="label label-info" key={`tag_card_${index}`} style={{fontSize:'0.75em', marginRight:'1%'}}>
+                  <span
+                    className="label label-info"
+                    key={`tag_card_${index}`}
+                    style={{ fontSize: '0.75em', marginRight: '1%' }}
+                  >
                     {tag}
                   </span>
                 ))
