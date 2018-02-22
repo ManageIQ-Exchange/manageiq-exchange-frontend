@@ -12,6 +12,9 @@ Spin are stored in a content management system and are publicly available for ot
 Spin Candidates are SCM repos that are identified as potential Spins.
 Spin Candidates can be found in My Content tab once you are identified and can be published or not.
 
+### What kind of content can be included in a Spin Candidate
+Any kind of content that can be exported/imported into ManageIQ. Please remember to label it properly.
+
 ## Sing up and sing in
 We use a GitHub Oauth application to identify the user and its content. In order to sign in or sign up, just press the login button on the top right side of the web page. We will ask for the login information to GitHub, and GitHub will ask you for permission if it is the first time you are accessing ManageIQ Galaxy.
 
