@@ -52,7 +52,7 @@ export function signOut() {
 export function checkSessionUser() {
   return dispatch => {
     let user = recoverUser();
-    if (user.github_login && user.github_login !== "")
+    if (user.github_login && user.github_login !== '')
       dispatch(signInSuccess(user));
     else dispatch(signInError());
   };
