@@ -2,17 +2,17 @@ import React from 'react';
 import { Grid, Row, Col, Icon } from 'patternfly-react';
 import MdStar from 'react-icons/lib/fa/star';
 import './style.css';
-import imgHome from './index-home.jpg';
+import imgHome from './manageiq-logo-standard.svg';
 import Footer from '../../components/Footer/index';
 
 export default class IndexPage extends React.Component {
   render() {
     return (
-      <div>
+      <div style={{ height: '100%', overflowY: 'none' }}>
         <div id="imgHomeContent">
           <img id="imgHome" src={imgHome} alt="init" />
         </div>
-        <Grid width="100%">
+        <Grid width="100%" height="40%">
           <Row style={{ height: '90%', padding: '8px' }}>
             <Col md={4}>
               <h2 style={{ color: '#878C95' }}>
@@ -42,7 +42,7 @@ export default class IndexPage extends React.Component {
                 <Icon
                   className="icon icon-share "
                   name="share-alt-square fa-2x"
-                />SHARE{' '}
+                />SHARE
               </h2>
               <p>
                 Jump-start your automation project with great content from the
@@ -82,7 +82,9 @@ export default class IndexPage extends React.Component {
             </Col>
           </Row>
         </Grid>
-        <Footer style={{ width: '100%' }} />
+        <div style={{ height: '40%', width: '100%' }}>
+          <Footer style={{ width: '100%' }} />
+        </div>
       </div>
     );
   }
