@@ -80,7 +80,9 @@ class ListViewItem extends React.Component {
         </div>
         <Collapse className="detailsInfo" in={openDetails}>
           <div>
-            <h3>Information about log:</h3>
+            <h3>
+              <strong>Validation log:</strong>
+            </h3>
             <span>{validation_log}</span>
           </div>
         </Collapse>
