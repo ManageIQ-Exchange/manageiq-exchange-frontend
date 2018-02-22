@@ -8,7 +8,8 @@ import {
   InputGroup,
   FormControl,
   Button,
-  Spinner
+  Spinner,
+  Alert
 } from 'patternfly-react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -23,11 +24,14 @@ import {
 import './style.css';
 import { filterByAttribute } from '../../lib/';
 import ListViewItem from './ListViewItem/';
+import * as constant from './constant';
 
 const defaultProps = {
   spins: {
     spins: []
-  }
+  },
+  showAlert: false,
+  messageAlert: ''
 };
 
 const propTypes = {
@@ -53,7 +57,9 @@ export class MyContentPage extends React.Component {
       details: [],
       loadingPublish: false,
       listSpins: props.spins.spins,
-      listSpinsComplete: props.spins.spins
+      listSpinsComplete: props.spins.spins,
+      showAlert: props.showAlert,
+      messageAlert: props.messageAlert
     };
   }
   componentDidMount() {
@@ -72,40 +78,71 @@ export class MyContentPage extends React.Component {
     this.setState({ listSpins });
   }
   publishSpin(id) {
-    this.setState({ loadingPublish: true });
+    this.setState({
+      messageAlert: constant.messageRequestSent,
+      showAlert: true
+    });
     this.props.publishSpin(id).then(response => {
-      this.setState({ loadingPublish: false });
-      this.props.getUserSpinsCandidates();
+      this.requestSpinsCandidates();
     });
   }
   unpublishSpin(id) {
-    this.setState({ loadingPublish: true });
+    this.setState({
+      messageAlert: constant.messageRequestSent,
+      showAlert: true
+    });
     this.props.unpublishSpin(id).then(response => {
-      this.setState({ loadingPublish: false });
-      this.props.getUserSpinsCandidates();
+      this.requestSpinsCandidates();
     });
   }
   validateSpin(id) {
-    this.setState({ loadingPublish: true });
+    this.setState({
+      messageAlert: constant.messageRequestSent,
+      showAlert: true
+    });
     this.props.validateSpin(id).then(response => {
-      this.setState({ loadingPublish: false });
-      this.props.getUserSpinsCandidates();
+      this.requestSpinsCandidates();
     });
   }
   refreshSpins() {
-    this.setState({ loadingPublish: true });
-    this.props.refreshSpins().then(response => {
-      this.setState({ loadingPublish: false });
-      this.props.getUserSpinsCandidates();
+    this.setState({
+      messageAlert: constant.messageRequestSent,
+      showAlert: true
     });
+    this.props.refreshSpins().then(response => {
+      this.requestSpinsCandidates();
+    });
+  }
+
+  requestSpinsCandidates() {
+    setTimeout(() => {
+      this.props.getUserSpinsCandidates().then(() =>
+        this.setState({
+          messageAlert: constant.messageRequest
+        })
+      );
+    }, constant.delayRequest);
   }
   onChangeSwicth(el, state, id) {
     if (state) this.publishSpin(id);
     else this.unpublishSpin(id);
   }
+  onDismissAlert = () => {
+    this.setState({ showAlert: false });
+  };
+  renderAlert = () => {
+    const { showAlert, messageAlert } = this.state;
+    return showAlert ?
+      <Alert className="alert" type="info" onDismiss={this.onDismissAlert}>
+        {messageAlert}
+      </Alert>
+      :
+      null
+  };
   render() {
     const placeholderSearch = 'Search';
-    let { loadingPublish, listSpins } = this.state;
+    const titleBtnRefresh = 'Refresh';
+    const { loadingPublish, listSpins } = this.state;
     return (
       <div>
         <Grid width="100%">
@@ -124,10 +161,13 @@ export class MyContentPage extends React.Component {
               If you don see all of your repositories, review and add your
               authorized organizations.
             </p>
+
           </Row>
-          <Row style={{ padding: 20 }}>
-            <Col xs={12} md={6} />
-            <Col xs={12} md={6}>
+          <Row>
+            <Col xs={12} md={6} style={{ padding: 0 }}>
+              {this.renderAlert()}
+            </Col>
+            <Col xs={12} md={6} style={{ padding: 20 }}>
               <Col xs={12} md={9}>
                 <FormGroup style={{ width: '100%' }}>
                   <InputGroup>
@@ -144,7 +184,8 @@ export class MyContentPage extends React.Component {
               </Col>
               <Col xs={12} md={2}>
                 <Button onClick={this.refreshSpins}>
-                  <Icon name="refresh" />
+                  {titleBtnRefresh}
+                  <Icon name="refresh" style={{ marginLeft: '4px' }} />
                 </Button>
               </Col>
               <Col xs={1} md={1}>

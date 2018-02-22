@@ -47,7 +47,6 @@ const propTypes = {
   getPopularTag: PropTypes.func
 };
 
-
 export class SearchPage extends React.Component {
   constructor(props) {
     super(props);

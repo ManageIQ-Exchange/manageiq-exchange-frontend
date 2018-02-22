@@ -8,8 +8,8 @@ export default class Footer extends React.Component {
   render() {
     const COLOUR_LOGO = '#ffffff';
     return (
-      <footer>
-        <Row className="indexFooter" style={{ margin: 0 }}>
+      <footer style={{ height: '100%' }}>
+        <Row className="indexFooter" style={{ margin: 0, height: '100%' }}>
           <Col md={4}>
             <img
               className="imgLogo"
