@@ -6,10 +6,15 @@ export function signInSuccess(user) {
     user: user
   };
 }
-export function signInError(user) {
+export function signInError(error) {
   return {
     type: actions.SIGN_IN_ERROR,
-    user: user
+    error: error
+  };
+}
+export function notSignIn() {
+  return {
+    type: actions.NOT_SIGN_IN
   };
 }
 export function signInLoading(isLoading) {
@@ -27,7 +32,7 @@ export function getUsersSuccess(users) {
 export function getUsersError(error) {
   return {
     type: actions.GET_USERS_ERROR,
-    error:error
+    error: error
   };
 }
 export function getUserSuccess(user) {
@@ -54,9 +59,10 @@ export function getDataAPiSuccess(dataApi) {
   };
 }
 
-export function getDataAPiError() {
+export function getDataAPiError(error) {
   return {
-    type: actions.DATA_API_ERROR
+    type: actions.DATA_API_ERROR,
+    error: error
   };
 }
 

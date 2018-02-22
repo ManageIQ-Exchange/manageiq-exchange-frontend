@@ -3,15 +3,21 @@ import {
   DATA_API_ERROR
 } from '../actions/typeActions';
 
-export const apiVersion = (apiVersion = {}, action: any) => {
-  let newState = {};
+const stateDefault = {
+  dataApi: {},
+  error: null
+};
+
+export const apiVersion = (apiVersion = stateDefault, action: any) => {
+  let newState = Object.assign({}, apiVersion);
   switch (action.type) {
     case DATA_API_SUCCESS:
-      newState = Object.assign({}, action.dataApi);
+      newState.dataApi = Object.assign({}, action.dataApi);
       return newState;
     case DATA_API_ERROR:
-      return apiVersion;
+      newState.error = action.error;
+      return newState;
     default:
-      return apiVersion;
+      return newState;
   }
 };
