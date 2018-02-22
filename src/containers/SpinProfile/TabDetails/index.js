@@ -61,7 +61,7 @@ export default class TabDetails extends React.Component {
         <Grid width="100%">
           <Row className="content-links-icon">
             <Col md={7}>
-              <LinkIcon message="Issue Tacker" icon="bug" href={urlIssue} />
+              <LinkIcon message="Issue tracker" icon="bug" href={urlIssue} />
               <LinkIcon message="Github Repo" icon="github" href={cloneUrl} />
               <LinkIcon
                 message="Download"
