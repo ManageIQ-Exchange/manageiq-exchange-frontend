@@ -1,4 +1,4 @@
-import { sessionUserDataSave } from "../components/SocialButtonLogin/utils";
+import { sessionUserDataSave } from '../components/SocialButtonLogin/utils';
 import {
   signInSuccess,
   signInError,
@@ -20,10 +20,11 @@ import {
   getUserSuccess,
   getUserError,
   validateSpinSuccess,
-  validateSpinError
-} from "../actions/index";
-import { recoverUser, deleteUser } from "../storage/";
-import Api from "../service/Api";
+  validateSpinError,
+  notSignIn
+} from '../actions/index';
+import { recoverUser, deleteUser } from '../storage/';
+import Api from '../service/Api';
 
 export function signIn(code, provider) {
   return dispatch => {
@@ -54,7 +55,7 @@ export function checkSessionUser() {
     let user = recoverUser();
     if (user.github_login && user.github_login !== '')
       dispatch(signInSuccess(user));
-    else dispatch(signInError());
+    else dispatch(notSignIn());
   };
 }
 

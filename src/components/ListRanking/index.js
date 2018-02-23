@@ -58,7 +58,7 @@ class ListRanking extends React.Component {
                         <Row style={{ width: '100%' }}>
                           <Col md={9} xs={9} className="col-header">
                             <a
-                              className="first-header"
+                              className="first-header link-first-header"
                               onClick={() =>
                                 this.onClick(data[idObject], data[keys[0]])
                               }
@@ -76,7 +76,9 @@ class ListRanking extends React.Component {
                             }}
                           >
                             {this.props.children ?
-                              <a href={data[keys[1]]}>{this.props.children}</a>
+                              <a href={data[keys[1]]} target="_blank">
+                                {this.props.children}
+                              </a>
                              :
                               <span>{data[keys[1]]}</span>
                             }

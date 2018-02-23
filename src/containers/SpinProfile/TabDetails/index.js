@@ -76,7 +76,7 @@ export default class TabDetails extends React.Component {
             <Col md={12} className="content-details">
               <div>
                 <span>
-                  <strong>Licencia</strong>
+                  <strong>Software License</strong>
                 </span>
                 <span style={{ float: "right" }}> {licence}</span>
               </div>

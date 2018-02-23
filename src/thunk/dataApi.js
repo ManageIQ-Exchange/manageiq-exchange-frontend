@@ -8,7 +8,7 @@ export function apiVersion() {
         dispatch(getDataAPiSuccess(response.data.data))
       })
       .catch(error => {
-        dispatch(getDataAPiError());
+        dispatch(getDataAPiError(error));
       });
   };
 }

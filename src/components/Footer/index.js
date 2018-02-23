@@ -21,46 +21,95 @@ export default class Footer extends React.Component {
           </Col>
           <Col md={4} className="left-border">
             <section>
-              <h3>PRODUCTS</h3>
+              <h3 />
               <ul>
-                <li>Ansible Tower</li>
-                <li>Tower Editions</li>
-                <li>Tower pricing</li>
-                <li>Free Tower Trial</li>
-                <li>Ansible Consulting</li>
+                <li>
+                  <a
+                    className="link-index"
+                    href="http://www.manageiq.org/"
+                    target="_blank"
+                  >
+                    ManageIQ website
+                  </a>
+                </li>
+                <li>
+                  <a
+                    className="link-index"
+                    href="http://talk.manageiq.org/"
+                    target="_blank"
+                  >
+                    ManageIQ Talk
+                  </a>
+                </li>
+                <li>
+                  <a
+                    className="link-index"
+                    href="https://github.com/ManageIQ"
+                    target="_blank"
+                  >
+                    ManageIQ in GitHub
+                  </a>
+                </li>
+                <li>
+                  <a
+                    className="link-index"
+                    href="https://github.com/ManageIQ-Exchange"
+                    target="_blank"
+                  >
+                    ManageIQ-Exchange in GitHub
+                  </a>
+                </li>
+                <li>
+                  <a
+                    className="link-index"
+                    href="https://www.redhat.com/en/technologies/management/cloudforms"
+                    target="_blank"
+                  >
+                    CloudForms
+                  </a>
+                </li>
+                <li>
+                  <a
+                    className="link-index"
+                    href="https://gitter.im/manageiq"
+                    target="_blank"
+                  >
+                    ManageIQ in Gitter
+                  </a>
+                </li>
               </ul>
             </section>
             <section>
-              <h3>RESOURCES</h3>
+              <h3 />
               <ul>
-                <li>Ansible Quick Start Guide</li>
-                <li>Videos</li>
-                <li>Webinars & Training</li>
-                <li>Case Studies</li>
-                <li>Whitepapers</li>
+                <li>
+                  <a
+                    className="link-index"
+                    href="https://github.com/ManageIQ-Exchange/manageiq-exchange-frontend/issues"
+                    target="_blank"
+                  >
+                    Frontend issues
+                  </a>
+                </li>
+                <li>
+                  <a
+                    className="link-index"
+                    href="https://github.com/ManageIQ-Exchange/manageiq-exchange/issues"
+                    target="_blank"
+                  >
+                    API issues
+                  </a>
+                </li>
               </ul>
             </section>
           </Col>
           <Col md={4} className="left-border">
             <section>
-              <h3>COMMUNITY</h3>
-              <ul>
-                <li>Upcoming Events</li>
-                <li>Ansible on Meetup</li>
-                <li>Ansible on Github</li>
-              </ul>
-
-              <ul>
-                <li>ANSIBLE SUPPORT</li>
-                <li>ANSIBLE DOCS</li>
-                <li>ANSIBLE STORE</li>
-                <li>ANSIBLE BLOG</li>
-              </ul>
-
+              <h3 />
+              <ul />
+              <ul />
               <div className="content-icon">
-                <a
-                  href="https://github.com/miq-consumption/manageiq-EXCHANGE"
-                >
+                <a href="https://github.com/ManageIQ-Exchange/manageiq-exchange/">
                   <Icon
                     style={{ color: COLOUR_LOGO }}
                     name="twitter-square fa-3x"

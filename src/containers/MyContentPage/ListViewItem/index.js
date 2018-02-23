@@ -20,6 +20,16 @@ class ListViewItem extends React.Component {
     const { openDetails } = this.state;
     this.setState({ openDetails: !openDetails });
   };
+  renderLog(log) {
+    return log.split('\n').map((item, key) => {
+      return (
+        <span key={key}>
+          {item}
+          <br />
+        </span>
+      );
+    });
+  }
   render() {
     const { openDetails } = this.state;
     const { full_name, id, published, validation_log } = this.props.dataList;
@@ -83,7 +93,7 @@ class ListViewItem extends React.Component {
             <h3>
               <strong>Validation log:</strong>
             </h3>
-            <span>{validation_log}</span>
+            <span>{this.renderLog(validation_log)}</span>
           </div>
         </Collapse>
       </div>

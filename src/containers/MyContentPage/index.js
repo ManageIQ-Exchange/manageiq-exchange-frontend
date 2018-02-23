@@ -29,9 +29,7 @@ import * as constant from './constant';
 const defaultProps = {
   spins: {
     spins: []
-  },
-  showAlert: false,
-  messageAlert: ''
+  }
 };
 
 const propTypes = {
@@ -58,8 +56,8 @@ export class MyContentPage extends React.Component {
       loadingPublish: false,
       listSpins: props.spins.spins,
       listSpinsComplete: props.spins.spins,
-      showAlert: props.showAlert,
-      messageAlert: props.messageAlert
+      showAlert: false,
+      messageAlert: ''
     };
   }
   componentDidMount() {
