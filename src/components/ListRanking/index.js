@@ -58,7 +58,7 @@ class ListRanking extends React.Component {
                         <Row style={{ width: '100%' }}>
                           <Col md={9} xs={9} className="col-header">
                             <a
-                              className="first-header"
+                              className="first-header link-first-header"
                               onClick={() =>
                                 this.onClick(data[idObject], data[keys[0]])
                               }
