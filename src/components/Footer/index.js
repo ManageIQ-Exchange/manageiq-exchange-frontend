@@ -28,6 +28,7 @@ export default class Footer extends React.Component {
                     className="link-index"
                     href="http://www.manageiq.org/"
                     target="_blank"
+                    rel="noopener noreferrer"
                   >
                     ManageIQ website
                   </a>
@@ -37,6 +38,7 @@ export default class Footer extends React.Component {
                     className="link-index"
                     href="http://talk.manageiq.org/"
                     target="_blank"
+                    rel="noopener noreferrer"
                   >
                     ManageIQ Talk
                   </a>
@@ -46,6 +48,7 @@ export default class Footer extends React.Component {
                     className="link-index"
                     href="https://github.com/ManageIQ"
                     target="_blank"
+                    rel="noopener noreferrer"
                   >
                     ManageIQ in GitHub
                   </a>
@@ -55,6 +58,7 @@ export default class Footer extends React.Component {
                     className="link-index"
                     href="https://github.com/ManageIQ-Exchange"
                     target="_blank"
+                    rel="noopener noreferrer"
                   >
                     ManageIQ-Exchange in GitHub
                   </a>
@@ -64,6 +68,7 @@ export default class Footer extends React.Component {
                     className="link-index"
                     href="https://www.redhat.com/en/technologies/management/cloudforms"
                     target="_blank"
+                    rel="noopener noreferrer"
                   >
                     CloudForms
                   </a>
@@ -73,6 +78,7 @@ export default class Footer extends React.Component {
                     className="link-index"
                     href="https://gitter.im/manageiq"
                     target="_blank"
+                    rel="noopener noreferrer"
                   >
                     ManageIQ in Gitter
                   </a>
@@ -87,6 +93,7 @@ export default class Footer extends React.Component {
                     className="link-index"
                     href="https://github.com/ManageIQ-Exchange/manageiq-exchange-frontend/issues"
                     target="_blank"
+                    rel="noopener noreferrer"
                   >
                     Frontend issues
                   </a>
@@ -96,6 +103,7 @@ export default class Footer extends React.Component {
                     className="link-index"
                     href="https://github.com/ManageIQ-Exchange/manageiq-exchange/issues"
                     target="_blank"
+                    rel="noopener noreferrer"
                   >
                     API issues
                   </a>
@@ -109,7 +117,11 @@ export default class Footer extends React.Component {
               <ul />
               <ul />
               <div className="content-icon">
-                <a href="https://github.com/ManageIQ-Exchange/manageiq-exchange/">
+                <a
+                  href="https://github.com/ManageIQ-Exchange/manageiq-exchange/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   <Icon
                     style={{ color: COLOUR_LOGO }}
                     name="twitter-square fa-3x"
