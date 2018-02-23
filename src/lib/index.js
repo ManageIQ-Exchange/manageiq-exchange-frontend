@@ -1,5 +1,12 @@
 import moment from 'moment';
 
+import {
+  messageColorOk,
+  messageColorError,
+  messageColorWarning
+} from '../constant/color';
+import { messageOk, messageError, messageWarning } from '../constant/';
+
 export function filterByAttribute(keywords, list, attributeItem) {
   if (!list || (list && !list.length)) return [];
 
@@ -36,4 +43,11 @@ export function getFullNameMinimumVersion(key) {
     e: 'Euwe'
   };
   return opctions[keyFormat];
+}
+export function getColorLog(log) {
+
+  if (log.includes(messageOk)) return messageColorOk;
+  else if (log.includes(messageError)) return messageColorError;
+  else if (log.includes(messageWarning)) return messageColorWarning;
+  return null;
 }
