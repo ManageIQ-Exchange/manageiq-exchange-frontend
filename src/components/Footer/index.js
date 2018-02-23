@@ -21,7 +21,6 @@ export default class Footer extends React.Component {
           </Col>
           <Col md={4} className="left-border">
             <section>
-              <h3 />
               <ul>
                 <li>
                   <a
@@ -86,7 +85,6 @@ export default class Footer extends React.Component {
               </ul>
             </section>
             <section>
-              <h3 />
               <ul>
                 <li>
                   <a
@@ -113,7 +111,6 @@ export default class Footer extends React.Component {
           </Col>
           <Col md={4} className="left-border">
             <section>
-              <h3 />
               <ul />
               <ul />
               <div className="content-icon">

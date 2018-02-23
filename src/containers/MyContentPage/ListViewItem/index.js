@@ -3,6 +3,7 @@ import { Switch, Col, Button } from 'patternfly-react';
 import { Collapse } from 'react-bootstrap';
 
 import * as constant from './constant';
+import { getColorLog } from '../../../lib/';
 import './style.css';
 
 class ListViewItem extends React.Component {
@@ -22,8 +23,9 @@ class ListViewItem extends React.Component {
   };
   renderLog(log) {
     return log.split('\n').map((item, key) => {
+      const color = getColorLog(item);
       return (
-        <span key={key}>
+        <span style={{ color: color }} key={key}>
           {item}
           <br />
         </span>
@@ -93,7 +95,7 @@ class ListViewItem extends React.Component {
             <h3>
               <strong>Validation log:</strong>
             </h3>
-            <span>{this.renderLog(validation_log)}</span>
+            <div className="container-log">{this.renderLog(validation_log)}</div>
           </div>
         </Collapse>
       </div>
