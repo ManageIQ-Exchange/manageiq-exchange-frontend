@@ -30,7 +30,17 @@ export default class Footer extends React.Component {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    ManageIQ website
+                    ManageIQ Website
+                  </a>
+                </li>
+                <li>
+                  <a
+                    className="link-index"
+                    href="http://www.manageiq.org/blog/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    ManageIQ Blog
                   </a>
                 </li>
                 <li>
@@ -40,7 +50,17 @@ export default class Footer extends React.Component {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    ManageIQ Talk
+                    ManageIQ Talk forum
+                  </a>
+                </li>
+                <li>
+                  <a
+                    className="link-index"
+                    href="https://gitter.im/manageiq/manageiq"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    ManageIQ on Gitter
                   </a>
                 </li>
                 <li>
@@ -50,7 +70,7 @@ export default class Footer extends React.Component {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    ManageIQ in GitHub
+                    ManageIQ on GitHub
                   </a>
                 </li>
                 <li>
@@ -60,7 +80,7 @@ export default class Footer extends React.Component {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    ManageIQ-Exchange in GitHub
+                    ManageIQ Exchange on GitHub
                   </a>
                 </li>
                 <li>
@@ -70,17 +90,7 @@ export default class Footer extends React.Component {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    CloudForms
-                  </a>
-                </li>
-                <li>
-                  <a
-                    className="link-index"
-                    href="https://gitter.im/manageiq"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    ManageIQ in Gitter
+                    Red Hat CloudForms
                   </a>
                 </li>
               </ul>
@@ -95,7 +105,7 @@ export default class Footer extends React.Component {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    Frontend issues
+                    Exchange Frontend issues
                   </a>
                 </li>
                 <li>
@@ -105,7 +115,7 @@ export default class Footer extends React.Component {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    API issues
+                    Exchange API issues
                   </a>
                 </li>
               </ul>
