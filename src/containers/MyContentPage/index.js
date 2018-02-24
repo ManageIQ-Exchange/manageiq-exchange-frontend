@@ -156,7 +156,7 @@ export class MyContentPage extends React.Component {
               enable Travis notifications and control the repository name.
             </p>
             <p>
-              If you don see all of your repositories, review and add your
+              If you do not see all of your repositories, review and add your
               authorized organizations.
             </p>
 
