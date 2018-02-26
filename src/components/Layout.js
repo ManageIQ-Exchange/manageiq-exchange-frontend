@@ -8,6 +8,7 @@ import Login from './Login/';
 import { signIn, checkSessionUser, signOut } from '../thunk/user';
 import { apiVersion } from '../thunk/dataApi';
 import { User } from '../models/user';
+import { messageErrorApi } from '../constant/';
 
 const defaultProps = {
   apiVersion: {
@@ -57,23 +58,22 @@ class Layout extends React.Component {
   renderAlert = () => {
     const { user, apiVersion } = this.props;
     const { showAlertAlready } = this.state;
-    const message = 'There have been a problem with the server';
     return !showAlertAlready ?
       user.error || apiVersion.error ? (
-      <Alert
-        style={{
-          width: '30%',
-          position: 'absolute',
-          zIndex: 9999,
-          right: '2%'
-        }}
-        type="warning"
-        onDismiss={this.changeShowAlert}
-      >
-        {message}
-      </Alert>
+        <Alert
+          style={{
+            width: '30%',
+            position: 'absolute',
+            zIndex: 9999,
+            right: '2%'
+          }}
+          type="error"
+          onDismiss={this.changeShowAlert}
+        >
+          {messageErrorApi}
+        </Alert>
       ) : null
-      : null;
+     : null;
   };
   render() {
     let { showModalLogin } = this.state;
