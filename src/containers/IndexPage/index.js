@@ -2,7 +2,7 @@ import React from 'react';
 import { Grid, Row, Col, Icon } from 'patternfly-react';
 import MdStar from 'react-icons/lib/fa/star';
 import './style.css';
-import imgHome from './manageiq-logo-standard.svg';
+import imgHome from './miq-twitter-banner.png';
 import Footer from '../../components/Footer/index';
 
 export default class IndexPage extends React.Component {
