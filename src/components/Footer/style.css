@@ -26,4 +26,8 @@ ul {
 }
 .link-index{
   color: #FFFFFF;
+  cursor: pointer;
+}
+.a-footer{
+  cursor: pointer;
 }

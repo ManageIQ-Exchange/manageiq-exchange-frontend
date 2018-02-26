@@ -7,6 +7,8 @@ import './style.css';
 export default class Footer extends React.Component {
   render() {
     const COLOUR_LOGO = '#ffffff';
+    const heightBanner = 120;
+    const widthBanner = 200;
     return (
       <footer style={{ height: '100%' }}>
         <Row className="indexFooter" style={{ margin: 0, height: '100%' }}>
@@ -15,8 +17,8 @@ export default class Footer extends React.Component {
               className="imgLogo"
               alt="logo manageiq"
               src={Logo}
-              height={120}
-              width={200}
+              height={heightBanner}
+              width={widthBanner}
             />
           </Col>
           <Col md={4} className="left-border">
@@ -125,7 +127,30 @@ export default class Footer extends React.Component {
               <ul />
               <div className="content-icon">
                 <a
-                  href="https://github.com/ManageIQ-Exchange/manageiq-exchange/"
+                  href="http://www.slideshare.net/ManageIQ/presentations"
+                  className="a-footer"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Icon
+                    style={{ color: COLOUR_LOGO }}
+                    name="slideshare fa-3x"
+                  />
+                </a>
+                <a
+                  href="https://www.youtube.com/user/ManageIQVideo"
+                  className="a-footer"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Icon
+                    style={{ color: COLOUR_LOGO }}
+                    name="youtube-square fa-3x"
+                  />
+                </a>
+                <a
+                  href="https://twitter.com/ManageIQ"
+                  className="a-footer"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -133,14 +158,35 @@ export default class Footer extends React.Component {
                     style={{ color: COLOUR_LOGO }}
                     name="twitter-square fa-3x"
                   />
+                </a>
+                <a
+                  href="https://www.linkedin.com/company/manageiq"
+                  className="a-footer"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   <Icon
                     style={{ color: COLOUR_LOGO }}
                     name="linkedin-square fa-3x"
                   />
+                </a>
+                <a
+                  href="https://www.facebook.com/manageiq/"
+                  className="a-footer"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   <Icon
                     style={{ color: COLOUR_LOGO }}
                     name="facebook-square fa-3x"
                   />
+                </a>
+                <a
+                  href="https://github.com/ManageIQ-Exchange"
+                  className="a-footer"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   <Icon
                     style={{ color: COLOUR_LOGO }}
                     name="github-square fa-3x"
