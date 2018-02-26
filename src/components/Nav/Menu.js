@@ -39,8 +39,10 @@ class Menu extends React.Component {
       <div>
         <HorizontalNav>
           <HorizontalNavHeader>
-            <NavBrand title="ManageIQ" >
-              <Link to={'/'} className="header-nav">ManageIQ</Link>
+            <NavBrand title="ManageIQ">
+              <Link to={'/'} className="header-nav">
+                ManageIQ
+              </Link>
             </NavBrand>
           </HorizontalNavHeader>
           <HorizontalCollapse>
@@ -75,7 +77,6 @@ class Menu extends React.Component {
                   key={1}
                   id="dropdown-basic-1"
                 >
-                  <MenuItem divider />
                   <MenuItem eventKey="5" onClick={this.onSignOut}>
                     Sign out
                   </MenuItem>
