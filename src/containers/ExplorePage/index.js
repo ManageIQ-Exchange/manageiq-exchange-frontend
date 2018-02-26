@@ -78,7 +78,7 @@ export class ExplorePage extends React.Component {
 
     return (
       <div id="container">
-        <Grid width="100%" style={{ marginTop: '50px' }}>
+        <Grid width="100%" style={{ marginTop: '2%' }}>
           <Row style={{ padding: 15 }}>
             <Button
               style={{ marginLeft: '3%' }}

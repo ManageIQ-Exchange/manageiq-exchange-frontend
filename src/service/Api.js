@@ -1,6 +1,7 @@
 import axios from 'axios';
 import config from '../config';
 import { toQuery } from '../lib/';
+import providerStorage from '../storage';
 // Server Backend
 const BackendServer = config.EXCHANGE_API_BACKEND;
 // Version of API
@@ -40,8 +41,8 @@ class Api {
   }
   headerAuthenticated() {
     return {
-      'X-USER-ID': sessionStorage.getItem('github_id'),
-      'X-USER-TOKEN': sessionStorage.getItem('authentication_token')
+      'X-USER-ID': providerStorage.getItem('github_id'),
+      'X-USER-TOKEN': providerStorage.getItem('authentication_token')
     };
   }
 

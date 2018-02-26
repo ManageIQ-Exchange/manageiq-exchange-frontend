@@ -1,4 +1,3 @@
-import { sessionUserDataSave } from '../components/SocialButtonLogin/utils';
 import {
   signInSuccess,
   signInError,
@@ -23,7 +22,7 @@ import {
   validateSpinError,
   notSignIn
 } from '../actions/index';
-import { recoverUser, deleteUser } from '../storage/';
+import providerStorage from '../storage/';
 import Api from '../service/Api';
 
 export function signIn(code, provider) {
@@ -33,7 +32,7 @@ export function signIn(code, provider) {
       .then(response => {
         let user = { ...response.data.data.user };
         user.authentication_token = response.data.data.authentication_token;
-        sessionUserDataSave(response.data.data);
+        providerStorage.sessionUserDataSave(response.data.data);
         dispatch(signInSuccess(user));
         dispatch(signInLoading(false));
       })
@@ -45,14 +44,14 @@ export function signIn(code, provider) {
 }
 export function signOut() {
   return dispatch => {
-    deleteUser();
+    providerStorage.deleteUser();
     dispatch(signOutUser());
   };
 }
 
 export function checkSessionUser() {
   return dispatch => {
-    let user = recoverUser();
+    let user = providerStorage.recoverUser();
     if (user.github_login && user.github_login !== '')
       dispatch(signInSuccess(user));
     else dispatch(notSignIn());
@@ -61,7 +60,7 @@ export function checkSessionUser() {
 
 export function getUserSpinsCandidates() {
   return dispatch => {
-    let user = recoverUser();
+    let user = providerStorage.recoverUser();
     if (user) {
       return Api.GetUserSpinsCandidates(user.github_id)
         .then(response => {

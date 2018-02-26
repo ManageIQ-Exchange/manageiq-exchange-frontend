@@ -1,9 +1,3 @@
- @media screen and (max-width:1024px){
-  .indexFooter {
-    position: inline;
-
-  }
-}
 
 .indexFooter {
   display: block;
@@ -16,6 +10,7 @@
   left: 0;
   background-image: linear-gradient(to bottom,#3c3c3c 0,#222 100%);
   font-size: 12px;
+  padding: 20px;
 }
 
 ul {
@@ -31,4 +26,8 @@ ul {
 }
 .link-index{
   color: #FFFFFF;
+  cursor: pointer;
+}
+.a-footer{
+  cursor: pointer;
 }
