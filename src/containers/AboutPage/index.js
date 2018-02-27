@@ -3,16 +3,17 @@ import { Grid, Col } from 'patternfly-react';
 import Markdown from 'react-markdown';
 import stripColor from 'strip-color';
 import diacritics from 'diacritics-map';
+
 import content from '../../markdown/index.md';
 import toc from '../../markdown/toc.md';
+
+import './style.css';
 
 export default class AboutPage extends React.Component {
   constructor(props) {
     super(props);
     this._flatten = this._flatten.bind(this);
     this._HeadingRenderer = this._HeadingRenderer.bind(this);
-    this._replaceDiacritics = this._replaceDiacritics.bind(this);
-    this._getTitle = this._getTitle.bind(this);
   }
 
   _flatten(text, child) {
@@ -42,7 +43,6 @@ export default class AboutPage extends React.Component {
     str = stripColor(str);
     str = str.toLowerCase();
 
-    // `.split()` is often (but not always) faster than `.replace()`
     str = str.split(' ').join('-');
     str = str.split(/\t/).join('--');
     str = str.split(/<\/?[^>]+>/).join('');
@@ -67,14 +67,27 @@ export default class AboutPage extends React.Component {
     return (
       <div style={{ padding: 15 }}>
         <Grid width="100%">
-          <Col xs={12} md={4} lg={3}>
-            <Markdown source={toc} />
+          <Col md={4} xs={12}>
+            <div className="container-toc">
+              <div className="container-a-link">
+                <a href="#top-page-about" className="a-about">
+                  BACK TO BOTTOM
+                </a>
+              </div>
+              <Markdown source={toc} />
+              <div className="container-a-link">
+                <a href="#bottom-page-about" className="a-about">
+                  BACK TO TOP
+                </a>
+              </div>
+            </div>
           </Col>
-          <Col xs={12} md={8} lg={9}>
+          <Col md={8} xs={12} id="top-page-about">
             <Markdown
               source={content}
               renderers={{ heading: this._HeadingRenderer }}
             />
+            <div id="bottom-page-about" />
           </Col>
         </Grid>
       </div>
