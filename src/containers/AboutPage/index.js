@@ -71,13 +71,13 @@ export default class AboutPage extends React.Component {
             <div className="container-toc">
               <div className="container-a-link">
                 <a href="#top-page-about" className="a-about">
-                  BACK TO BOTTOM
+                  BACK TO TOP
                 </a>
               </div>
               <Markdown source={toc} />
               <div className="container-a-link">
                 <a href="#bottom-page-about" className="a-about">
-                  BACK TO TOP
+                  GO TO BOTTOM
                 </a>
               </div>
             </div>
