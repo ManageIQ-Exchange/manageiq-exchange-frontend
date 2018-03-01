@@ -2,8 +2,10 @@ import React from 'react';
 import { Grid, Row, Col, Button } from 'patternfly-react';
 import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
 import moment from 'moment';
 import PropTypes from 'prop-types';
+import { translate } from 'react-i18next';
 
 import ListRanking from '../../components/ListRanking';
 import { getTops } from '../../thunk/top';
@@ -74,10 +76,11 @@ export class ExplorePage extends React.Component {
   }
 
   render() {
-    let { tops } = this.props;
+    let { tops, t } = this.props;
 
     return (
       <div id="container">
+        <span>{t('title', { what: 'i18next' })}</span>
         <Grid width="100%" style={{ marginTop: '2%' }}>
           <Row style={{ padding: 15 }}>
             <Button
@@ -153,4 +156,7 @@ const mapDispatchToProps = dispatch => {
     getTops: () => dispatch(getTops())
   };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(ExplorePage);
+export default compose(
+  translate(),
+  connect(mapStateToProps, mapDispatchToProps)
+)(ExplorePage);

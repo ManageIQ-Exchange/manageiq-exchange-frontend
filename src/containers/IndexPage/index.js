@@ -1,12 +1,15 @@
 import React from 'react';
 import { Grid, Row, Col, Icon } from 'patternfly-react';
+import { translate } from 'react-i18next';
+
 import MdStar from 'react-icons/lib/fa/star';
 import './style.css';
 import imgHome from './miq-twitter-banner.png';
 import Footer from '../../components/Footer/index';
 
-export default class IndexPage extends React.Component {
+class IndexPage extends React.Component {
   render() {
+    const { t } = this.props;
     return (
       <div style={{ height: '100%', overflowY: 'none' }}>
         <div id="imgHomeContent">
@@ -19,7 +22,8 @@ export default class IndexPage extends React.Component {
                 <Icon
                   className="icon icon-download"
                   name="cloud-download fa-2x"
-                />DOWNLOAD
+                />
+                {t('title', { what: 'i18next' })}
               </h2>
               <p>
                 Jump-start your automation project with great content from the
@@ -89,3 +93,4 @@ export default class IndexPage extends React.Component {
     );
   }
 }
+export default translate()(IndexPage)
