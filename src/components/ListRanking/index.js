@@ -2,6 +2,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Row, Col, ListGroup, ListGroupItem, Button } from 'patternfly-react';
 import { browserHistory } from 'react-router';
+import { translate } from 'react-i18next';
+
 import './style.css';
 
 const propTypes = {
@@ -12,7 +14,9 @@ const propTypes = {
   onClickName: PropTypes.func,
   redirectTag: PropTypes.string,
   keys: PropTypes.array,
-  height: PropTypes.number
+  height: PropTypes.number,
+  idObject: PropTypes.number,
+  t: PropTypes.object
 };
 class ListRanking extends React.Component {
   constructor(props) {
@@ -31,7 +35,14 @@ class ListRanking extends React.Component {
     }
   }
   render() {
-    const { data, title, renderBottomBtn, twoHeaders, idObject } = this.props;
+    const {
+      data,
+      title,
+      renderBottomBtn,
+      twoHeaders,
+      idObject,
+      t
+    } = this.props;
     const keys = this.props.keys
       ? this.props.keys
       : data && data.length > 0 ? Object.keys(data[0]) : [];
@@ -75,13 +86,13 @@ class ListRanking extends React.Component {
                               fontSize: '0.8em'
                             }}
                           >
-                            {this.props.children ?
+                            {this.props.children ? (
                               <a href={data[keys[1]]} target="_blank">
                                 {this.props.children}
                               </a>
-                             :
+                            ) : (
                               <span>{data[keys[1]]}</span>
-                            }
+                            )}
                           </Col>
                         </Row>
                       </ListGroupItem>
@@ -94,7 +105,7 @@ class ListRanking extends React.Component {
         {renderBottomBtn ? (
           <div className="footer-list">
             <Button style={{ float: 'left' }} onClick={this.redirectTo}>
-              View More
+              {t('explorerPage.btnViewMore')}
             </Button>
           </div>
         ) : null}
@@ -105,4 +116,4 @@ class ListRanking extends React.Component {
 
 ListRanking.propTypes = propTypes;
 
-export default ListRanking;
+export default translate()(ListRanking);

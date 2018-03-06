@@ -3,32 +3,26 @@ import Backend from 'i18next-xhr-backend';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import { reactI18nextModule } from 'react-i18next';
 
-
 i18n
   .use(Backend)
   .use(LanguageDetector)
   .use(reactI18nextModule)
   .init({
     fallbackLng: 'en',
-    ns: ['special', 'common'],
-    defaultNS: 'special',
 
-    backend: {
-      // load from i18next-gitbook repo
-      loadPath:
-        'https://raw.githubusercontent.com/i18next/i18next-gitbook/master/locales/{{lng}}/{{ns}}.json',
-      crossDomain: true
-    },
+    // have a common namespace used around the full app
+    ns: ['translations'],
+    defaultNS: 'translations',
+
     debug: true,
 
     interpolation: {
-      escapeValue: false
+      escapeValue: false // not needed for react!!
     },
 
     react: {
-      wait: false
+      wait: true
     }
   });
-
 
 export default i18n;

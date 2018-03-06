@@ -1,8 +1,8 @@
 import React from 'react';
 import { Switch, Col, Button } from 'patternfly-react';
 import { Collapse } from 'react-bootstrap';
+import { translate } from 'react-i18next';
 
-import * as constant from './constant';
 import { getColorLog } from '../../../lib/';
 import './style.css';
 
@@ -34,6 +34,7 @@ class ListViewItem extends React.Component {
   }
   render() {
     const { openDetails } = this.state;
+    const { t } = this.props;
     const { full_name, id, published, validation_log } = this.props.dataList;
     const colorHeader = openDetails ? '#edf8ff' : '';
     const shadow = openDetails
@@ -69,7 +70,7 @@ class ListViewItem extends React.Component {
                 <Col md={6} />
                 <Col xs={2} md={2}>
                   <Button onClick={() => this.props.onValidate(id)}>
-                    {constant.titleBtnValidate}
+                    {t('mycontentpage.btnValidate')}
                   </Button>
                 </Col>
                 <Col xs={2} md={2}>
@@ -83,7 +84,7 @@ class ListViewItem extends React.Component {
                 </Col>
                 <Col md={2} xs={2}>
                   <Button onClick={this.openDetails}>
-                    {constant.titleBtnDetails}
+                    {t('mycontentpage.btnDetais')}
                   </Button>
                 </Col>
               </Col>
@@ -93,9 +94,11 @@ class ListViewItem extends React.Component {
         <Collapse className="detailsInfo" in={openDetails}>
           <div>
             <h3>
-              <strong>Validation log:</strong>
+              <strong>{t('mycontentpage.log')}:</strong>
             </h3>
-            <div className="container-log">{this.renderLog(validation_log)}</div>
+            <div className="container-log">
+              {this.renderLog(validation_log)}
+            </div>
           </div>
         </Collapse>
       </div>
@@ -103,4 +106,4 @@ class ListViewItem extends React.Component {
   }
 }
 
-export default ListViewItem;
+export default translate()(ListViewItem);

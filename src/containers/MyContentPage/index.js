@@ -13,6 +13,8 @@ import {
 } from 'patternfly-react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { compose } from 'redux';
+import { translate } from 'react-i18next';
 
 import {
   getUserSpinsCandidates,
@@ -130,36 +132,25 @@ export class MyContentPage extends React.Component {
   };
   renderAlert = () => {
     const { showAlert, messageAlert } = this.state;
-    return showAlert ?
+    return showAlert ? (
       <Alert className="alert" type="info" onDismiss={this.onDismissAlert}>
         {messageAlert}
       </Alert>
-      :
-      null
+    ) : null;
   };
   render() {
-    const placeholderSearch = 'Search';
-    const titleBtnRefresh = 'Refresh';
+    const t = this.props.t;
+    const placeholderSearch = t('mycontentpage.placeholderSearch');
+    const titleBtnRefresh = t('mycontentpage.btnRefresh');
     const { loadingPublish, listSpins } = this.state;
     return (
       <div>
         <Grid width="100%">
           <Row>
-            <h1> Import Your Content from Github</h1>
+            <h1> {t('mycontentpage.title')}</h1>
           </Row>
           <Row style={{ padding: 0 }}>
-            <p>
-              Click the toggle next to the repository to reveal a check mark.
-              This will add the repository to EXCHANGE, making it visible on the
-              Search page and allowing anyone to download it. Removing the check
-              mark will delete the repository from EXCHANGE. Use settings to
-              enable Travis notifications and control the repository name.
-            </p>
-            <p>
-              If you do not see all of your repositories, review and add your
-              authorized organizations.
-            </p>
-
+            <p>{t('mycontentpage.introduction')}</p>
           </Row>
           <Row>
             <Col xs={12} md={6} style={{ padding: 0 }}>
@@ -209,7 +200,6 @@ export class MyContentPage extends React.Component {
                 })
               : null}
           </Row>
-
         </Grid>
       </div>
     );
@@ -233,4 +223,7 @@ const mapDispatchToProps = dispatch => {
     validateSpin: id => dispatch(validateSpin(id))
   };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(MyContentPage);
+export default compose(
+  translate(),
+  connect(mapStateToProps, mapDispatchToProps)
+)(MyContentPage);

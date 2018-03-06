@@ -1,20 +1,16 @@
 import React from 'react';
 import { Icon } from 'patternfly-react';
+import { translate } from 'react-i18next';
+
 import './style.css';
 
-const CardItem = ({ cardInformation, onClick }) => {
+const CardItem = ({ cardInformation, onClick, t }) => {
   const fullName =
     cardInformation && cardInformation.full_name
       ? cardInformation.full_name
       : '';
-  const numWatchers =
-    cardInformation
-      ? cardInformation.watchers_count
-      : '';
-  const numStargazers =
-    cardInformation
-      ? cardInformation.stargazers_count
-      : '';
+  const numWatchers = cardInformation ? cardInformation.watchers_count : '';
+  const numStargazers = cardInformation ? cardInformation.stargazers_count : '';
   return (
     <div
       className="card-pf card-pf-view card-pf-view-select card-pf-view-single-select"
@@ -46,7 +42,7 @@ const CardItem = ({ cardInformation, onClick }) => {
           </div>
         </div>
         <p className="card-pf-info text-center">
-          <strong>Tags</strong> <br />
+          <strong>{t('searchPage.tags')}</strong> <br />
           <div>
             {cardInformation && cardInformation.metadata
               ? cardInformation.metadata.tags.map((tag, index) => (
@@ -69,4 +65,4 @@ const CardItem = ({ cardInformation, onClick }) => {
   );
 };
 
-export default CardItem;
+export default translate('translations')(CardItem);

@@ -1,7 +1,40 @@
 {
-  "title": "Welcome to react using react-i18next",
-  "description": {
-    "part1": "Running i18n very well.",
-    "part2": "Switch language between english and german using buttons above."
+  "navbar": {
+    "about":"ABOUT",
+    "explore":"EXPLORE",
+    "search":"SEARCH",
+    "authors":"BROWSE AUTHORS",
+    "mycontent":"MY CONTENT"
+  },
+  "indexPage": {
+    "titleDownload": "Download",
+    "titleShare":"Share",
+    "titleFeatured":"Featured",
+    "textDownload": "Jump-start \n  your automation project with great content \n from the Ansible community. EXCHANGE provides pre-packaged units of work known to Ansible as roles Roles can be dropped into Ansible PlayBooks and immediately put to work. You ll find roles for provisioning infrastructure, deploying applications, and all of the tasks you do everyday. Use Search to find roles for your project, then download them onto your Ansible host using the ansible-EXCHANGE command that comes bundled with Ansible.",
+    "textShare": "Jump-start your automation project with great content from the Ansible community. EXCHANGE provides pre-packaged units of work known to Ansible as roles \n Roles can be dropped into Ansible PlayBooks and immediately put to work. You ll find roles for provisioning infrastructure, deploying applications, and all of the tasks you do everyday. \n Use Search to find roles for your project, then download them onto your Ansible host using the ansible-EXCHANGE command that comes bundled with Ansible.",
+    "textFeatured1":"ROLE:jdauphant.nginx - Ansible role to install and manage nginx configuration",
+    "textFeatured2":"AUTHOR:andrewrothstein with 239 roles.",
+    "textFeatured3":"BLOG: Read the latest from The Inside Playbook, and keep up with what 's happening in the Ansible universe."
+  },
+  "explorerPage":{
+    "titleBtnBrowseAuthors":"Browse Authors",
+    "titleBtnSearch":"Search",
+    "btnViewMore":"View More"
+  },
+  "searchPage":{
+    "tags":"tags",
+    "titlePopularTags": "Popular tags",
+    "clearFilters": "Clear All Filters",
+    "textResult":"Results",
+    "activeFilters":"Active filters"
+  },
+  "mycontentpage":{
+    "title":"Import Your Content from Github",
+    "introduction":"Click the toggle next to the repository to reveal a check mark. This will add the repository to EXCHANGE, making it visible on the Search page and allowing anyone to download it. Removing the check mark will delete the repository from EXCHANGE. Use settings to enable Travis notifications and control the repository name. If you do not see all of your repositories, review and add your authorized organizations.",
+    "btnRefresh":"Refresh",
+    "placeholderSearch":"Search",
+    "btnValidate":"Validate",
+    "btnDetais":"Details",
+    "log":"Validation Log"
   }
 }

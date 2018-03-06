@@ -1,4 +1,6 @@
 import React from 'react';
+import { translate } from 'react-i18next';
+
 import {
   HorizontalNav,
   HorizontalNavHeader,
@@ -19,6 +21,7 @@ import './style.css';
 
 const propTypes = {
   user: PropTypes.object,
+  t: PropTypes.object,
   isShowModal: PropTypes.func,
   signOut: PropTypes.func
 };
@@ -31,9 +34,9 @@ class Menu extends React.Component {
   onSignOut = () => {
     this.props.signOut();
     this.redirectTo('/');
-  }
+  };
   render() {
-    let { user } = this.props;
+    let { user, t } = this.props;
     const titleLogin = 'Login';
     return (
       <div>
@@ -48,20 +51,20 @@ class Menu extends React.Component {
           <HorizontalCollapse>
             <ListGroup bsClass="nav navbar-nav navbar-primary">
               <ListGroupItem bsClass="">
-                <Link to={'/about/'}>ABOUT</Link>
+                <Link to={'/about/'}>{t('navbar.about')}</Link>
               </ListGroupItem>
               <ListGroupItem bsClass="">
-                <Link to={'/explore/'}>EXPLORE</Link>
+                <Link to={'/explore/'}>{t('navbar.explore')}</Link>
               </ListGroupItem>
               <ListGroupItem bsClass="">
-                <Link to={'/search/'}>SEARCH</Link>
+                <Link to={'/search/'}>{t('navbar.search')}</Link>
               </ListGroupItem>
               <ListGroupItem bsClass="">
-                <Link to={'/authors/'}>BROWSE AUTHORS</Link>
+                <Link to={'/authors/'}>{t('navbar.authors')}</Link>
               </ListGroupItem>
               {user.logged ? (
                 <ListGroupItem bsClass="">
-                  <Link to={'/mycontent/'}>MY CONTENT</Link>
+                  <Link to={'/mycontent/'}>{t('navbar.mycontent')}</Link>
                 </ListGroupItem>
               ) : null}
             </ListGroup>
@@ -102,4 +105,4 @@ class Menu extends React.Component {
 }
 
 Menu.propTypes = propTypes;
-export default Menu;
+export default translate('translations')(Menu);

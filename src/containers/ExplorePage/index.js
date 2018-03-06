@@ -44,6 +44,7 @@ const defaultProps = {
 
 const propTypes = {
   tops: PropTypes.object,
+  t: PropTypes.object,
   getTops: PropTypes.func
 };
 
@@ -80,7 +81,6 @@ export class ExplorePage extends React.Component {
 
     return (
       <div id="container">
-        <span>{t('title', { what: 'i18next' })}</span>
         <Grid width="100%" style={{ marginTop: '2%' }}>
           <Row style={{ padding: 15 }}>
             <Button
@@ -89,14 +89,14 @@ export class ExplorePage extends React.Component {
               id="btnSearch"
               bsStyle="primary"
             >
-              Search
+              {t('explorerPage.titleBtnSearch')}
             </Button>
             <Button
               onClick={() => this.redirectByRoute('/authors/')}
               className="btn-primary"
               bsStyle="primary"
             >
-              Browse Authors
+              {t('explorerPage.titleBtnBrowseAuthors')}
             </Button>
           </Row>
           <Row>
@@ -136,7 +136,6 @@ export class ExplorePage extends React.Component {
               } else return null;
             })}
           </Row>
-
         </Grid>
       </div>
     );

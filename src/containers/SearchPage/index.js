@@ -12,6 +12,8 @@ import {
 } from 'patternfly-react';
 import PropTypes from 'prop-types';
 import { browserHistory } from 'react-router';
+import { compose } from 'redux';
+import { translate } from 'react-i18next';
 
 import CardItem from '../../components/CardItem/';
 import TagsFilter from '../../components/TagsFilter/';
@@ -261,7 +263,7 @@ export class SearchPage extends React.Component {
       showAlertAlready
     } = this.state;
 
-    let { tags, search } = this.props;
+    let { tags, search, t } = this.props;
     tags = tags || this.state.tags;
     let pagination = search
       ? {
@@ -308,8 +310,10 @@ export class SearchPage extends React.Component {
           >
             <Toolbar.Results>
               <Row style={{ paddingLeft: 20, marginLeft: '3%' }}>
-                <h5>{results.length} Results</h5>
-                <h5>Active filters : </h5>
+                <h5>
+                  {results.length} {t('searchPage.textResult')}
+                </h5>
+                <h5>{t('searchPage.activeFilters')} : </h5>
                 {keys.map((data, index) => {
                   return this.state.filters[data].listFilters
                     ? this.state.filters[data].listFilters.map(
@@ -328,7 +332,9 @@ export class SearchPage extends React.Component {
                 })}
                 {keys.length > 0 ? (
                   <p style={{ marginLeft: '2%' }}>
-                    <a onClick={this.clearFilter}>Clear All Filters</a>
+                    <a onClick={this.clearFilter}>
+                      {t('searchPage.clearFilters')}
+                    </a>
                   </p>
                 ) : null}
               </Row>
@@ -378,7 +384,9 @@ export class SearchPage extends React.Component {
               >
                 <div className="card-pf">
                   <div className="card-pf-heading">
-                    <h2 className="card-pf-title">Popular Tags</h2>
+                    <h2 className="card-pf-title">
+                      {t('searchPage.titlePopularTags')}
+                    </h2>
                   </div>
                   <div>
                     <div
@@ -454,7 +462,6 @@ export class SearchPage extends React.Component {
 SearchPage.propTypes = propTypes;
 SearchPage.defaultProps = defaultProps;
 
-
 const mapStateToProps = state => {
   return {
     tags: state.tags,
@@ -467,4 +474,7 @@ const mapDispatchToProps = dispatch => {
     getSpinSearch: params => dispatch(getSpinSearch(params))
   };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(SearchPage);
+export default compose(
+  translate(),
+  connect(mapStateToProps, mapDispatchToProps)
+)(SearchPage);
