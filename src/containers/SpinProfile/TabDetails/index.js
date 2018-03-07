@@ -1,18 +1,15 @@
 import React from 'react';
-import {
-  Grid,
-  Row,
-  Col,
-  Table
-} from "patternfly-react";
+import { Grid, Row, Col, Table } from 'patternfly-react';
 import { Well } from 'react-bootstrap';
+import { translate } from 'react-i18next';
+
 import './style.css';
 import LinkIcon from '../../../components/LinkIcon/';
 import { formatDate, getFullNameMinimumVersion } from '../../../lib/';
 import Api from '../../../service/Api';
-import { mockBootstrapColumns } from './mock/';
+import { getColumns } from './columns/';
 
-export default class TabDetails extends React.Component {
+class TabDetails extends React.Component {
   componentDidMount() {}
 
   formatDateRelease(releases, idSpin) {
@@ -28,7 +25,7 @@ export default class TabDetails extends React.Component {
   }
 
   render() {
-    const { spin } = this.props;
+    const { spin, t } = this.props;
     const watchersCount = spin ? spin.watchers_count : 0;
     const startsCount = spin ? spin.stargazers_count : 0;
     const userSpin = spin && spin.user ? spin.user.login : 0;
@@ -54,44 +51,65 @@ export default class TabDetails extends React.Component {
       spin && spin.id && spin.releases && spin.releases.length > 0
         ? `${Api.generateUrlDownload(spin.id)}${spin.releases[0].id}/download`
         : '';
-    const titleReleases = 'Release History';
     const urlIssue = spin ? spin.issues_url : '';
+
+    const columnsListRelease = getColumns([
+      t('profileSpin.headerListReleaseVersion'),
+      t('profileSpin.headerListReleaseDate'),
+      t('profileSpin.headerListReleaseDownload')
+    ]);
+
+    const titleIssue = t('profileSpin.titleIssue');
+    const titleDownload = t('profileSpin.titleDownload');
+    const titleWatch = t('profileSpin.titleWatch');
+    const titleStart = t('profileSpin.titleWatch');
+    const textLicense = t('profileSpin.license');
+    const textDefaultBranch = t('profileSpin.defaultBranch');
+    const textTag = t('profileSpin.tag');
+    const textUser = t('profileSpin.user');
+    const textMetadata = t('profileSpin.metadata');
+    const textMetadataAuthor = t('profileSpin.medataAuthor');
+    const textMetadataDescription = t('profileSpin.medataDescription');
+    const textMetadataMinimumVersion = t('profileSpin.medataMinimumVersion');
+    const textMetadataCompany = t('profileSpin.medataCompany');
+    const titleReleases = t('profileSpin.titleReleaseHistory');
+
     return (
       <div id="container" style={{ marginTop: '2%' }}>
         <Grid width="100%">
           <Row className="content-links-icon">
             <Col md={7}>
-              <LinkIcon message="Issue tracker" icon="bug" href={urlIssue} />
+              <LinkIcon message={titleIssue} icon="bug" href={urlIssue} />
               <LinkIcon message="Github Repo" icon="github" href={cloneUrl} />
               <LinkIcon
-                message="Download"
+                message={titleDownload}
                 icon="cloud-download"
                 href={urlDownloadLastRelease}
               />
-              <LinkIcon message={`Watch ${watchersCount}`} icon="eye" />
-              <LinkIcon message={`Star ${startsCount}`} icon="star" />
+              <LinkIcon message={`${titleWatch} ${watchersCount}`} icon="eye" />
+              <LinkIcon message={`${titleStart} ${startsCount}`} icon="star" />
             </Col>
           </Row>
           <Row>
             <Col md={12} className="content-details">
               <div>
                 <span>
-                  <strong>Software License</strong>
+                  <strong>{textLicense}</strong>
                 </span>
-                <span style={{ float: "right" }}> {licence}</span>
+                <span style={{ float: 'right' }}> {licence}</span>
               </div>
               <div>
                 <span>
-                  <strong>Default Branch</strong>
+                  <strong>{textDefaultBranch}</strong>
                 </span>
-                <span style={{ float: "right" }}> {defaultBranch}</span>
+                <span style={{ float: 'right' }}> {defaultBranch}</span>
               </div>
               <div>
                 <span>
-                  <strong>Tag</strong>
+                  <strong>{textTag}</strong>
                 </span>
 
-                <span style={{ float: "right" }}>
+                <span style={{ float: 'right' }}>
                   {tags.map((tag, index) => (
                     <span
                       key={`key_tag_${index}`}
@@ -105,7 +123,7 @@ export default class TabDetails extends React.Component {
               </div>
               <div>
                 <span>
-                  <strong>User</strong>
+                  <strong>{textUser}</strong>
                 </span>
                 <span style={{ float: 'right' }}>
                   <a href={cloneUrl}>{userSpin}</a>
@@ -113,18 +131,18 @@ export default class TabDetails extends React.Component {
               </div>
               <div>
                 <span>
-                  <strong>Metadata</strong>
+                  <strong>{textMetadata}</strong>
                 </span>
                 <Well>
                   <div>
                     <span>
-                      <strong>Author</strong>
+                      <strong>{textMetadataAuthor}</strong>
                     </span>
                     <span style={{ float: 'right' }}>{metadataAuthor}</span>
                   </div>
                   <div>
                     <span>
-                      <strong>Description</strong>
+                      <strong>{textMetadataDescription}</strong>
                     </span>
                     <span style={{ float: 'right' }}>
                       {metadataDescription}
@@ -132,13 +150,13 @@ export default class TabDetails extends React.Component {
                   </div>
                   <div>
                     <span>
-                      <strong>Minimum version</strong>
+                      <strong>{textMetadataMinimumVersion}</strong>
                     </span>
                     <span style={{ float: 'right' }}>{metadataVersion}</span>
                   </div>
                   <div>
                     <span>
-                      <strong>Company</strong>
+                      <strong>{textMetadataCompany}</strong>
                     </span>
                     <span style={{ float: 'right' }}>{metadataCompany}</span>
                   </div>
@@ -155,7 +173,7 @@ export default class TabDetails extends React.Component {
                   striped
                   bordered
                   hover
-                  columns={mockBootstrapColumns}
+                  columns={columnsListRelease}
                 >
                   <Table.Header />
                   <Table.Body rows={releaseModify} />
@@ -168,3 +186,4 @@ export default class TabDetails extends React.Component {
     );
   }
 }
+export default translate()(TabDetails);

@@ -11,6 +11,8 @@ import {
 } from 'patternfly-react';
 import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
+import { compose } from 'redux';
+import { translate } from 'react-i18next';
 import PropTypes from 'prop-types';
 
 import ListRanking from '../../components/ListRanking';
@@ -28,12 +30,14 @@ const defaultProps = {
       perPage: 10,
       perPageOptions: [5, 10, 15]
     }
-  }
+  },
+  t: {}
 };
 
 const propTypes = {
   getUsers: PropTypes.func,
-  users: PropTypes.object
+  users: PropTypes.object,
+  t: PropTypes.object
 };
 
 export class AuthorsPage extends React.Component {
@@ -75,10 +79,12 @@ export class AuthorsPage extends React.Component {
     this.setState({ elementByPage: numItems });
   }
   render() {
-    const placeholderSearch = 'Search authors';
-    const titleHeader = 'Exchange Contributors';
+    let { users, t } = this.props;
 
-    let { users } = this.props;
+    const placeholderSearch = t('browseAuthors.placeholderSearch');
+    const titleHeader = t('browseAuthors.title');
+    const titlesListHeader = [t('browseAuthors.titleListHeader'), ''];
+
     let { listUsers, elementByPage } = this.state;
     let { meta } = users;
     meta = meta || this.state.meta;
@@ -119,7 +125,7 @@ export class AuthorsPage extends React.Component {
                 height={'500px'}
                 data={listUsers || []}
                 title={null}
-                twoHeaders={['Author', '']}
+                twoHeaders={titlesListHeader}
                 keys={['login', 'url_profile']}
                 idObject="github_id"
                 onClickName={this.redirectToAuthor}
@@ -161,4 +167,7 @@ const mapDispatchToProps = dispatch => {
     getUsers: () => dispatch(getUsers())
   };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(AuthorsPage);
+export default compose(
+  translate(),
+  connect(mapStateToProps, mapDispatchToProps)
+)(AuthorsPage);

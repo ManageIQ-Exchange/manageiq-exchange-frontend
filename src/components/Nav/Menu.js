@@ -81,7 +81,7 @@ class Menu extends React.Component {
                   id="dropdown-basic-1"
                 >
                   <MenuItem eventKey="5" onClick={this.onSignOut}>
-                    Sign out
+                    {t('navbar.signout')}
                   </MenuItem>
                 </DropdownButton>
               ) : user.loading ? null : (

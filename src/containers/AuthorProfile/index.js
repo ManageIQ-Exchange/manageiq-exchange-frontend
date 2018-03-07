@@ -10,6 +10,8 @@ import {
 } from 'patternfly-react';
 import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
+import { compose } from 'redux';
+import { translate } from 'react-i18next';
 import PropTypes from 'prop-types';
 
 import ListRanking from '../../components/ListRanking/';
@@ -19,14 +21,16 @@ import { filterByAttribute } from '../../lib/';
 const defaultProps = {
   spins: {
     spinsUser: [],
-    userDetails: {}
+    userDetails: {},
+    t: {}
   }
 };
 
 const propTypes = {
   getInformationUserProfile: PropTypes.func,
   spins: PropTypes.object,
-  params: PropTypes.object
+  params: PropTypes.object,
+  t: PropTypes.object
 };
 
 export class AuthorProfile extends React.Component {
@@ -66,10 +70,14 @@ export class AuthorProfile extends React.Component {
   }
 
   render() {
-    const { spins } = this.props;
+    const { spins, t } = this.props;
     const { listSpinsUser } = this.state;
     const { userDetails } = spins || this.state.userDetails;
-    const placeholderSearch = 'Search';
+    const placeholderSearch = t('profileAuthor.placeholderSearch');
+    const titleHeaderList = [
+      t('profileAuthor.titleListHeader1'),
+      t('profileAuthor.titleListHeader2')
+    ];
     const nameUser = userDetails && userDetails.login ? userDetails.login : '';
 
     return (
@@ -91,15 +99,12 @@ export class AuthorProfile extends React.Component {
               <span style={{ marginLeft: '1%' }}>
                 <div style={{ width: '75%' }}>
                   <span style={{ width: '75%' }}>
-                    {
-                      userDetails.github_location ?
+                    {userDetails.github_location ? (
                       <span>
                         <Icon name="map-marker fa-2x" />{' '}
                         {userDetails.github_location}
                       </span>
-                      :
-                     null
-                   }
+                    ) : null}
                   </span>
                 </div>
               </span>
@@ -125,7 +130,7 @@ export class AuthorProfile extends React.Component {
             height={'500px'}
             data={listSpinsUser}
             title={null}
-            twoHeaders={['Role', 'Description']}
+            twoHeaders={titleHeaderList}
             keys={['full_name', 'description']}
             removeBadge
             onClickName={this.onClickNameRepository}
@@ -150,4 +155,7 @@ const mapDispatchToProps = dispatch => {
     getInformationUserProfile: id => dispatch(getInformationUserProfile(id))
   };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(AuthorProfile);
+export default compose(
+  translate(),
+  connect(mapStateToProps, mapDispatchToProps)
+)(AuthorProfile);

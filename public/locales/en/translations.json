@@ -4,7 +4,11 @@
     "explore":"EXPLORE",
     "search":"SEARCH",
     "authors":"BROWSE AUTHORS",
-    "mycontent":"MY CONTENT"
+    "mycontent":"MY CONTENT",
+    "signout":"Sign out"
+  },
+  "loginModal":{
+    "messageTitleLogin":"Sign In to Your Account"
   },
   "indexPage": {
     "titleDownload": "Download",
@@ -15,6 +19,16 @@
     "textFeatured1":"ROLE:jdauphant.nginx - Ansible role to install and manage nginx configuration",
     "textFeatured2":"AUTHOR:andrewrothstein with 239 roles.",
     "textFeatured3":"BLOG: Read the latest from The Inside Playbook, and keep up with what 's happening in the Ansible universe."
+  },
+  "browseAuthors":{
+    "title":"Exchange Contributors",
+    "placeholderSearch":"Search authors",
+    "titleListHeader":"Author"
+  },
+  "profileAuthor":{
+    "placeholderSearch":"Search",
+    "titleListHeader1":"Role",
+    "titleListHeader2":"Description"
   },
   "explorerPage":{
     "titleBtnBrowseAuthors":"Browse Authors",
@@ -36,5 +50,25 @@
     "btnValidate":"Validate",
     "btnDetais":"Details",
     "log":"Validation Log"
+  },
+  "profileSpin":{
+    "titleTabDetails":"Detail",
+    "titleIssue":"Issue tracker",
+    "titleDownload":"Download",
+    "titleWatch":"Watch",
+    "titleStar":"Star",
+    "license":"Software License",
+    "defaultBranch":"Default Branch",
+    "tag":"Tag",
+    "user":"User",
+    "metadata":"Metadata",
+    "medataAuthor":"Author",
+    "medataDescription":"Description",
+    "medataMinimumVersion":"Minimum version",
+    "medataCompany":"Author",
+    "titleReleaseHistory":"Release History",
+    "headerListReleaseVersion":"Version",
+    "headerListReleaseDate":"Release Data",
+    "headerListReleaseDownload":"Download"
   }
 }
