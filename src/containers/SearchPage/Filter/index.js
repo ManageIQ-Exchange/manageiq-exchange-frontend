@@ -1,22 +1,32 @@
+const countFilterFields = 3;
 
-export const filters = [
+function getFilterField(traductions) {
+  if (
+    traductions &&
+    traductions.length &&
+    traductions.length === countFilterFields
+  ) {
+    return [
+      {
+        id: 'author',
+        title: traductions[0],
+        placeholder: 'Filter by Author',
+        filterType: 'text'
+      },
+      {
+        id: 'name',
+        title: traductions[1],
+        placeholder: 'Filter by name',
+        filterType: 'text'
+      },
+      {
+        id: 'tag',
+        title: traductions[2],
+        placeholder: 'Filter by Tag',
+        filterType: 'text'
+      }
+    ];
+  } else return [];
+}
 
-  {
-    id: "author",
-    title: "Author",
-    placeholder: "Filter by Author",
-    filterType: "text"
-  },
-  {
-    id: "name",
-    title: "Name",
-    placeholder: "Filter by name",
-    filterType: "text"
-  },
-  {
-    id: "tag",
-    title: "Tag",
-    placeholder: "Filter by Tag",
-    filterType: "text"
-  }
-];
+export default getFilterField;

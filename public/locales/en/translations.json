@@ -40,7 +40,15 @@
     "titlePopularTags": "Popular tags",
     "clearFilters": "Clear All Filters",
     "textResult":"Results",
-    "activeFilters":"Active filters"
+    "activeFilters":"Active filters",
+    "sortUsername":"Author username",
+    "filterAuthor":"Author",
+    "filterName":"Name",
+    "filterTag":"Tag",
+    "sortName":"Name",
+    "sortStar":"Stargazers",
+    "sortWatcher":"Watchers",
+    "sortDownload":"Downloads"
   },
   "mycontentpage":{
     "title":"Import Your Content from Github",
