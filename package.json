@@ -6,10 +6,10 @@
   "repository": "https://github.com/miq-consumption/manageiq-EXCHANGE-web.git",
   "scripts": {
     "toc-gen": "./node_modules/markdown-toc/cli.js --maxdepth=3 --no-firsth1 src/markdown/index.md > src/markdown/toc.md",
-    "start:react": "./node_modules/markdown-toc/cli.js --maxdepth=3 --no-firsth1 src/markdown/index.md > src/markdown/toc.md && react-scripts start",
+    "start:react": "npm run toc-gen && react-scripts start",
     "start": "node src/server.js",
     "build": "react-scripts build",
-    "postinstall": "./node_modules/markdown-toc/cli.js --maxdepth=3 --no-firsth1 src/markdown/index.md > src/markdown/toc.md && react-scripts build",
+    "postinstall": "npm run toc-gen && react-scripts build",
     "start-dev-hmr": "react-scripts start",
     "test": "CI=true react-scripts test --env=jsdom"
   },
