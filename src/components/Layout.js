@@ -3,6 +3,8 @@ import Menu from './Nav/Menu';
 import { AboutModal, Alert } from 'patternfly-react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { compose } from 'redux';
+import { translate } from 'react-i18next';
 
 import Login from './Login/';
 import { signIn, checkSessionUser, signOut } from '../thunk/user';
@@ -18,13 +20,15 @@ const defaultProps = {
   user: {
     user: new User(),
     error: null
-  }
+  },
+  t: {}
 };
 const propTypes = {
   checkSessionUser: PropTypes.func,
   getApiVersion: PropTypes.func,
   user: PropTypes.object,
-  apiVersion: PropTypes.object
+  apiVersion: PropTypes.object,
+  t: PropTypes.func
 };
 class Layout extends React.Component {
   constructor(props) {
@@ -58,7 +62,7 @@ class Layout extends React.Component {
   renderAlert = () => {
     const { user, apiVersion } = this.props;
     const { showAlertAlready } = this.state;
-    return !showAlertAlready ?
+    return !showAlertAlready ? (
       user.error || apiVersion.error ? (
         <Alert
           style={{
@@ -73,12 +77,13 @@ class Layout extends React.Component {
           {messageErrorApi}
         </Alert>
       ) : null
-     : null;
+    ) : null;
   };
   render() {
     let { showModalLogin } = this.state;
-    const { user, apiVersion } = this.props;
+    const { user, apiVersion, t } = this.props;
     const dataApi = apiVersion.dataApi;
+    const titleLogin = t('loginModal.messageTitleLogin');
     return (
       <div className="app-container">
         <header>
@@ -92,7 +97,7 @@ class Layout extends React.Component {
         <AboutModal
           show={showModalLogin}
           onHide={() => this.isShowModal(false)}
-          productTitle="Sign In to Your Account"
+          productTitle={titleLogin}
           trademarkText={null}
         >
           <Login onSignIn={this.onClickLogin} provider={dataApi.providers} />
@@ -119,4 +124,7 @@ const mapDispatchToProps = dispatch => {
     getApiVersion: () => dispatch(apiVersion())
   };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(Layout);
+export default compose(
+  translate(),
+  connect(mapStateToProps, mapDispatchToProps)
+)(Layout);

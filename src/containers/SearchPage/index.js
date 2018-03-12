@@ -12,12 +12,14 @@ import {
 } from 'patternfly-react';
 import PropTypes from 'prop-types';
 import { browserHistory } from 'react-router';
+import { compose } from 'redux';
+import { translate } from 'react-i18next';
 
 import CardItem from '../../components/CardItem/';
 import TagsFilter from '../../components/TagsFilter/';
 
-import { filters } from './Filter/';
-import sortFields from './Sort/';
+import getFilterField from './Filter/';
+import getSortField from './Sort/';
 import { connect } from 'react-redux';
 import { getPopularTag } from '../../thunk/tags';
 import { getSpinSearch } from '../../thunk/spin';
@@ -50,18 +52,29 @@ const propTypes = {
 export class SearchPage extends React.Component {
   constructor(props) {
     super(props);
-
+    this.sortFields = getSortField([
+      props.t('searchPage.sortUsername'),
+      props.t('searchPage.sortName'),
+      props.t('searchPage.sortStar'),
+      props.t('searchPage.sortWatcher'),
+      props.t('searchPage.sortDownload')
+    ]);
+    this.filters = getFilterField([
+      props.t('searchPage.filterAuthor'),
+      props.t('searchPage.filterName'),
+      props.t('searchPage.filterTag')
+    ]);
     this.state = {
       currentValue: '',
-      currentFilterType: filters[0],
-      currentSortType: sortFields[0],
-      isSortNumeric: sortFields[0].isNumeric,
+      currentFilterType: this.filters[0],
+      currentSortType: this.sortFields[0],
+      isSortNumeric: this.sortFields[0].isNumeric,
       isSortAscending: true,
       currentViewType: 'list',
       elementByPage: perPageOptions[0],
       filterPopularTag: [],
       filters: {},
-      baseParams: { limit: perPageOptions[0], sort: sortFields[0].id },
+      baseParams: { limit: perPageOptions[0], sort: this.sortFields[0].id },
       params: {},
       showAlertAlready: false,
       tags: props.tags,
@@ -261,7 +274,7 @@ export class SearchPage extends React.Component {
       showAlertAlready
     } = this.state;
 
-    let { tags, search } = this.props;
+    let { tags, search, t } = this.props;
     tags = tags || this.state.tags;
     let pagination = search
       ? {
@@ -274,11 +287,12 @@ export class SearchPage extends React.Component {
     let keys = Object.keys(this.state.filters);
     const messageError = 'There has been a problem';
     const showAlert = !showAlertAlready ? search.error !== null : false;
+
     return (
       <div style={{ width: '100%', height: '100%', marginTop: '1%' }}>
         <Filter id="filter-search">
           <Filter.TypeSelector
-            filterTypes={filters}
+            filterTypes={this.filters}
             currentFilterType={currentFilterType}
             onFilterTypeSelected={this.selectFilterType}
           />
@@ -286,7 +300,7 @@ export class SearchPage extends React.Component {
         </Filter>
         <Sort>
           <Sort.TypeSelector
-            sortTypes={sortFields}
+            sortTypes={this.sortFields}
             currentSortType={currentSortType}
             onSortTypeSelected={this.updateCurrentSortType}
           />
@@ -308,8 +322,10 @@ export class SearchPage extends React.Component {
           >
             <Toolbar.Results>
               <Row style={{ paddingLeft: 20, marginLeft: '3%' }}>
-                <h5>{results.length} Results</h5>
-                <h5>Active filters : </h5>
+                <h5>
+                  {results.length} {t('searchPage.textResult')}
+                </h5>
+                <h5>{t('searchPage.activeFilters')} : </h5>
                 {keys.map((data, index) => {
                   return this.state.filters[data].listFilters
                     ? this.state.filters[data].listFilters.map(
@@ -328,7 +344,9 @@ export class SearchPage extends React.Component {
                 })}
                 {keys.length > 0 ? (
                   <p style={{ marginLeft: '2%' }}>
-                    <a onClick={this.clearFilter}>Clear All Filters</a>
+                    <a onClick={this.clearFilter}>
+                      {t('searchPage.clearFilters')}
+                    </a>
                   </p>
                 ) : null}
               </Row>
@@ -378,7 +396,9 @@ export class SearchPage extends React.Component {
               >
                 <div className="card-pf">
                   <div className="card-pf-heading">
-                    <h2 className="card-pf-title">Popular Tags</h2>
+                    <h2 className="card-pf-title">
+                      {t('searchPage.titlePopularTags')}
+                    </h2>
                   </div>
                   <div>
                     <div
@@ -454,7 +474,6 @@ export class SearchPage extends React.Component {
 SearchPage.propTypes = propTypes;
 SearchPage.defaultProps = defaultProps;
 
-
 const mapStateToProps = state => {
   return {
     tags: state.tags,
@@ -467,4 +486,7 @@ const mapDispatchToProps = dispatch => {
     getSpinSearch: params => dispatch(getSpinSearch(params))
   };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(SearchPage);
+export default compose(
+  translate(),
+  connect(mapStateToProps, mapDispatchToProps)
+)(SearchPage);

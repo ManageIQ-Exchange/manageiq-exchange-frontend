@@ -2,8 +2,10 @@ import React from 'react';
 import { Grid, Row, Col, Button } from 'patternfly-react';
 import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
 import moment from 'moment';
 import PropTypes from 'prop-types';
+import { translate } from 'react-i18next';
 
 import ListRanking from '../../components/ListRanking';
 import { getTops } from '../../thunk/top';
@@ -42,6 +44,7 @@ const defaultProps = {
 
 const propTypes = {
   tops: PropTypes.object,
+  t: PropTypes.func,
   getTops: PropTypes.func
 };
 
@@ -74,7 +77,7 @@ export class ExplorePage extends React.Component {
   }
 
   render() {
-    let { tops } = this.props;
+    let { tops, t } = this.props;
 
     return (
       <div id="container">
@@ -86,14 +89,14 @@ export class ExplorePage extends React.Component {
               id="btnSearch"
               bsStyle="primary"
             >
-              Search
+              {t('explorerPage.titleBtnSearch')}
             </Button>
             <Button
               onClick={() => this.redirectByRoute('/authors/')}
               className="btn-primary"
               bsStyle="primary"
             >
-              Browse Authors
+              {t('explorerPage.titleBtnBrowseAuthors')}
             </Button>
           </Row>
           <Row>
@@ -133,7 +136,6 @@ export class ExplorePage extends React.Component {
               } else return null;
             })}
           </Row>
-
         </Grid>
       </div>
     );
@@ -153,4 +155,7 @@ const mapDispatchToProps = dispatch => {
     getTops: () => dispatch(getTops())
   };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(ExplorePage);
+export default compose(
+  translate(),
+  connect(mapStateToProps, mapDispatchToProps)
+)(ExplorePage);

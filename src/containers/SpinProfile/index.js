@@ -1,13 +1,9 @@
 import React from 'react';
-import {
-  Grid,
-  Row,
-  Tabs,
-  Tab
-} from 'patternfly-react';
+import { Grid, Row, Tabs, Tab } from 'patternfly-react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-
+import { compose } from 'redux';
+import { translate } from 'react-i18next';
 
 import TabDetails from './TabDetails/';
 import TabReadme from './TabReadme/';
@@ -17,25 +13,25 @@ import './style.css';
 
 const propTypes = {
   getSpin: PropTypes.func,
-  detailsSpin: PropTypes.object
+  detailsSpin: PropTypes.object,
+  t: PropTypes.func
 };
 
 export class SpinProfile extends React.Component {
-
   componentDidMount() {
     let idSpin = this.props.params ? this.props.params.idSpin : null;
     if (idSpin) this.props.getSpin(idSpin);
   }
 
   render() {
-    const { detailsSpin } = this.props;
+    const { detailsSpin, t } = this.props;
     const descriptionSpin =
       detailsSpin && detailsSpin.spin ? detailsSpin.spin.description : '';
     const nameSpin =
       detailsSpin && detailsSpin.spin ? detailsSpin.spin.full_name : '';
     const readme =
       detailsSpin && detailsSpin.spin ? detailsSpin.spin.readme : '';
-    const titleTabDetails = 'Details';
+    const titleTabDetails = t('profileSpin.titleTabDetails');
     const titleReadme = 'README';
     const spin = detailsSpin && detailsSpin.spin ? detailsSpin.spin : {};
 
@@ -48,13 +44,16 @@ export class SpinProfile extends React.Component {
           <Row>
             <h2 className="second-header">{descriptionSpin}</h2>
           </Row>
-          <Tabs defaultActiveKey={1} style={{ marginTop: '10px' }}>
-            <Tab eventKey={1} title={titleTabDetails}>
+          <Tabs
+            id={'tabs_key'}
+            defaultActiveKey={1}
+            style={{ marginTop: '10px' }}
+          >
+            <Tab eventKey={1} key={titleTabDetails} title={titleTabDetails}>
               <TabDetails spin={spin} />
             </Tab>
             <Tab eventKey={2} title={titleReadme}>
-
-              <Row style={{ marginTop: "10px" }}>
+              <Row style={{ marginTop: '10px' }}>
                 <TabReadme textReadme={readme} />
               </Row>
             </Tab>
@@ -76,4 +75,7 @@ const mapDispatchToProps = dispatch => {
     getSpin: id => dispatch(getSpin(id))
   };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(SpinProfile);
+export default compose(
+  translate(),
+  connect(mapStateToProps, mapDispatchToProps)
+)(SpinProfile);

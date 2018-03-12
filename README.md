@@ -14,3 +14,6 @@ React application that integrates with the manageiq-EXCHANGE backend
     $ npm run build
 ## Test
     $ npm run test
+
+## i18n
+ It is in public/locales. There is a folder for each language.
