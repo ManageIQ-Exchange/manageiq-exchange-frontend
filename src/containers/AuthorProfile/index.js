@@ -30,7 +30,7 @@ const propTypes = {
   getInformationUserProfile: PropTypes.func,
   spins: PropTypes.object,
   params: PropTypes.object,
-  t: PropTypes.object
+  t: PropTypes.func
 };
 
 export class AuthorProfile extends React.Component {

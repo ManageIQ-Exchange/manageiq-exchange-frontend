@@ -28,7 +28,7 @@ const propTypes = {
   getApiVersion: PropTypes.func,
   user: PropTypes.object,
   apiVersion: PropTypes.object,
-  t: PropTypes.object
+  t: PropTypes.func
 };
 class Layout extends React.Component {
   constructor(props) {

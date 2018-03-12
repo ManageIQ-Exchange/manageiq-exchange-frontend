@@ -14,7 +14,7 @@ import './style.css';
 const propTypes = {
   getSpin: PropTypes.func,
   detailsSpin: PropTypes.object,
-  t: PropTypes.object
+  t: PropTypes.func
 };
 
 export class SpinProfile extends React.Component {
@@ -44,8 +44,12 @@ export class SpinProfile extends React.Component {
           <Row>
             <h2 className="second-header">{descriptionSpin}</h2>
           </Row>
-          <Tabs defaultActiveKey={1} style={{ marginTop: '10px' }}>
-            <Tab eventKey={1} title={titleTabDetails}>
+          <Tabs
+            id={'tabs_key'}
+            defaultActiveKey={1}
+            style={{ marginTop: '10px' }}
+          >
+            <Tab eventKey={1} key={titleTabDetails} title={titleTabDetails}>
               <TabDetails spin={spin} />
             </Tab>
             <Tab eventKey={2} title={titleReadme}>

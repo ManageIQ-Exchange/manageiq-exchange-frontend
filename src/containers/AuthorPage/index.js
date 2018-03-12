@@ -37,7 +37,7 @@ const defaultProps = {
 const propTypes = {
   getUsers: PropTypes.func,
   users: PropTypes.object,
-  t: PropTypes.object
+  t: PropTypes.func
 };
 
 export class AuthorsPage extends React.Component {

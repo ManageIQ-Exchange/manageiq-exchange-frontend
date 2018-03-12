@@ -44,7 +44,7 @@ const defaultProps = {
 
 const propTypes = {
   tops: PropTypes.object,
-  t: PropTypes.object,
+  t: PropTypes.func,
   getTops: PropTypes.func
 };
 

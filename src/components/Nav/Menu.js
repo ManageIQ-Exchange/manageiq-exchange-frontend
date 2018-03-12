@@ -21,7 +21,7 @@ import './style.css';
 
 const propTypes = {
   user: PropTypes.object,
-  t: PropTypes.object,
+  t: PropTypes.func,
   isShowModal: PropTypes.func,
   signOut: PropTypes.func
 };
