@@ -31,7 +31,8 @@ import * as constant from './constant';
 const defaultProps = {
   spins: {
     spins: []
-  }
+  },
+  t: () => ''
 };
 
 const propTypes = {

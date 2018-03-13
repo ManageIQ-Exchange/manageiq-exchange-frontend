@@ -18,6 +18,10 @@ const propTypes = {
   idObject: PropTypes.number,
   t: PropTypes.object
 };
+const defaultProps = {
+  t: key => key
+};
+
 class ListRanking extends React.Component {
   constructor(props) {
     super(props);
@@ -115,5 +119,6 @@ class ListRanking extends React.Component {
 }
 
 ListRanking.propTypes = propTypes;
+ListRanking.defaultProps = defaultProps;
 
 export default translate()(ListRanking);

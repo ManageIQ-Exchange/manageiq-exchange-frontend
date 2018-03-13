@@ -112,7 +112,6 @@ export function unpublishSpin(id) {
     dispatch(spinsCandidatesLoading(true));
     return Api.unpublishSpin(id)
       .then(response => {
-
         dispatch(unpublishSpinSuccess());
         dispatch(spinsCandidatesLoading(false));
       })
@@ -146,12 +145,11 @@ export function getInformationUserProfile(id) {
           .catch(error => {
             dispatch(getSpinsUserError());
           });
-
       })
       .catch(error => {
         dispatch(getUserError(error));
       });
-  }
+  };
 }
 export function getUsers() {
   return dispatch => {

@@ -39,7 +39,8 @@ const defaultProps = {
       perPage: 10,
       perPageOptions: [5, 10, 15]
     }
-  }
+  },
+  t: key => key
 };
 
 const propTypes = {

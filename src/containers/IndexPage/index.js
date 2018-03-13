@@ -1,13 +1,22 @@
 import React from 'react';
 import { Grid, Row, Col, Icon } from 'patternfly-react';
 import { translate } from 'react-i18next';
+import PropTypes from 'prop-types';
 
 import MdStar from 'react-icons/lib/fa/star';
 import './style.css';
 import imgHome from './miq-twitter-banner.png';
 import Footer from '../../components/Footer/index';
 
-class IndexPage extends React.Component {
+const defaultProps = {
+  t: () => ''
+};
+
+const propTypes = {
+  t: PropTypes.func
+};
+
+export class IndexPage extends React.Component {
   render() {
     const { t } = this.props;
     return (
@@ -61,4 +70,7 @@ class IndexPage extends React.Component {
     );
   }
 }
+IndexPage.propTypes = propTypes;
+IndexPage.defaultProps = defaultProps;
+
 export default translate('translations')(IndexPage);

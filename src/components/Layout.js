@@ -21,7 +21,7 @@ const defaultProps = {
     user: new User(),
     error: null
   },
-  t: {}
+  t: () => ''
 };
 const propTypes = {
   checkSessionUser: PropTypes.func,

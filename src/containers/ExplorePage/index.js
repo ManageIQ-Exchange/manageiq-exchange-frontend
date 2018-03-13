@@ -39,7 +39,8 @@ const defaultProps = {
       name: '',
       data: []
     }
-  }
+  },
+  t: () => ''
 };
 
 const propTypes = {

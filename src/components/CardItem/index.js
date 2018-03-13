@@ -4,6 +4,10 @@ import { translate } from 'react-i18next';
 
 import './style.css';
 
+const defaultProps = {
+  t: () => ''
+};
+
 const CardItem = ({ cardInformation, onClick, t }) => {
   const fullName =
     cardInformation && cardInformation.full_name
@@ -64,5 +68,6 @@ const CardItem = ({ cardInformation, onClick, t }) => {
     </div>
   );
 };
+CardItem.defaultProps = defaultProps;
 
-export default translate('translations')(CardItem);
+export default translate()(CardItem);

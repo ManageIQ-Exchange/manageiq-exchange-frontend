@@ -21,9 +21,9 @@ import { filterByAttribute } from '../../lib/';
 const defaultProps = {
   spins: {
     spinsUser: [],
-    userDetails: {},
-    t: {}
-  }
+    userDetails: {}
+  },
+  t: key => key
 };
 
 const propTypes = {
