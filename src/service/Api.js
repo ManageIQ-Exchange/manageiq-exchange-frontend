@@ -13,17 +13,17 @@ export const ApiBaseURL = `${BackendServer}/${Version}`;
 const ApiVersion = `${BackendServer}/`;
 
 // Users
-const ApiSignin = `${ApiBaseURL}/users/sign_in`; /* User Log in */
-const ApiSignout = `${ApiBaseURL}/users/sign_out`; /* User Log out */
+export const ApiSignin = `${ApiBaseURL}/users/sign_in`; /* User Log in */
+export const ApiSignout = `${ApiBaseURL}/users/sign_out`; /* User Log out */
 const ApiGetUsers = `${ApiBaseURL}/users`; /* List of Users */
 const ApiGetUser = `${ApiBaseURL}/users/`; /* Get a specific user  adding id or username in path */
-const ApiGetUserSpins = `${ApiBaseURL}/spin_candidates/`; /* Get a specific user  adding id or username in path */
+export const ApiGetUserSpins = `${ApiBaseURL}/spin_candidates/`; /* Get a specific user  adding id or username in path */
 
 // GIT
 const GetUserStats = `https://api.github.com/users/`; /* Get a specific user stats in GIT  adding id or username in path */
 
 // Spins
-const ApiGetSpins = `${ApiBaseURL}/spins`; /* Get Spins */
+export const ApiGetSpins = `${ApiBaseURL}/spins`; /* Get Spins */
 const ApiPublishSpin = `${ApiBaseURL}/spin_candidates/`; /* Refresh Spins */
 
 // TAG

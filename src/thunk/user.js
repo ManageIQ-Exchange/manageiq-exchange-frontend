@@ -28,7 +28,7 @@ import Api from '../service/Api';
 export function signIn(code, provider) {
   return dispatch => {
     dispatch(signInLoading(true));
-    Api.SignIn(code, provider)
+    return Api.SignIn(code, provider)
       .then(response => {
         let user = { ...response.data.data.user };
         user.authentication_token = response.data.data.authentication_token;
@@ -36,7 +36,7 @@ export function signIn(code, provider) {
         dispatch(signInSuccess(user));
         dispatch(signInLoading(false));
       })
-      .catch(error => {
+      .catch(() => {
         dispatch(signInLoading(false));
         dispatch(signInError());
       });
@@ -46,6 +46,11 @@ export function signOut() {
   return dispatch => {
     providerStorage.deleteUser();
     dispatch(signOutUser());
+    return Api.SignOut()
+      .then(response => {})
+      .catch(() => {
+        dispatch(signInError());
+      });
   };
 }
 
@@ -67,7 +72,7 @@ export function getUserSpinsCandidates() {
           let spins = { ...response.data };
           dispatch(getSpinsCandidatesUserSuccess(spins));
         })
-        .catch(error => {
+        .catch(() => {
           dispatch(getSpinsCandidatesUserError());
         });
     }
@@ -80,7 +85,7 @@ export function getSpinsUser(githubName) {
         let spins = { ...response.data };
         dispatch(getSpinsUserSuccess(spins));
       })
-      .catch(error => {
+      .catch(() => {
         dispatch(getSpinsUserError());
       });
   };
@@ -91,7 +96,7 @@ export function refreshSpins() {
       .then(response => {
         dispatch(reloadSpinSuccess());
       })
-      .catch(error => {
+      .catch(() => {
         dispatch(reloadSpinError());
       });
   };
@@ -102,7 +107,7 @@ export function publishSpin(id) {
       .then(response => {
         dispatch(publishSpinSuccess());
       })
-      .catch(error => {
+      .catch(() => {
         dispatch(publishSpinError());
       });
   };
@@ -115,7 +120,7 @@ export function unpublishSpin(id) {
         dispatch(unpublishSpinSuccess());
         dispatch(spinsCandidatesLoading(false));
       })
-      .catch(error => {
+      .catch(() => {
         dispatch(unpublishSpinError());
         dispatch(spinsCandidatesLoading(false));
       });
@@ -127,7 +132,7 @@ export function validateSpin(id) {
       .then(response => {
         dispatch(validateSpinSuccess());
       })
-      .catch(error => {
+      .catch(() => {
         dispatch(validateSpinError());
       });
   };
@@ -142,7 +147,7 @@ export function getInformationUserProfile(id) {
             let spins = { ...response.data };
             dispatch(getSpinsUserSuccess(spins));
           })
-          .catch(error => {
+          .catch(() => {
             dispatch(getSpinsUserError());
           });
       })

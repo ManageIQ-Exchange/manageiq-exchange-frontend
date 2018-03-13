@@ -115,7 +115,7 @@ export class ExplorePage extends React.Component {
                 }
                 if (data.length === 0) return null;
                 return (
-                  <Col md={4}>
+                  <Col md={4} key={`list_explore_${index}`}>
                     <ListRanking
                       data={data}
                       onClickName={id => {

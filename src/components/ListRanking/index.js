@@ -12,11 +12,11 @@ const propTypes = {
   title: PropTypes.string,
   renderBottomBtn: PropTypes.bool,
   onClickName: PropTypes.func,
-  redirectTag: PropTypes.string,
+  redirectTag: PropTypes.bool,
   keys: PropTypes.array,
   height: PropTypes.number,
-  idObject: PropTypes.number,
-  t: PropTypes.object
+  idObject: PropTypes.string,
+  t: PropTypes.func
 };
 const defaultProps = {
   t: key => key

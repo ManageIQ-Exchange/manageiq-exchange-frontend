@@ -46,7 +46,6 @@ class ListViewItem extends React.Component {
   render() {
     const { openDetails } = this.state;
     const { t } = this.props;
-    console.warn('ttttttttttttttttttt', t);
     const { full_name, id, published, validation_log } = this.props.dataList;
     const colorHeader = openDetails ? '#edf8ff' : '';
     const shadow = openDetails
