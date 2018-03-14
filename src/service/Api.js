@@ -27,10 +27,10 @@ export const ApiGetSpins = `${ApiBaseURL}/spins`; /* Get Spins */
 const ApiPublishSpin = `${ApiBaseURL}/spin_candidates/`; /* Refresh Spins */
 
 // TAG
-const ApiTags = `${ApiBaseURL}/tags/`;
+export const ApiTags = `${ApiBaseURL}/tags/`;
 
 // TOPLIST
-const ApiTops = `${ApiBaseURL}/top/`;
+export const ApiTops = `${ApiBaseURL}/top/`;
 
 class Api {
   headerSignIn(code, provider) {
@@ -170,12 +170,12 @@ class Api {
 
   static GetTags() {
     const api = new this();
-    api.request('get', `${ApiTags}?`, api.headerAuthenticated());
+    api.request('get', `${ApiTags}`);
     return api;
   }
   static GetTops() {
     const api = new this();
-    api.request('get', ApiTops, api.headerAuthenticated());
+    api.request('get', ApiTops);
     return api;
   }
 
