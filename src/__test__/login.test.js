@@ -6,7 +6,6 @@ import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import expect from 'expect';
 import { ApiSignin, ApiSignout } from '../service/Api';
-
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 const mock = new MockAdapter(axios);
@@ -15,6 +14,7 @@ const user = { user_id: 1, name: 'name user' };
 const userAction = Object.assign(user, {
   authentication_token: '7mu_vs7pjh2vMvGy94Zr'
 });
+let store = mockStore({});
 
 describe('async actions', () => {
   beforeEach(() => {
@@ -41,9 +41,9 @@ describe('async actions', () => {
       { type: types.SIGN_IN_LOADING, isLoading: false }
     ];
 
-    const store = mockStore({ user: {} });
     const code = '9898989';
     const provider = 'github.com';
+
     return store.dispatch(actionsCreator.signIn(code, provider)).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
     });

@@ -117,7 +117,6 @@ class Api {
     return api;
   }
 
-
   static validateSpin(spinCandidateId) {
     const api = new this();
     api.request(
@@ -194,8 +193,7 @@ class Api {
         })
         .catch(error => {
           this.showError(error);
-          reject(new Error(error));
-
+          reject(error);
         });
     });
   }

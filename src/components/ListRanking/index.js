@@ -14,7 +14,7 @@ const propTypes = {
   onClickName: PropTypes.func,
   redirectTag: PropTypes.bool,
   keys: PropTypes.array,
-  height: PropTypes.number,
+  height: PropTypes.string,
   idObject: PropTypes.string,
   t: PropTypes.func
 };

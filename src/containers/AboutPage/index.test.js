@@ -1,8 +1,12 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import AboutPage from './index.js';
+import { mount, configure } from 'enzyme';
+import Adapter from 'enzyme-adapter-react-15';
+
+beforeEach(() => {
+  configure({ adapter: new Adapter() });
+});
 
 it('renders AboutPage without crashing', () => {
-  const div = document.createElement('div');
-  ReactDOM.render(<AboutPage />, div);
+  mount(<AboutPage />);
 });

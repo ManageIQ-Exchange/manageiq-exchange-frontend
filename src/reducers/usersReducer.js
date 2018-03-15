@@ -1,14 +1,11 @@
-import {
-  GET_USERS_SUCCESS,
-  GET_USERS_ERROR
-} from '../actions/typeActions';
+import { GET_USERS_SUCCESS, GET_USERS_ERROR } from '../actions/typeActions';
 
 const initialState = {
   users: [],
   error: null,
   meta: {}
 };
-export const users = (state = initialState, action: any) => {
+export const users = (state = initialState, action) => {
   let newState = {};
   switch (action.type) {
     case GET_USERS_SUCCESS:
