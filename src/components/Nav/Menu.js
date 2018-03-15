@@ -31,10 +31,6 @@ const propTypes = {
 };
 
 export class Menu extends React.Component {
-  constructor(props) {
-    super(props);
-    console.error('constructor', props);
-  }
   redirectTo(route) {
     route = { pathname: route };
     browserHistory.push(route);
