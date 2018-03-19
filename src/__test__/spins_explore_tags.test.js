@@ -45,9 +45,7 @@ describe('async actions', () => {
       data: tops
     });
 
-    const expectedActions = [
-      { type: types.GET_TOP_SUCCESS, tops: { data: tops } }
-    ];
+    const expectedActions = [{ type: types.GET_TOP_SUCCESS, tops: tops }];
 
     const store = mockStore({});
 
