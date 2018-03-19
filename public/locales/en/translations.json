@@ -33,7 +33,25 @@
   "explorerPage":{
     "titleBtnBrowseAuthors":"Browse Authors",
     "titleBtnSearch":"Search",
-    "btnViewMore":"View More"
+    "btnViewMore":"View More",
+    "titleNewest":"Newest",
+    "headerNewest1":"Name",
+    "headerNewest2":"Added On",
+    "titleStarred":"Most Starred",
+    "headerStarred1":"Name",
+    "headerStarred2":"Stars",
+    "titleDownloaded":"Most Downloaded",
+    "headerDownloaded1":"Name",
+    "headerDownloaded2":"Downloads",
+    "titleTags":"Top Tags",
+    "headerTags1":"Name",
+    "headerTags2":"Added On",
+    "titleContributors":"Top Contributors",
+    "headerContributors1":"Name",
+    "headerContributors2":"Spin",
+    "titleWatched":"Most Watched",
+    "headerWatched1":"Name",
+    "headerWatched2":"Watchers"
   },
   "searchPage":{
     "tags":"tags",

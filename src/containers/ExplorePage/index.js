@@ -9,7 +9,7 @@ import { translate } from 'react-i18next';
 
 import ListRanking from '../../components/ListRanking';
 import { getTops } from '../../thunk/top';
-import { configurationList } from './configuration';
+import { getConfigurationList } from './configuration';
 
 import './style.css';
 
@@ -50,7 +50,6 @@ const propTypes = {
 };
 
 export class ExplorePage extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -77,9 +76,37 @@ export class ExplorePage extends React.Component {
     browserHistory.push(route);
   }
 
+  getConfiguration() {
+    const { t } = this.props;
+    const translationTitle = [
+      t('explorerPage.titleNewest'),
+      t('explorerPage.titleDownloaded'),
+      t('explorerPage.titleStarred'),
+      t('explorerPage.titleWatched'),
+      t('explorerPage.titleContributors'),
+      t('explorerPage.titleTags')
+    ];
+    const translationHeaders = [
+      [t('explorerPage.headerNewest1'), t('explorerPage.headerNewest2')],
+
+      [
+        t('explorerPage.headerDownloaded1'),
+        t('explorerPage.headerDownloaded2')
+      ],
+      [t('explorerPage.headerStarred1'), t('explorerPage.headerStarred2')],
+      [t('explorerPage.headerWatched1'), t('explorerPage.headerWatched2')],
+      [
+        t('explorerPage.headerContributors1'),
+        t('explorerPage.headerContributors2')
+      ],
+      [t('explorerPage.headerTags1'), t('explorerPage.headerTags2')]
+    ];
+    return getConfigurationList(translationTitle, translationHeaders);
+  }
+
   render() {
     let { tops, t } = this.props;
-
+    const configurationList = this.getConfiguration();
     return (
       <div id="container">
         <Grid width="100%" style={{ marginTop: '2%' }}>
@@ -104,7 +131,6 @@ export class ExplorePage extends React.Component {
             {configurationList.map((elemConf, index) => {
               if (tops) {
                 let data = tops[elemConf.nameAttribute].data.slice();
-                let name = tops[elemConf.nameAttribute].name;
                 if (elemConf.changeData) {
                   data.forEach(item => {
                     let formatDate = moment(
@@ -125,7 +151,7 @@ export class ExplorePage extends React.Component {
                           elemConf.redirectTag
                         );
                       }}
-                      title={name}
+                      title={elemConf.name}
                       twoHeaders={elemConf.nameHeaders}
                       renderBottomBtn
                       keys={elemConf.namesAttributes}
