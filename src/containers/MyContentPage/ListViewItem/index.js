@@ -2,9 +2,20 @@ import React from 'react';
 import { Switch, Col, Button } from 'patternfly-react';
 import { Collapse } from 'react-bootstrap';
 import { translate } from 'react-i18next';
+import PropTypes from 'prop-types';
 
 import { getColorLog } from '../../../lib/';
 import './style.css';
+
+const defaultProps = {
+  t: () => ''
+};
+
+const propTypes = {
+  t: PropTypes.func,
+  onPublish: PropTypes.func,
+  dataList: PropTypes.object
+};
 
 class ListViewItem extends React.Component {
   constructor(props) {
@@ -105,5 +116,7 @@ class ListViewItem extends React.Component {
     );
   }
 }
+ListViewItem.defaultProps = defaultProps;
+ListViewItem.propTypes = propTypes;
 
 export default translate()(ListViewItem);

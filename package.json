@@ -41,7 +41,10 @@
     "redux-thunk": "^2.2.0"
   },
   "devDependencies": {
+    "axios-mock-adapter": "^1.14.1",
     "babel-eslint": "^8.2.1",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-15": "^1.0.5",
     "eslint": "^4.16.0",
     "eslint-config-prettier": "^2.9.0",
     "eslint-config-standard": "^11.0.0-beta.0",
@@ -54,6 +57,10 @@
     "eslint-plugin-promise": "^3.6.0",
     "eslint-plugin-react": "^7.6.1",
     "eslint-plugin-standard": "^3.0.1",
-    "prettier": "^1.10.2"
+    "expect": "^22.4.0",
+    "fetch-mock": "^6.1.0",
+    "prettier": "^1.10.2",
+    "react-test-renderer": "^16.2.0",
+    "redux-mock-store": "^1.5.1"
   }
 }

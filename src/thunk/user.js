@@ -24,11 +24,21 @@ import {
 } from '../actions/index';
 import providerStorage from '../storage/';
 import Api from '../service/Api';
+import { browserHistory } from 'react-router';
+
+const statusCodeTokenExpired = 401;
+
+function checkSessionExpired(error, dispatch) {
+  if (error.response.code === statusCodeTokenExpired) {
+    dispatch(signOutUser());
+    browserHistory.push('/');
+  }
+}
 
 export function signIn(code, provider) {
   return dispatch => {
     dispatch(signInLoading(true));
-    Api.SignIn(code, provider)
+    return Api.SignIn(code, provider)
       .then(response => {
         let user = { ...response.data.data.user };
         user.authentication_token = response.data.data.authentication_token;
@@ -36,7 +46,7 @@ export function signIn(code, provider) {
         dispatch(signInSuccess(user));
         dispatch(signInLoading(false));
       })
-      .catch(error => {
+      .catch(() => {
         dispatch(signInLoading(false));
         dispatch(signInError());
       });
@@ -46,6 +56,11 @@ export function signOut() {
   return dispatch => {
     providerStorage.deleteUser();
     dispatch(signOutUser());
+    return Api.SignOut()
+      .then(response => {})
+      .catch(() => {
+        dispatch(signInError());
+      });
   };
 }
 
@@ -68,6 +83,7 @@ export function getUserSpinsCandidates() {
           dispatch(getSpinsCandidatesUserSuccess(spins));
         })
         .catch(error => {
+          checkSessionExpired(error, dispatch);
           dispatch(getSpinsCandidatesUserError());
         });
     }
@@ -80,7 +96,7 @@ export function getSpinsUser(githubName) {
         let spins = { ...response.data };
         dispatch(getSpinsUserSuccess(spins));
       })
-      .catch(error => {
+      .catch(() => {
         dispatch(getSpinsUserError());
       });
   };
@@ -91,7 +107,8 @@ export function refreshSpins() {
       .then(response => {
         dispatch(reloadSpinSuccess());
       })
-      .catch(error => {
+      .catch((error) => {
+        checkSessionExpired(error, dispatch);
         dispatch(reloadSpinError());
       });
   };
@@ -102,7 +119,8 @@ export function publishSpin(id) {
       .then(response => {
         dispatch(publishSpinSuccess());
       })
-      .catch(error => {
+      .catch((error) => {
+        checkSessionExpired(error, dispatch);
         dispatch(publishSpinError());
       });
   };
@@ -112,11 +130,11 @@ export function unpublishSpin(id) {
     dispatch(spinsCandidatesLoading(true));
     return Api.unpublishSpin(id)
       .then(response => {
-
         dispatch(unpublishSpinSuccess());
         dispatch(spinsCandidatesLoading(false));
       })
-      .catch(error => {
+      .catch((error) => {
+        checkSessionExpired(error, dispatch);
         dispatch(unpublishSpinError());
         dispatch(spinsCandidatesLoading(false));
       });
@@ -128,7 +146,8 @@ export function validateSpin(id) {
       .then(response => {
         dispatch(validateSpinSuccess());
       })
-      .catch(error => {
+      .catch((error) => {
+        checkSessionExpired(error, dispatch);
         dispatch(validateSpinError());
       });
   };
@@ -143,15 +162,14 @@ export function getInformationUserProfile(id) {
             let spins = { ...response.data };
             dispatch(getSpinsUserSuccess(spins));
           })
-          .catch(error => {
+          .catch(() => {
             dispatch(getSpinsUserError());
           });
-
       })
       .catch(error => {
         dispatch(getUserError(error));
       });
-  }
+  };
 }
 export function getUsers() {
   return dispatch => {

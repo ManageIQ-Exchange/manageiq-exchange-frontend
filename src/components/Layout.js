@@ -21,7 +21,7 @@ const defaultProps = {
     user: new User(),
     error: null
   },
-  t: {}
+  t: key => key
 };
 const propTypes = {
   checkSessionUser: PropTypes.func,
@@ -30,7 +30,7 @@ const propTypes = {
   apiVersion: PropTypes.object,
   t: PropTypes.func
 };
-class Layout extends React.Component {
+export class Layout extends React.Component {
   constructor(props) {
     super(props);
     this.isShowModal = this.isShowModal.bind(this);

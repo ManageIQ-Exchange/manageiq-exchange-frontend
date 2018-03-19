@@ -3,11 +3,11 @@ import Api from '../service/Api';
 
 export function getPopularTag() {
   return dispatch => {
-    Api.GetTags()
+    return Api.GetTags()
       .then(response => {
-        dispatch(getTagSuccess(response.data.data))
+        dispatch(getTagSuccess(response.data.data));
       })
-      .catch(error => {
+      .catch(() => {
         dispatch(getTagError());
       });
   };

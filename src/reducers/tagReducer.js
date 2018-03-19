@@ -1,19 +1,19 @@
-import * as actions from "../actions/typeActions";
+import * as actions from '../actions/typeActions';
 
 const initStage = {
   tags: [],
   error: null,
   filterTags: []
 };
-export const tags = (tags = initStage, action: any) => {
+export const tags = (tags = initStage, action) => {
   let newState = {};
   switch (action.type) {
     case actions.GET_TAGS_SUCCESS:
       newState.tags = [...action.tags];
       return newState;
     case actions.GET_TAGS_ERROR:
-      newState =  Object.assign({}, tags);
-      newState.error = Object.assign({}, action.error) ;
+      newState = Object.assign({}, tags);
+      newState.error = Object.assign({}, action.error);
       return newState;
     case actions.ADD_POPULAR_TAG_SUCCESS:
       let filterTags = [...tags.filterTags];

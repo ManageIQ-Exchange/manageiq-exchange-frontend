@@ -19,6 +19,10 @@ import { browserHistory, Link } from 'react-router';
 
 import './style.css';
 
+const defaultProps = {
+  t: key => key
+};
+
 const propTypes = {
   user: PropTypes.object,
   t: PropTypes.func,
@@ -26,7 +30,7 @@ const propTypes = {
   signOut: PropTypes.func
 };
 
-class Menu extends React.Component {
+export class Menu extends React.Component {
   redirectTo(route) {
     route = { pathname: route };
     browserHistory.push(route);
@@ -105,4 +109,6 @@ class Menu extends React.Component {
 }
 
 Menu.propTypes = propTypes;
-export default translate('translations')(Menu);
+Menu.defaultProps = defaultProps;
+
+export default translate()(Menu);

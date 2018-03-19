@@ -12,12 +12,16 @@ const propTypes = {
   title: PropTypes.string,
   renderBottomBtn: PropTypes.bool,
   onClickName: PropTypes.func,
-  redirectTag: PropTypes.string,
+  redirectTag: PropTypes.bool,
   keys: PropTypes.array,
-  height: PropTypes.number,
-  idObject: PropTypes.number,
-  t: PropTypes.object
+  height: PropTypes.string,
+  idObject: PropTypes.string,
+  t: PropTypes.func
 };
+const defaultProps = {
+  t: key => key
+};
+
 class ListRanking extends React.Component {
   constructor(props) {
     super(props);
@@ -115,5 +119,6 @@ class ListRanking extends React.Component {
 }
 
 ListRanking.propTypes = propTypes;
+ListRanking.defaultProps = defaultProps;
 
 export default translate()(ListRanking);

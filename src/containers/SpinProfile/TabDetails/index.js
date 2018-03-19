@@ -9,7 +9,12 @@ import { formatDate, getFullNameMinimumVersion } from '../../../lib/';
 import Api from '../../../service/Api';
 import { getColumns } from './columns/';
 
+const defaultProps = {
+  t: () => ''
+};
+
 class TabDetails extends React.Component {
+ 
   componentDidMount() {}
 
   formatDateRelease(releases, idSpin) {
@@ -186,4 +191,6 @@ class TabDetails extends React.Component {
     );
   }
 }
+TabDetails.defaultProps = defaultProps;
+
 export default translate()(TabDetails);

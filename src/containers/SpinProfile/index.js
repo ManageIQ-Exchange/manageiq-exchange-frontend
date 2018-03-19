@@ -11,6 +11,10 @@ import { getSpin } from '../../thunk/spin';
 
 import './style.css';
 
+const defaultProps = {
+  t: key => key
+};
+
 const propTypes = {
   getSpin: PropTypes.func,
   detailsSpin: PropTypes.object,
@@ -64,6 +68,7 @@ export class SpinProfile extends React.Component {
   }
 }
 SpinProfile.propTypes = propTypes;
+SpinProfile.defaultProps = defaultProps;
 
 const mapStateToProps = state => {
   return {

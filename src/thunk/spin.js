@@ -4,8 +4,8 @@ import {
   getSpinsSearchSuccess,
   getSpinsSearchError,
   loadingSearch
-} from "../actions/index";
-import Api from "../service/Api";
+} from '../actions/index';
+import Api from '../service/Api';
 
 export function getSpin(id) {
   return dispatch => {
@@ -14,7 +14,7 @@ export function getSpin(id) {
         let spin = { ...response.data };
         dispatch(getSpinSuccess(spin));
       })
-      .catch(error => {
+      .catch(() => {
         dispatch(getSpinError());
       });
   };

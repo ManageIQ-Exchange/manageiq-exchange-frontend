@@ -13,24 +13,24 @@ export const ApiBaseURL = `${BackendServer}/${Version}`;
 const ApiVersion = `${BackendServer}/`;
 
 // Users
-const ApiSignin = `${ApiBaseURL}/users/sign_in`; /* User Log in */
-const ApiSignout = `${ApiBaseURL}/users/sign_out`; /* User Log out */
+export const ApiSignin = `${ApiBaseURL}/users/sign_in`; /* User Log in */
+export const ApiSignout = `${ApiBaseURL}/users/sign_out`; /* User Log out */
 const ApiGetUsers = `${ApiBaseURL}/users`; /* List of Users */
 const ApiGetUser = `${ApiBaseURL}/users/`; /* Get a specific user  adding id or username in path */
-const ApiGetUserSpins = `${ApiBaseURL}/spin_candidates/`; /* Get a specific user  adding id or username in path */
+export const ApiGetUserSpins = `${ApiBaseURL}/spin_candidates/`; /* Get a specific user  adding id or username in path */
 
 // GIT
 const GetUserStats = `https://api.github.com/users/`; /* Get a specific user stats in GIT  adding id or username in path */
 
 // Spins
-const ApiGetSpins = `${ApiBaseURL}/spins`; /* Get Spins */
+export const ApiGetSpins = `${ApiBaseURL}/spins`; /* Get Spins */
 const ApiPublishSpin = `${ApiBaseURL}/spin_candidates/`; /* Refresh Spins */
 
 // TAG
-const ApiTags = `${ApiBaseURL}/tags/`;
+export const ApiTags = `${ApiBaseURL}/tags/`;
 
 // TOPLIST
-const ApiTops = `${ApiBaseURL}/top/`;
+export const ApiTops = `${ApiBaseURL}/top/`;
 
 class Api {
   headerSignIn(code, provider) {
@@ -117,7 +117,6 @@ class Api {
     return api;
   }
 
-
   static validateSpin(spinCandidateId) {
     const api = new this();
     api.request(
@@ -170,12 +169,12 @@ class Api {
 
   static GetTags() {
     const api = new this();
-    api.request('get', `${ApiTags}?`, api.headerAuthenticated());
+    api.request('get', `${ApiTags}`);
     return api;
   }
   static GetTops() {
     const api = new this();
-    api.request('get', ApiTops, api.headerAuthenticated());
+    api.request('get', ApiTops);
     return api;
   }
 
@@ -194,8 +193,7 @@ class Api {
         })
         .catch(error => {
           this.showError(error);
-          reject(new Error(error));
-
+          reject(error);
         });
     });
   }
