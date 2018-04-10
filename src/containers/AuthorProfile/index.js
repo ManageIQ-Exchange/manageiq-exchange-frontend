@@ -6,7 +6,8 @@ import {
   FormControl,
   FormGroup,
   InputGroup,
-  Icon
+  Icon,
+  Paginator
 } from 'patternfly-react';
 import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
@@ -33,6 +34,8 @@ const propTypes = {
   t: PropTypes.func
 };
 
+const perPageOptions = [1, 10, 15];
+
 export class AuthorProfile extends React.Component {
   constructor(props) {
     super(props);
@@ -42,12 +45,18 @@ export class AuthorProfile extends React.Component {
     this.state = {
       listSpinsUser: props.spins.spinsUser,
       listSpinsUserComplete: props.spins.spinsUser,
-      userDetails: props.spins.userDetails
+      userDetails: props.spins.userDetails,
+      elementByPage: perPageOptions[0],
+      baseParams: { limit: perPageOptions[0] }
     };
   }
   componentDidMount() {
-    const idAuthor = this.props.params ? this.props.params.idAuthor : null;
-    if (idAuthor) this.props.getInformationUserProfile(idAuthor).then(() => {});
+    this.idAuthor = this.props.params ? this.props.params.idAuthor : null;
+    if (this.idAuthor)
+      this.props.getInformationUserProfile(
+        this.idAuthor,
+        this.state.baseParams
+      );
   }
 
   componentWillReceiveProps(nextProps) {
@@ -68,18 +77,44 @@ export class AuthorProfile extends React.Component {
     listSpinsUser = filterByAttribute(keywords, listSpinsUser, attributeSearch);
     this.setState({ listSpinsUser });
   }
+  onChangePage = page => {
+    let baseParams = Object.assign(
+      {},
+      this.state.baseParams,
+      this.state.params
+    );
+    baseParams['page'] = page;
+
+    this.props.getInformationUserProfile(this.idAuthor, baseParams);
+
+    this.setState({ baseParams });
+  };
+  onSelectPerPage = numItems => {
+    let { baseParams } = this.state;
+
+    baseParams['limit'] = numItems;
+    this.props.getInformationUserProfile(this.idAuthor, baseParams);
+
+    this.setState({ elementByPage: numItems, baseParams });
+  };
 
   render() {
     const { spins, t } = this.props;
-    const { listSpinsUser } = this.state;
+    const { listSpinsUser, elementByPage } = this.state;
     const { userDetails } = spins || this.state.userDetails;
+    const { meta } = spins;
     const placeholderSearch = t('profileAuthor.placeholderSearch');
     const titleHeaderList = [
       t('profileAuthor.titleListHeader1'),
       t('profileAuthor.titleListHeader2')
     ];
     const nameUser = userDetails && userDetails.login ? userDetails.login : '';
-
+    const pagination = {
+      page: meta.current_page,
+      perPage: elementByPage,
+      perPageOptions: perPageOptions
+    };
+    const numberItems = meta && meta.total_count ? meta.total_count : 0;
     return (
       <Grid width="100%" style={{ marginTop: '20px' }}>
         <Row>
@@ -137,6 +172,20 @@ export class AuthorProfile extends React.Component {
             idObject="id"
           />
         </Row>
+        <Row style={{ marginTop: '4%' }}>
+          <Paginator
+            viewType="list"
+            pagination={pagination}
+            onPageSet={this.onChangePage}
+            onPerPageSelect={this.onSelectPerPage}
+            itemCount={numberItems}
+            messages={{
+              firstPage: 'First Page',
+              previousPage: 'Previous Page',
+              currentPage: 'Current Page'
+            }}
+          />
+        </Row>
       </Grid>
     );
   }
@@ -152,7 +201,8 @@ const mapStateToProps = state => {
 };
 const mapDispatchToProps = dispatch => {
   return {
-    getInformationUserProfile: id => dispatch(getInformationUserProfile(id))
+    getInformationUserProfile: (id, params) =>
+      dispatch(getInformationUserProfile(id, params))
   };
 };
 export default compose(
