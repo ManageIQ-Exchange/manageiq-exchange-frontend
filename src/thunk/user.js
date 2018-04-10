@@ -171,9 +171,9 @@ export function getInformationUserProfile(id) {
       });
   };
 }
-export function getUsers() {
+export function getUsers(params) {
   return dispatch => {
-    return Api.GetUsers()
+    return Api.GetUsers(params)
       .then(response => {
         dispatch(getUsersSuccess(response.data));
       })

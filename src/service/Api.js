@@ -63,9 +63,10 @@ class Api {
     return api;
   }
 
-  static GetUsers() {
+  static GetUsers(params) {
     const api = new this();
-    api.request('get', ApiGetUsers);
+    const url = `${ApiGetUsers}?${toQuery(params)}`;
+    api.request('get', url);
     return api;
   }
   static GetUser(id_or_username) {
