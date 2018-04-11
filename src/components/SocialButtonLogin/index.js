@@ -42,7 +42,6 @@ class SocialButtonLogin extends React.Component {
   }
 
   OnFailure(error) {
-    this.props.islogging(false);
     console.error(error);
   }
   render() {

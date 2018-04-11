@@ -22,6 +22,8 @@ import { filterByAttribute } from '../../lib/';
 
 import './style.css';
 
+const perPageOptions = [1, 10, 15];
+
 const defaultProps = {
   users: {
     users: [],
@@ -49,13 +51,14 @@ export class AuthorsPage extends React.Component {
       listUsers: props.users.users,
       listUsersComplete: props.users.users,
       meta: props.users.meta,
-      elementByPage: 25
+      elementByPage: perPageOptions[0],
+      baseParams: { limit: perPageOptions[0] }
     };
   }
 
   componentDidMount() {
     if (this.props.getUsers) {
-      this.props.getUsers();
+      this.props.getUsers(this.state.baseParams);
     }
   }
   componentWillReceiveProps(nextProps) {
@@ -74,10 +77,26 @@ export class AuthorsPage extends React.Component {
     let route = { pathname: '/authors/' + idAuthor };
     browserHistory.push(route);
   }
-  onChangePage(page) {}
-  onSelectPerPage(numItems) {
-    this.setState({ elementByPage: numItems });
-  }
+  onChangePage = page => {
+    let baseParams = Object.assign(
+      {},
+      this.state.baseParams,
+      this.state.params
+    );
+    baseParams['page'] = page;
+
+    this.props.getUsers(baseParams);
+
+    this.setState({ baseParams });
+  };
+  onSelectPerPage = numItems => {
+    let { baseParams } = this.state;
+
+    baseParams['limit'] = numItems;
+    this.props.getUsers(baseParams);
+
+    this.setState({ elementByPage: numItems, baseParams });
+  };
   render() {
     let { users, t } = this.props;
 
@@ -91,8 +110,9 @@ export class AuthorsPage extends React.Component {
     let pagination = {
       page: meta.current_page,
       perPage: elementByPage,
-      perPageOptions: [5, 10, 15]
+      perPageOptions: perPageOptions
     };
+    const numberItems = meta && meta.total_count ? meta.total_count : 0;
     return (
       <div id="container">
         <Grid width="100%" style={{ marginTop: '20px' }}>
@@ -140,7 +160,7 @@ export class AuthorsPage extends React.Component {
               pagination={pagination}
               onPageSet={this.onChangePage}
               onPerPageSelect={this.onSelectPerPage}
-              itemCount={listUsers.length}
+              itemCount={numberItems}
               messages={{
                 firstPage: 'First Page',
                 previousPage: 'Previous Page',
@@ -164,7 +184,7 @@ const mapStateToProps = state => {
 };
 const mapDispatchToProps = dispatch => {
   return {
-    getUsers: () => dispatch(getUsers())
+    getUsers: params => dispatch(getUsers(params))
   };
 };
 export default compose(

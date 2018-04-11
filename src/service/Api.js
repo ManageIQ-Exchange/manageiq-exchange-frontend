@@ -63,9 +63,10 @@ class Api {
     return api;
   }
 
-  static GetUsers() {
+  static GetUsers(params) {
     const api = new this();
-    api.request('get', ApiGetUsers);
+    const url = `${ApiGetUsers}?${toQuery(params)}`;
+    api.request('get', url);
     return api;
   }
   static GetUser(id_or_username) {
@@ -84,11 +85,11 @@ class Api {
     api.request('get', ApiGetUserSpins, header);
     return api;
   }
-  static GetUserSpins(name) {
+  static GetUserSpins(name, paramsOptional) {
     const api = new this();
-    const params = toQuery({
-      expand: 'resources'
-    });
+    const params = toQuery(
+      Object.assign(paramsOptional, { expand: 'resources' })
+    );
     const url = `${ApiGetUsers}/${name}/spins/?${params}`;
     api.request('get', url, api.headerAuthenticated());
     return api;

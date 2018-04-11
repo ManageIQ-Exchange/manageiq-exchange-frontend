@@ -1,11 +1,12 @@
-import * as actions from "../actions/typeActions";
+import * as actions from '../actions/typeActions';
 
 const initState = {
   spinsUser: [],
   error: null,
-  userDetails: {}
+  userDetails: {},
+  meta: {}
 };
-export const spins = (state = initState, action: any) => {
+export const spins = (state = initState, action) => {
   let newState = {};
   switch (action.type) {
     case actions.GET_SPINS_SUCCESS:
@@ -13,6 +14,7 @@ export const spins = (state = initState, action: any) => {
         let spinsUser = action.spins.data ? [...action.spins.data] : [];
         let newState = Object.assign({}, state);
         newState.spinsUser = spinsUser;
+        newState.meta = action.spins.meta ? action.spins.meta : {};
         return newState;
       } else return state;
 

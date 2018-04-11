@@ -152,12 +152,12 @@ export function validateSpin(id) {
       });
   };
 }
-export function getInformationUserProfile(id) {
+export function getInformationUserProfile(id, params) {
   return dispatch => {
     return Api.GetUser(id)
       .then(response => {
         dispatch(getUserSuccess(response.data));
-        return Api.GetUserSpins(response.data.data.login)
+        return Api.GetUserSpins(response.data.data.login, params)
           .then(response => {
             let spins = { ...response.data };
             dispatch(getSpinsUserSuccess(spins));
@@ -171,9 +171,9 @@ export function getInformationUserProfile(id) {
       });
   };
 }
-export function getUsers() {
+export function getUsers(params) {
   return dispatch => {
-    return Api.GetUsers()
+    return Api.GetUsers(params)
       .then(response => {
         dispatch(getUsersSuccess(response.data));
       })
